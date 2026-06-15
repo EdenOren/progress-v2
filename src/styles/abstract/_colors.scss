@@ -1,0 +1,40 @@
+:root {
+  --color-primary: #7c3aed;
+  --color-primary-light: #a78bfa;
+  --color-primary-dark: #5b21b6;
+
+  --color-secondary: #2563eb;
+  --color-secondary-light: #60a5fa;
+
+  --color-accent: #059669;
+  --color-accent-light: #34d399;
+
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+
+  --color-surface: #ffffff;
+  --color-surface-alt: #f9fafb;
+  --color-border: #e5e7eb;
+
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+  --color-text-inverse: #ffffff;
+}
+
+$primary: var(--color-primary);
+$primary-light: var(--color-primary-light);
+$primary-dark: var(--color-primary-dark);
+$secondary: var(--color-secondary);
+$secondary-light: var(--color-secondary-light);
+$accent: var(--color-accent);
+$accent-light: var(--color-accent-light);
+$warning: var(--color-warning);
+$error: var(--color-error);
+$surface: var(--color-surface);
+$surface-alt: var(--color-surface-alt);
+$border: var(--color-border);
+$text-primary: var(--color-text-primary);
+$text-secondary: var(--color-text-secondary);
+$text-muted: var(--color-text-muted);
+$text-inverse: var(--color-text-inverse);
