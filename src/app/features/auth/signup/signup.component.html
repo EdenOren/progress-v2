@@ -1,0 +1,80 @@
+@let t = translation();
+
+<div class="signup-page">
+  <div class="signup-page__card">
+    <header class="signup-page__header">
+      <h1 class="signup-page__title">{{ t['TITLE'] }}</h1>
+      <p class="signup-page__subtitle">{{ t['SUBTITLE'] }}</p>
+    </header>
+
+    @if (needsVerification()) {
+      <p class="signup-page__verification">{{ t['VERIFY_EMAIL'] }}</p>
+      <app-ui-button
+        [label]="t['TRY_AGAIN']"
+        [type]="ButtonType.Button"
+        (click)="resetVerification()"
+      />
+    } @else {
+      <form class="signup-page__form" [formRoot]="signupForm">
+        <app-ui-input
+          inputId="signup-display-name"
+          [label]="t['DISPLAY_NAME_LABEL']"
+          [placeholder]="t['DISPLAY_NAME_PLACEHOLDER']"
+          autocomplete="name"
+          [field]="signupForm.displayName"
+          [error]="displayNameError()"
+          [touched]="displayNameTouched()"
+        />
+
+        <app-ui-input
+          inputId="signup-email"
+          [label]="t['EMAIL_LABEL']"
+          [placeholder]="t['EMAIL_PLACEHOLDER']"
+          [type]="InputType.Email"
+          autocomplete="email"
+          [field]="signupForm.email"
+          [error]="emailError()"
+          [touched]="emailTouched()"
+        />
+
+        <app-ui-input
+          inputId="signup-password"
+          [label]="t['PASSWORD_LABEL']"
+          [placeholder]="t['PASSWORD_PLACEHOLDER']"
+          [type]="InputType.Password"
+          autocomplete="new-password"
+          [field]="signupForm.password"
+          [error]="passwordError()"
+          [touched]="passwordTouched()"
+        />
+
+        <app-ui-input
+          inputId="signup-confirm-password"
+          [label]="t['CONFIRM_PASSWORD_LABEL']"
+          [placeholder]="t['CONFIRM_PASSWORD_PLACEHOLDER']"
+          [type]="InputType.Password"
+          autocomplete="new-password"
+          [field]="signupForm.confirmPassword"
+          [error]="confirmPasswordError()"
+          [touched]="confirmPasswordTouched()"
+        />
+
+        @if (errorMessage()) {
+          <p class="signup-page__error">{{ errorMessage() }}</p>
+        }
+
+        <app-ui-button
+          [label]="submitLabel()"
+          [type]="ButtonType.Button"
+          [isLoading]="isLoading()"
+          (click)="submit()"
+        />
+      </form>
+    }
+
+    <p class="signup-page__footer">
+      {{ t['HAS_ACCOUNT'] }}
+      <app-ui-link [label]="t['LOGIN_LINK']" [route]="['../', AuthRoute.Login]" />
+    </p>
+  </div>
+</div>

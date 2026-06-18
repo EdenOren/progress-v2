@@ -1,1 +1,49 @@
-{}
+{
+  "AUTH": {
+    "LOGIN": {
+      "TITLE": "Welcome back",
+      "SUBTITLE": "Sign in to your account",
+      "EMAIL_LABEL": "Email address",
+      "EMAIL_PLACEHOLDER": "you@example.com",
+      "PASSWORD_LABEL": "Password",
+      "PASSWORD_PLACEHOLDER": "••••••••",
+      "SUBMIT_BUTTON": "Sign in",
+      "LOADING": "Signing in…",
+      "GOOGLE_BUTTON": "Continue with Google",
+      "NO_ACCOUNT": "Don't have an account?",
+      "SIGNUP_LINK": "Create one"
+    },
+    "SIGNUP": {
+      "TITLE": "Create your account",
+      "SUBTITLE": "Start tracking your progress today",
+      "DISPLAY_NAME_LABEL": "Display name",
+      "DISPLAY_NAME_PLACEHOLDER": "Your name",
+      "EMAIL_LABEL": "Email address",
+      "EMAIL_PLACEHOLDER": "you@example.com",
+      "PASSWORD_LABEL": "Password",
+      "PASSWORD_PLACEHOLDER": "Min. 8 characters",
+      "CONFIRM_PASSWORD_LABEL": "Confirm password",
+      "CONFIRM_PASSWORD_PLACEHOLDER": "Re-enter password",
+      "SUBMIT_BUTTON": "Create account",
+      "LOADING": "Creating account…",
+      "HAS_ACCOUNT": "Already have an account?",
+      "LOGIN_LINK": "Sign in",
+      "VERIFY_EMAIL": "Check your email to complete sign-up.",
+      "TRY_AGAIN": "Try a different email"
+    },
+    "CALLBACK": {
+      "LOADING": "Completing sign in…"
+    },
+    "VALIDATION": {
+      "REQUIRED": "This field is required",
+      "EMAIL_FORMAT": "Enter a valid email address",
+      "PASSWORD_MIN_LENGTH": "Password must be at least 8 characters",
+      "DISPLAY_NAME_MIN_LENGTH": "Display name must be at least 2 characters",
+      "PASSWORDS_MUST_MATCH": "Passwords do not match"
+    },
+    "ERROR": {
+      "GENERIC": "Something went wrong. Please try again.",
+      "GOOGLE_FAILED": "Google sign-in failed. Please try again."
+    }
+  }
+}

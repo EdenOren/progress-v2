@@ -27,6 +27,7 @@ This document defines mandatory standards for all code generation, refactoring, 
 - Use `WritableSignal<T>` for `signal()` declarations and `Signal<T>` for `computed()` return types.
 - **Prefer `enum` over union string types** — `type State = 'a' | 'b'` should be `enum State { A = 'a', B = 'b' }`.
 - Use `InputSignal<T>` as the explicit type annotation for `input()` declarations and `InputSignalWithTransform<T, U>` when a transform is applied. Use `OutputEmitterRef<T>` for `output()` declarations.
+- **Always annotate local variables explicitly** when the inferred type is not obvious from the right-hand side — e.g. `const errors: WithFieldTree[] = field().errors()`.
 - Signal query types: `Signal<T | undefined>` for optional queries, `Signal<T>` for required queries (`.required` variant), and `Signal<readonly T[]>` for `viewChildren()` / `contentChildren()`.
 
 ### Enums
@@ -36,11 +37,13 @@ This document defines mandatory standards for all code generation, refactoring, 
 - **No string comparisons in templates** — expose a `Signal<boolean>` computed in the facade instead (e.g. `isLoading`, `isSuccess`, `isError`).
 
 ### Code Style
-- **`if` blocks always use braces**, even for single-line bodies.
+- **`if` blocks always use braces**, even for single-line bodies — and the body is always on its own line (never `if (x) { return ''; }` on one line).
 - **Braces always have inner spaces** in every context — imports, object literals, destructuring.
 - **No single-letter or abbreviated identifiers** — method names, variables, and SCSS aliases must be fully descriptive.
 - **No alignment padding** — never pad spaces before `=` to vertically align assignments. Use a single space before `=` always.
 - **No signal writes or event emissions in templates** — never call `.set()`, `.update()`, or `.emit()` directly in a template expression. Move all writes into a named component method. Expose field signals as `Signal<T>` (not `WritableSignal<T>`) on the component so the template can only read them.
+- **No magic numbers or bare index access** — prefer truthiness checks (`!array.length` over `array.length === 0`) and array destructuring (`const [first] = array`) over index access (`array[0]`).
+- **No `(ngSubmit)`** — never handle form submission via `(ngSubmit)`. Bind `(click)="method()"` directly on the submit button using `ButtonType.Button`.
 
 ### Naming Conventions (class properties)
 - **Static `readonly` properties** (primitives, data arrays, constants) → `CAPITAL_SNAKE_CASE`
@@ -97,6 +100,9 @@ This document defines mandatory standards for all code generation, refactoring, 
 - **Standalone by default** — do **not** write `standalone: true` in decorators; it is the framework default.
 - **`ChangeDetectionStrategy.OnPush`** on every component, no exceptions.
 - **Signal Forms** — use `@angular/forms/signals` for all forms. Do not import `ReactiveFormsModule` or `FormsModule` anywhere.
+  - Form error arrays are typed `WithFieldTree[]` (imported from `@angular/forms/signals`).
+  - Extract the first error with destructuring: `const [error] = errors; const { kind } = error;`
+  - Error kind values must use the `ValidationKind` enum from `shared/enums/validation-kind.enum.ts` — never compare `kind` against a string literal.
 - **No `model()`** — data down via `input()`, events up via `output()`.
 
 ### Dependency Injection

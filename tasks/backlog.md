@@ -17,11 +17,14 @@
 - [ ] 014_health_goals.sql — create health_goals table + RLS
 - [ ] 015_simplify_settings.sql — drop active_module constraint
 
-## Phase 2 — Auth feature (branch: feature/2-auth)
-- [ ] LoginComponent + LoginFacade
-- [ ] SignupComponent + SignupFacade
-- [ ] AuthCallbackComponent (/auth/callback)
-- [ ] Wire app.routes.ts with lazy-loaded auth routes
+## Phase 2 — Auth feature ✓ (complete — branch: feature/2-auth)
+- [x] LoginComponent + LoginFacade
+- [x] SignupComponent + SignupFacade
+- [x] AuthCallbackComponent (/auth/callback)
+- [x] Wire app.routes.ts with lazy-loaded auth routes
+- [x] AppRoute + AuthRoute enums
+- [x] en.json AUTH section (login, signup, callback, validation, error)
+- [x] Auth refactor: AuthRoute → core/enums, form in component, shared UI components (UiInput, UiButton, UiLink), stream-based i18n
 
 ## Phase 3 — Navigation Shell
 - [ ] 3-tab shell (Progress | KPI | Menu)
