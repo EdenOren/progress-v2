@@ -1,0 +1,9 @@
+<button
+  class="ui-button"
+  [class.ui-button--google]="isGoogle()"
+  [class.ui-button--loading]="isLoading()"
+  [type]="type()"
+  [disabled]="isLoading()"
+>
+  {{ label() }}
+</button>

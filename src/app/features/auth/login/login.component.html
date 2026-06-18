@@ -1,0 +1,58 @@
+@let t = translation();
+
+<div class="login-page">
+  <div class="login-page__card">
+    <header class="login-page__header">
+      <h1 class="login-page__title">{{ t['TITLE'] }}</h1>
+      <p class="login-page__subtitle">{{ t['SUBTITLE'] }}</p>
+    </header>
+
+    <form class="login-page__form" [formRoot]="loginForm">
+      <app-ui-input
+        inputId="login-email"
+        [label]="t['EMAIL_LABEL']"
+        [placeholder]="t['EMAIL_PLACEHOLDER']"
+        [type]="InputType.Email"
+        autocomplete="email"
+        [field]="loginForm.email"
+        [error]="emailError()"
+        [touched]="emailTouched()"
+      />
+
+      <app-ui-input
+        inputId="login-password"
+        [label]="t['PASSWORD_LABEL']"
+        [placeholder]="t['PASSWORD_PLACEHOLDER']"
+        [type]="InputType.Password"
+        autocomplete="current-password"
+        [field]="loginForm.password"
+        [error]="passwordError()"
+        [touched]="passwordTouched()"
+      />
+
+      @if (errorMessage()) {
+        <p class="login-page__error">{{ errorMessage() }}</p>
+      }
+
+      <app-ui-button
+        [label]="submitLabel()"
+        [type]="ButtonType.Button"
+        [isLoading]="isEmailLoading()"
+        (click)="submit()"
+      />
+    </form>
+
+    <app-ui-button
+      [label]="t['GOOGLE_BUTTON']"
+      [type]="ButtonType.Button"
+      [variant]="ButtonVariant.Google"
+      [isLoading]="isGoogleLoading()"
+      (click)="signInWithGoogle()"
+    />
+
+    <p class="login-page__footer">
+      {{ t['NO_ACCOUNT'] }}
+      <app-ui-link [label]="t['SIGNUP_LINK']" [route]="['../', AuthRoute.Signup]" />
+    </p>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<label class="ui-input__label" [for]="inputId()">{{ label() }}</label>
+<input
+  class="ui-input__control"
+  [id]="inputId()"
+  [type]="type()"
+  [placeholder]="placeholder()"
+  [autocomplete]="autocomplete()"
+  [formField]="field()"
+  [attr.aria-describedby]="touched() && error() ? inputId() + '-error' : null"
+  [attr.aria-invalid]="touched() && error() ? 'true' : null"
+/>
+@if (touched() && error()) {
+  <span class="ui-input__error" [id]="inputId() + '-error'" aria-live="polite">
+    {{ error() }}
+  </span>
+}

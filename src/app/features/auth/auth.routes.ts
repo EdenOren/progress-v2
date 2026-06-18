@@ -1,0 +1,24 @@
+import { Routes } from '@angular/router';
+import { AuthRoute } from '../../core/enums/auth-route.enum';
+import { guestGuard } from '../../core/guards/guest.guard';
+
+export const authRoutes: Routes = [
+  {
+    path: AuthRoute.Login,
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('./login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: AuthRoute.Signup,
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('./signup/signup.component').then((m) => m.SignupComponent),
+  },
+  {
+    path: AuthRoute.Callback,
+    loadComponent: () =>
+      import('./callback/auth-callback.component').then((m) => m.AuthCallbackComponent),
+  },
+  { path: '', redirectTo: AuthRoute.Login, pathMatch: 'full' },
+];
