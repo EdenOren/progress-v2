@@ -1,4 +1,9 @@
 {
+  "NAV": {
+    "PROGRESS": "Progress",
+    "KPI": "KPI",
+    "MENU": "Menu"
+  },
   "AUTH": {
     "LOGIN": {
       "TITLE": "Welcome back",

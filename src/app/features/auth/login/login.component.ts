@@ -33,10 +33,10 @@ interface LoginFormModel {
 export class LoginComponent {
   private readonly facade: LoginFacade = inject(LoginFacade);
 
-  protected readonly InputType: typeof InputType = InputType;
-  protected readonly ButtonType: typeof ButtonType = ButtonType;
-  protected readonly ButtonVariant: typeof ButtonVariant = ButtonVariant;
-  protected readonly AuthRoute: typeof AuthRoute = AuthRoute;
+  protected readonly inputType: typeof InputType = InputType;
+  protected readonly buttonType: typeof ButtonType = ButtonType;
+  protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
+  protected readonly authRoute: typeof AuthRoute = AuthRoute;
 
   static readonly PASSWORD_MIN_LENGTH: number = 8;
 

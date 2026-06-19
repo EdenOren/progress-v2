@@ -1,0 +1,61 @@
+@use 'abstract/variables' as variables;
+
+.home {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: stretch;
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    flex-shrink: 0;
+  }
+
+  &__tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: variables.$spacing-xs;
+    padding: variables.$spacing-sm;
+    min-height: 56px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: color variables.$transition-fast;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: -2px;
+    }
+
+    &--active {
+      color: var(--color-primary);
+    }
+  }
+
+  &__tab-icon {
+    width: 24px;
+    height: 24px;
+    color: inherit;
+    flex-shrink: 0;
+  }
+
+  &__tab-label {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+}

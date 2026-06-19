@@ -12,7 +12,7 @@
         inputId="login-email"
         [label]="t['EMAIL_LABEL']"
         [placeholder]="t['EMAIL_PLACEHOLDER']"
-        [type]="InputType.Email"
+        [type]="inputType.Email"
         autocomplete="email"
         [field]="loginForm.email"
         [error]="emailError()"
@@ -23,7 +23,7 @@
         inputId="login-password"
         [label]="t['PASSWORD_LABEL']"
         [placeholder]="t['PASSWORD_PLACEHOLDER']"
-        [type]="InputType.Password"
+        [type]="inputType.Password"
         autocomplete="current-password"
         [field]="loginForm.password"
         [error]="passwordError()"
@@ -36,7 +36,7 @@
 
       <app-ui-button
         [label]="submitLabel()"
-        [type]="ButtonType.Button"
+        [type]="buttonType.Button"
         [isLoading]="isEmailLoading()"
         (click)="submit()"
       />
@@ -44,15 +44,15 @@
 
     <app-ui-button
       [label]="t['GOOGLE_BUTTON']"
-      [type]="ButtonType.Button"
-      [variant]="ButtonVariant.Google"
+      [type]="buttonType.Button"
+      [variant]="buttonVariant.Google"
       [isLoading]="isGoogleLoading()"
       (click)="signInWithGoogle()"
     />
 
     <p class="login-page__footer">
       {{ t['NO_ACCOUNT'] }}
-      <app-ui-link [label]="t['SIGNUP_LINK']" [route]="['../', AuthRoute.Signup]" />
+      <app-ui-link [label]="t['SIGNUP_LINK']" [route]="['../', authRoute.Signup]" />
     </p>
   </div>
 </div>
