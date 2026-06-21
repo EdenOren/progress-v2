@@ -26,9 +26,20 @@
 - [x] en.json AUTH section (login, signup, callback, validation, error)
 - [x] Auth refactor: AuthRoute → core/enums, form in component, shared UI components (UiInput, UiButton, UiLink), stream-based i18n
 
-## Phase 3 — Navigation Shell
-- [ ] 3-tab shell (Progress | KPI | Menu)
-- [ ] Lazy-loaded tab routes
+## Phase 2b — Auth Extensions
+- [ ] Forgot password flow: ForgotPasswordComponent (/auth/forgot-password) — calls supabase.auth.resetPasswordForEmail()
+- [ ] Reset password page: ResetPasswordComponent (/auth/reset-password) — receives token from email link, calls supabase.auth.updateUser({ password })
+- [ ] AuthRoute enum entries: ForgotPassword, ResetPassword
+- [ ] en.json AUTH.FORGOT_PASSWORD + AUTH.RESET_PASSWORD sections
+- [ ] Wire lazy routes into auth.routes.ts
+
+## Phase 3 — Navigation Shell ✓ (complete — branch: feature/3-nav-shell)
+- [x] ShellComponent with bottom 3-tab nav (Progress | KPI | Menu)
+- [x] ShellFacade — activeRoute signal, tabs computed, navigateTo()
+- [x] Lazy-loaded routes for progress, kpi, menu as children of shell
+- [x] AppRoute enum — Kpi, Menu added
+- [x] Stub KpiComponent, MenuComponent
+- [x] en.json NAV section
 
 ## Phase 4 — Progress Tab (workout)
 - [ ] Subject list
@@ -56,3 +67,9 @@
 
 ## Phase 10 — Settings
 - [ ] Single flat page (weight unit, distance unit, unit system)
+
+## Phase 11 — Security (future)
+- [ ] New device detection: user_sessions table (device fingerprint, IP, user-agent, timestamp) + Supabase Edge Function on auth sign_in hook
+- [ ] In-app + email alert when sign-in from unrecognised device
+- [ ] Email notification on account changes (password reset, email change)
+- [ ] Requires: Edge Function setup, email provider (Resend / SendGrid), 016_user_sessions.sql migration

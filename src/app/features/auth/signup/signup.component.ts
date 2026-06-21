@@ -34,9 +34,9 @@ interface SignupFormModel {
 export class SignupComponent {
   private readonly facade: SignupFacade = inject(SignupFacade);
 
-  protected readonly InputType: typeof InputType = InputType;
-  protected readonly ButtonType: typeof ButtonType = ButtonType;
-  protected readonly AuthRoute: typeof AuthRoute = AuthRoute;
+  protected readonly inputType: typeof InputType = InputType;
+  protected readonly buttonType: typeof ButtonType = ButtonType;
+  protected readonly authRoute: typeof AuthRoute = AuthRoute;
 
   static readonly DISPLAY_NAME_MIN_LENGTH: number = 2;
   static readonly PASSWORD_MIN_LENGTH: number = 8;

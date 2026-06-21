@@ -11,7 +11,7 @@
       <p class="signup-page__verification">{{ t['VERIFY_EMAIL'] }}</p>
       <app-ui-button
         [label]="t['TRY_AGAIN']"
-        [type]="ButtonType.Button"
+        [type]="buttonType.Button"
         (click)="resetVerification()"
       />
     } @else {
@@ -30,7 +30,7 @@
           inputId="signup-email"
           [label]="t['EMAIL_LABEL']"
           [placeholder]="t['EMAIL_PLACEHOLDER']"
-          [type]="InputType.Email"
+          [type]="inputType.Email"
           autocomplete="email"
           [field]="signupForm.email"
           [error]="emailError()"
@@ -41,7 +41,7 @@
           inputId="signup-password"
           [label]="t['PASSWORD_LABEL']"
           [placeholder]="t['PASSWORD_PLACEHOLDER']"
-          [type]="InputType.Password"
+          [type]="inputType.Password"
           autocomplete="new-password"
           [field]="signupForm.password"
           [error]="passwordError()"
@@ -52,7 +52,7 @@
           inputId="signup-confirm-password"
           [label]="t['CONFIRM_PASSWORD_LABEL']"
           [placeholder]="t['CONFIRM_PASSWORD_PLACEHOLDER']"
-          [type]="InputType.Password"
+          [type]="inputType.Password"
           autocomplete="new-password"
           [field]="signupForm.confirmPassword"
           [error]="confirmPasswordError()"
@@ -65,7 +65,7 @@
 
         <app-ui-button
           [label]="submitLabel()"
-          [type]="ButtonType.Button"
+          [type]="buttonType.Button"
           [isLoading]="isLoading()"
           (click)="submit()"
         />
@@ -74,7 +74,7 @@
 
     <p class="signup-page__footer">
       {{ t['HAS_ACCOUNT'] }}
-      <app-ui-link [label]="t['LOGIN_LINK']" [route]="['../', AuthRoute.Login]" />
+      <app-ui-link [label]="t['LOGIN_LINK']" [route]="['../', authRoute.Login]" />
     </p>
   </div>
 </div>
