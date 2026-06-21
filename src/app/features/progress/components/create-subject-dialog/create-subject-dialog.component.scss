@@ -1,0 +1,21 @@
+@use 'abstract/variables' as variables;
+
+.create-subject-dialog {
+  &__title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-md;
+    padding-top: variables.$spacing-sm;
+    min-width: 280px;
+  }
+
+  &__actions {
+    gap: variables.$spacing-sm;
+    padding-top: variables.$spacing-md;
+  }
+}

@@ -41,11 +41,15 @@
 - [x] Stub KpiComponent, MenuComponent
 - [x] en.json NAV section
 
-## Phase 4 — Progress Tab (workout)
-- [ ] Subject list
-- [ ] Create subject modal
-- [ ] Subject detail page
-- [ ] Entry detail page
+## Phase 4 — Progress Tab (workout) ✓ (complete — branch: feature/4-progress)
+- [x] Subject list (resource(), empty/loading/error states, mat-icon)
+- [x] Create subject modal (MatDialog + Signal Forms)
+- [x] Subject detail page (entry list, delete with confirmation)
+- [x] Entry detail page (stub — full session tracking is Phase 5)
+- [x] Data layer: domains.data.ts, subjects.data.ts, entries.data.ts
+- [x] Shared: ConfirmationDialogComponent
+- [x] Routing: progress/subject/:subjectId, progress/subject/:subjectId/entry/:entryId
+- [x] withComponentInputBinding() added to router
 
 ## Phase 5 — Active Workout Session
 - [ ] Live session: timer, exercise list, set inputs, feedback

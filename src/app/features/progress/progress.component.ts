@@ -1,8 +1,24 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { ProgressFacade } from './progress.facade';
+import { SubjectCardComponent } from './components/subject-card/subject-card.component';
 
 @Component({
   selector: 'app-progress',
-  template: '<p>Progress</p>',
+  templateUrl: './progress.component.html',
+  styleUrl: './progress.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ProgressFacade],
+  imports: [MatIconModule, SubjectCardComponent],
 })
-export class ProgressComponent {}
+export class ProgressComponent {
+  protected readonly facade: ProgressFacade = inject(ProgressFacade);
+
+  protected addSubject(): void {
+    void this.facade.openCreateSubjectDialog();
+  }
+
+  protected navigateToSubject(subjectId: string): void {
+    this.facade.navigateToSubject(subjectId);
+  }
+}

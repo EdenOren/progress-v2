@@ -1,0 +1,15 @@
+<div class="entry">
+  <header class="entry__header">
+    <button
+      class="entry__back-btn"
+      type="button"
+      (click)="navigateBack()"
+      [attr.aria-label]="facade.translation()['BACK']">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+    </button>
+    <h1 class="entry__title">{{ facade.translation()['TITLE'] }}</h1>
+  </header>
+  <div class="entry__body">
+    <p class="entry__placeholder">{{ facade.translation()['COMING_SOON'] }}</p>
+  </div>
+</div>

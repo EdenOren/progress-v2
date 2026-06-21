@@ -50,5 +50,37 @@
       "GENERIC": "Something went wrong. Please try again.",
       "GOOGLE_FAILED": "Google sign-in failed. Please try again."
     }
+  },
+  "PROGRESS": {
+    "TITLE": "Progress",
+    "LOADING": "Loading subjects…",
+    "EMPTY": "No subjects yet. Create your first one.",
+    "ERROR": "Failed to load subjects.",
+    "ADD_SUBJECT": "Add subject",
+    "CREATE_SUBJECT": {
+      "TITLE": "New Subject",
+      "NAME_LABEL": "Name",
+      "NAME_PLACEHOLDER": "e.g. Monday Practice",
+      "DESCRIPTION_LABEL": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Optional",
+      "SAVE": "Create",
+      "CANCEL": "Cancel",
+      "NAME_REQUIRED": "Name is required"
+    }
+  },
+  "SUBJECT": {
+    "LOADING": "Loading sessions…",
+    "EMPTY": "No sessions yet.",
+    "ERROR": "Failed to load sessions.",
+    "BACK": "Back to subjects",
+    "DELETE_TITLE": "Delete subject",
+    "DELETE_MESSAGE": "Delete \"{name}\"? This will permanently delete all {count} sessions. This cannot be undone.",
+    "DELETE_CONFIRM": "Delete",
+    "DELETE_CANCEL": "Cancel"
+  },
+  "ENTRY": {
+    "TITLE": "Session",
+    "BACK": "Back to subject",
+    "COMING_SOON": "Session details coming soon."
   }
 }
