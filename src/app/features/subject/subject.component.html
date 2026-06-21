@@ -1,0 +1,39 @@
+<div class="subject">
+  <header class="subject__header">
+    <button
+      class="subject__back-btn"
+      type="button"
+      (click)="navigateBack()"
+      [attr.aria-label]="facade.translation()['BACK']">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+    </button>
+    <h1 class="subject__title">{{ facade.subject()?.name ?? '' }}</h1>
+    <button
+      class="subject__delete-btn"
+      type="button"
+      (click)="deleteSubject()"
+      [attr.aria-label]="facade.translation()['DELETE_TITLE']">
+      <mat-icon aria-hidden="true">delete</mat-icon>
+    </button>
+  </header>
+
+  @if (facade.isLoading()) {
+    <p class="subject__status">{{ facade.translation()['LOADING'] }}</p>
+  } @else if (facade.hasError()) {
+    <p class="subject__status subject__status--error">{{ facade.translation()['ERROR'] }}</p>
+  } @else if (facade.isEmpty()) {
+    <p class="subject__status">{{ facade.translation()['EMPTY'] }}</p>
+  } @else {
+    <ul class="subject__list">
+      @for (entry of facade.entries(); track entry.id) {
+        <li class="subject__list-item">
+          <app-entry-card [entry]="entry" (selected)="navigateToEntry(entry.id)" />
+        </li>
+      }
+    </ul>
+  }
+
+  @if (facade.errorMessage()) {
+    <p class="subject__form-error">{{ facade.errorMessage() }}</p>
+  }
+</div>

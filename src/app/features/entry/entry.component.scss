@@ -1,0 +1,62 @@
+@use 'abstract/variables' as variables;
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: variables.$spacing-sm variables.$spacing-md;
+    border-bottom: 1px solid var(--color-border);
+    gap: variables.$spacing-sm;
+    flex-shrink: 0;
+    min-height: 56px;
+  }
+
+  &__back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: variables.$radius-full;
+    background: transparent;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+    transition: background-color variables.$transition-fast;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    &:active {
+      background-color: var(--color-surface-alt);
+    }
+  }
+
+  &__title {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  &__body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: variables.$spacing-xl variables.$spacing-md;
+  }
+
+  &__placeholder {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+}

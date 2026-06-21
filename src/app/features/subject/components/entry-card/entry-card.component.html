@@ -1,0 +1,14 @@
+<button class="entry-card" type="button" (click)="select()">
+  <div class="entry-card__body">
+    <span class="entry-card__date">{{ entry().performedAt | date:'longDate' }}</span>
+    @if (formattedDuration()) {
+      <span class="entry-card__duration">{{ formattedDuration() }}</span>
+    }
+  </div>
+  <div class="entry-card__right">
+    @if (entry().isCompleted) {
+      <app-ui-icon class="entry-card__complete-icon" [src]="appIcon.CheckCircle" aria-label="Completed" />
+    }
+    <app-ui-icon class="entry-card__chevron" [src]="appIcon.ChevronRight" aria-hidden="true" />
+  </div>
+</button>

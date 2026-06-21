@@ -1,0 +1,61 @@
+@use 'abstract/variables' as variables;
+
+.entry-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: variables.$spacing-md;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+  cursor: pointer;
+  text-align: left;
+  gap: variables.$spacing-sm;
+  transition: background-color variables.$transition-fast;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
+  &:active {
+    background-color: var(--color-surface-alt);
+  }
+
+  &__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xs;
+    min-width: 0;
+  }
+
+  &__date {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  &__duration {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-xs;
+    flex-shrink: 0;
+  }
+
+  &__complete-icon {
+    color: var(--color-accent);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  &__chevron {
+    color: var(--color-text-muted);
+  }
+}

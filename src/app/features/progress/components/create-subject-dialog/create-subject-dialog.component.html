@@ -1,0 +1,24 @@
+@let t = translation();
+<app-ui-modal>
+  <span slot="title">{{ t['TITLE'] }}</span>
+  <div slot="content">
+    <form [formRoot]="createSubjectForm">
+      <app-ui-input
+        [inputId]="'subject-name'"
+        [label]="t['NAME_LABEL']"
+        [placeholder]="t['NAME_PLACEHOLDER']"
+        [field]="createSubjectForm.name"
+        [error]="nameError()"
+        [touched]="nameTouched()" />
+      <app-ui-input
+        [inputId]="'subject-description'"
+        [label]="t['DESCRIPTION_LABEL']"
+        [placeholder]="t['DESCRIPTION_PLACEHOLDER']"
+        [field]="createSubjectForm.description" />
+    </form>
+  </div>
+  <div slot="actions">
+    <button mat-button type="button" (click)="cancel()">{{ t['CANCEL'] }}</button>
+    <button mat-button type="button" color="primary" (click)="submit()">{{ t['SAVE'] }}</button>
+  </div>
+</app-ui-modal>

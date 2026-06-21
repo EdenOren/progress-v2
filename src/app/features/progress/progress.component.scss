@@ -1,0 +1,99 @@
+@use 'abstract/variables' as variables;
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: variables.$spacing-md variables.$spacing-md variables.$spacing-sm;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  &__add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: variables.$radius-full;
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    cursor: pointer;
+    transition: background-color variables.$transition-fast;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    &:active {
+      background-color: var(--color-primary-dark);
+    }
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  &__list-item {
+    display: block;
+  }
+
+  &__status {
+    padding: variables.$spacing-xl variables.$spacing-md;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+
+    &--error {
+      color: var(--color-error);
+    }
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: variables.$spacing-md;
+    padding: variables.$spacing-2xl variables.$spacing-md;
+    flex: 1;
+  }
+
+  &__empty-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+  }
+
+  &__empty-text {
+    font-size: 15px;
+    color: var(--color-text-secondary);
+    text-align: center;
+    max-width: 240px;
+  }
+
+  &__form-error {
+    padding: variables.$spacing-sm variables.$spacing-md;
+    color: var(--color-error);
+    font-size: 13px;
+    text-align: center;
+  }
+}

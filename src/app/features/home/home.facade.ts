@@ -4,24 +4,25 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, map } from 'rxjs';
 import { AppRoute } from '../../core/enums/app-route.enum';
+import { AppIcon } from '../../shared/enums/app-icon.enum';
 
 export interface NavTab {
   route: AppRoute;
   label: string;
-  icon: string;
+  icon: AppIcon;
   isActive: boolean;
 }
 
 interface TabConfig {
   route: AppRoute;
   labelKey: string;
-  icon: string;
+  icon: AppIcon;
 }
 
 const TABS: TabConfig[] = [
-  { route: AppRoute.Progress, labelKey: 'PROGRESS', icon: '/assets/icons/progress.svg' },
-  { route: AppRoute.Kpi, labelKey: 'KPI', icon: '/assets/icons/kpi.svg' },
-  { route: AppRoute.Menu, labelKey: 'MENU', icon: '/assets/icons/menu.svg' },
+  { route: AppRoute.Progress, labelKey: 'PROGRESS', icon: AppIcon.Progress },
+  { route: AppRoute.Kpi, labelKey: 'KPI', icon: AppIcon.Kpi },
+  { route: AppRoute.Menu, labelKey: 'MENU', icon: AppIcon.Menu },
 ];
 
 @Service({ autoProvided: false })

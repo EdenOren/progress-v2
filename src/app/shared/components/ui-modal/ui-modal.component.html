@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>
+  <ng-content select="[slot=title]" />
+</h2>
+<mat-dialog-content>
+  <ng-content select="[slot=content]" />
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <ng-content select="[slot=actions]" />
+</mat-dialog-actions>
