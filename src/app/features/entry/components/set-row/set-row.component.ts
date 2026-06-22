@@ -11,8 +11,9 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { UiNumberInputComponent } from '../../../../shared/components/ui-number-input/ui-number-input.component';
+import { UiInputComponent } from '../../../../shared/components/ui-input/ui-input.component';
 import { TrackingType } from '../../../../shared/enums/tracking-type.enum';
+import { InputType } from '../../../../shared/enums/input-type.enum';
 import { ButtonType } from '../../../../shared/enums/button-type.enum';
 import { DistanceUnit } from '../../../../shared/enums/distance-unit.enum';
 import {
@@ -31,7 +32,7 @@ import type { SetChangedPayload } from '../../../../core/services/data/item-sets
   templateUrl: './set-row.component.html',
   styleUrl: './set-row.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule, UiNumberInputComponent],
+  imports: [MatIconModule, UiInputComponent],
 })
 export class SetRowComponent {
   private static readonly SECONDS_PER_MINUTE: number = 60;
@@ -55,6 +56,7 @@ export class SetRowComponent {
 
   protected readonly trackingTypeEnum: typeof TrackingType = TrackingType;
   protected readonly ButtonType: typeof ButtonType = ButtonType;
+  protected readonly inputType: typeof InputType = InputType;
 
   readonly distanceUnitLabel: Signal<string> = computed(
     () => SetRowComponent.DISTANCE_UNIT_LABELS[this.distanceUnit()],

@@ -15,9 +15,10 @@
       </div>
     </div>
 
-    <app-ui-number-input
+    <app-ui-input
       [inputId]="'duration-input'"
       [label]="t['COMPLETE_DURATION_LABEL']"
+      [type]="inputType.Number"
       [value]="durationMinutes()"
       [min]="0"
       [ariaLabel]="t['COMPLETE_DURATION_LABEL']"

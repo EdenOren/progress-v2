@@ -12,10 +12,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { UiButtonComponent } from '../ui-button/ui-button.component';
+import { UiInputComponent } from '../ui-input/ui-input.component';
 import { UiModalComponent } from '../ui-modal/ui-modal.component';
-import { UiNumberInputComponent } from '../ui-number-input/ui-number-input.component';
 import { UiTextareaComponent } from '../ui-textarea/ui-textarea.component';
 import { ButtonVariant } from '../../enums/button-variant.enum';
+import { InputType } from '../../enums/input-type.enum';
 
 export interface CompleteSessionDialogData {
   exerciseCount: number;
@@ -33,7 +34,7 @@ export interface CompleteSessionResult {
   templateUrl: './complete-session-dialog.component.html',
   styleUrl: './complete-session-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [UiModalComponent, UiButtonComponent, UiNumberInputComponent, UiTextareaComponent],
+  imports: [UiModalComponent, UiButtonComponent, UiInputComponent, UiTextareaComponent],
 })
 export class CompleteSessionDialogComponent {
   static readonly DIALOG_WIDTH: string = '360px';
@@ -43,6 +44,7 @@ export class CompleteSessionDialogComponent {
   private readonly translateService: TranslateService = inject(TranslateService);
 
   protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
+  protected readonly inputType: typeof InputType = InputType;
 
   readonly submitted: OutputEmitterRef<CompleteSessionResult> = output<CompleteSessionResult>();
   readonly closed: OutputEmitterRef<void> = output<void>();

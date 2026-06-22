@@ -1,5 +1,6 @@
 export enum InputType {
   Text = 'text',
   Email = 'email',
-  Password = 'password'
+  Password = 'password',
+  Number = 'number',
 }

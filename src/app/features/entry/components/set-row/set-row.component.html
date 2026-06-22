@@ -7,7 +7,8 @@
   @switch (trackingType()) {
     @case (trackingTypeEnum.WeightReps) {
       <div class="set-row__inputs">
-        <app-ui-number-input
+        <app-ui-input
+          [type]="inputType.Number"
           [value]="weightKg()"
           [min]="0"
           [step]="0.5"
@@ -15,7 +16,8 @@
           [disabled]="isReadOnly()"
           (valueChange)="onWeightChange($event)" />
         <span class="set-row__separator">×</span>
-        <app-ui-number-input
+        <app-ui-input
+          [type]="inputType.Number"
           [value]="reps()"
           [min]="0"
           [ariaLabel]="t['REPS_UNIT']"
@@ -26,7 +28,8 @@
     }
     @case (trackingTypeEnum.Duration) {
       <div class="set-row__inputs">
-        <app-ui-number-input
+        <app-ui-input
+          [type]="inputType.Number"
           [value]="durationMinutes()"
           [min]="0"
           [max]="99"
@@ -35,7 +38,8 @@
           [compact]="true"
           (valueChange)="onMinutesChange($event)" />
         <span class="set-row__separator">:</span>
-        <app-ui-number-input
+        <app-ui-input
+          [type]="inputType.Number"
           [value]="durationSeconds()"
           [min]="0"
           [max]="59"
@@ -48,7 +52,8 @@
     }
     @case (trackingTypeEnum.Distance) {
       <div class="set-row__inputs">
-        <app-ui-number-input
+        <app-ui-input
+          [type]="inputType.Number"
           [value]="displayDistance()"
           [min]="0"
           [step]="0.01"
