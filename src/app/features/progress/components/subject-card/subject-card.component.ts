@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input, InputSignal, output, OutputE
 import { UiIconComponent } from '../../../../shared/components/ui-icon/ui-icon.component';
 import { AppIcon } from '../../../../shared/enums/app-icon.enum';
 import { ButtonType } from '../../../../shared/enums/button-type.enum';
-import type { Subject } from '../../../../core/services/data/subjects.data';
+import type { Subject } from '../../../../core/services/data/subjects.service';
 
 @Component({
   selector: 'app-subject-card',

@@ -1,5 +1,7 @@
-import type { SupabaseClient } from '@supabase/supabase-js';
+import { inject, Service } from '@angular/core';
 import { z } from 'zod';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseService } from '../platform/supabase.service';
 import { mapSupabaseError } from '../../errors/error-mapper';
 import { ValidationError } from '../../errors/app-error';
 import { err, ok } from '../../types/result';
@@ -34,21 +36,23 @@ function mapWorkoutSettings(raw: UserSettingsRaw): WorkoutSettings {
   };
 }
 
-export async function getWorkoutSettings(
-  supabase: SupabaseClient,
-  userId: string,
-): Promise<Result<WorkoutSettings>> {
-  const { data, error } = await supabase
-    .from('user_settings')
-    .select('id, user_id, module_settings')
-    .eq('user_id', userId)
-    .single();
-  if (error) {
-    return err(mapSupabaseError(error));
+@Service()
+export class UserSettingsService {
+  private readonly supabase: SupabaseClient = inject(SupabaseService).client;
+
+  async getWorkoutSettings(userId: string): Promise<Result<WorkoutSettings>> {
+    const { data, error } = await this.supabase
+      .from('user_settings')
+      .select('id, user_id, module_settings')
+      .eq('user_id', userId)
+      .single();
+    if (error) {
+      return err(mapSupabaseError(error));
+    }
+    const validated = userSettingsSchema.safeParse(data);
+    if (!validated.success) {
+      return err(new ValidationError('Invalid user settings data'));
+    }
+    return ok(mapWorkoutSettings(validated.data));
   }
-  const validated = userSettingsSchema.safeParse(data);
-  if (!validated.success) {
-    return err(new ValidationError('Invalid user settings data'));
-  }
-  return ok(mapWorkoutSettings(validated.data));
 }

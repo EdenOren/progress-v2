@@ -1,5 +1,7 @@
+import { inject, Service } from '@angular/core';
 import { z } from 'zod';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseService } from '../platform/supabase.service';
 import { mapSupabaseError } from '../../errors/error-mapper';
 import { ValidationError } from '../../errors/app-error';
 import { err, ok } from '../../types/result';
@@ -126,25 +128,6 @@ function mapSessionItem(raw: SessionItemRaw): SessionItem {
   };
 }
 
-export async function getSessionData(
-  supabase: SupabaseClient,
-  entryId: string,
-): Promise<Result<SessionItem[]>> {
-  const { data, error } = await supabase
-    .from('items')
-    .select('*, item_sets(*), item_feedback(*)')
-    .eq('entry_id', entryId)
-    .order('position');
-  if (error) {
-    return err(mapSupabaseError(error));
-  }
-  const validated = sessionItemArraySchema.safeParse(data);
-  if (!validated.success) {
-    return err(new ValidationError('Invalid session data'));
-  }
-  return ok(validated.data.map(mapSessionItem));
-}
-
 const itemSchema = z.object({
   id: z.string().uuid(),
   entry_id: z.string().uuid(),
@@ -189,52 +172,63 @@ export interface CreateItemInput {
   position: number;
 }
 
-export async function createItem(
-  supabase: SupabaseClient,
-  input: CreateItemInput,
-): Promise<Result<Item>> {
-  const { data, error } = await supabase
-    .from('items')
-    .insert({
-      entry_id: input.entryId,
-      user_id: input.userId,
-      name: input.name,
-      position: input.position,
-    })
-    .select()
-    .single();
-  if (error) {
-    return err(mapSupabaseError(error));
-  }
-  const validated = itemSchema.safeParse(data);
-  if (!validated.success) {
-    return err(new ValidationError('Invalid item data'));
-  }
-  return ok(mapItem(validated.data));
-}
+@Service()
+export class ItemsService {
+  private readonly supabase: SupabaseClient = inject(SupabaseService).client;
 
-export async function updateItemNote(
-  supabase: SupabaseClient,
-  itemId: string,
-  note: string,
-): Promise<Result<void>> {
-  const { error } = await supabase
-    .from('items')
-    .update({ note })
-    .eq('id', itemId);
-  if (error) {
-    return err(mapSupabaseError(error));
+  async getSessionData(entryId: string): Promise<Result<SessionItem[]>> {
+    const { data, error } = await this.supabase
+      .from('items')
+      .select('*, item_sets(*), item_feedback(*)')
+      .eq('entry_id', entryId)
+      .order('position');
+    if (error) {
+      return err(mapSupabaseError(error));
+    }
+    const validated = sessionItemArraySchema.safeParse(data);
+    if (!validated.success) {
+      return err(new ValidationError('Invalid session data'));
+    }
+    return ok(validated.data.map(mapSessionItem));
   }
-  return ok(undefined);
-}
 
-export async function deleteItem(
-  supabase: SupabaseClient,
-  itemId: string,
-): Promise<Result<void>> {
-  const { error } = await supabase.from('items').delete().eq('id', itemId);
-  if (error) {
-    return err(mapSupabaseError(error));
+  async createItem(input: CreateItemInput): Promise<Result<Item>> {
+    const { data, error } = await this.supabase
+      .from('items')
+      .insert({
+        entry_id: input.entryId,
+        user_id: input.userId,
+        name: input.name,
+        position: input.position,
+      })
+      .select()
+      .single();
+    if (error) {
+      return err(mapSupabaseError(error));
+    }
+    const validated = itemSchema.safeParse(data);
+    if (!validated.success) {
+      return err(new ValidationError('Invalid item data'));
+    }
+    return ok(mapItem(validated.data));
   }
-  return ok(undefined);
+
+  async updateItemNote(itemId: string, note: string): Promise<Result<void>> {
+    const { error } = await this.supabase
+      .from('items')
+      .update({ note })
+      .eq('id', itemId);
+    if (error) {
+      return err(mapSupabaseError(error));
+    }
+    return ok(undefined);
+  }
+
+  async deleteItem(itemId: string): Promise<Result<void>> {
+    const { error } = await this.supabase.from('items').delete().eq('id', itemId);
+    if (error) {
+      return err(mapSupabaseError(error));
+    }
+    return ok(undefined);
+  }
 }

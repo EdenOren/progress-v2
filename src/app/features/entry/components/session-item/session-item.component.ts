@@ -18,8 +18,8 @@ import { ButtonType } from '../../../../shared/enums/button-type.enum';
 import { TrackingType } from '../../../../shared/enums/tracking-type.enum';
 import { DistanceUnit } from '../../../../shared/enums/distance-unit.enum';
 import { metersToKm, metersToMiles, metersToYards } from '../../../../shared/utils/unit-conversion';
-import type { SessionItem, ItemSet } from '../../../../core/services/data/items.data';
-import type { SetChangedPayload } from '../../../../core/services/data/item-sets.data';
+import type { SessionItem, ItemSet } from '../../../../core/services/data/items.service';
+import type { SetChangedPayload } from '../../../../core/services/data/item-sets.service';
 
 export interface SetChangedEvent {
   itemId: string;

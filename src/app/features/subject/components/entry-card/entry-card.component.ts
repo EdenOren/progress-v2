@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { UiIconComponent } from '../../../../shared/components/ui-icon/ui-icon.component';
 import { AppIcon } from '../../../../shared/enums/app-icon.enum';
 import { ButtonType } from '../../../../shared/enums/button-type.enum';
-import type { Entry } from '../../../../core/services/data/entries.data';
+import type { Entry } from '../../../../core/services/data/entries.service';
 
 @Component({
   selector: 'app-entry-card',

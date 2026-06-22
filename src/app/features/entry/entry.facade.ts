@@ -13,28 +13,16 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs';
-import type { SupabaseClient } from '@supabase/supabase-js';
 import { AuthService } from '../../core/services/platform/auth.service';
-import { SupabaseService } from '../../core/services/platform/supabase.service';
-import {
-  getEntry,
-  startEntry,
-  completeEntry,
-  getLastCompletedEntry,
-} from '../../core/services/data/entries.data';
-import type { Entry } from '../../core/services/data/entries.data';
-import {
-  getSessionData,
-  createItem,
-  updateItemNote,
-  deleteItem,
-} from '../../core/services/data/items.data';
-import type { SessionItem, ItemSet } from '../../core/services/data/items.data';
-import { upsertItemSet, deleteItemSet } from '../../core/services/data/item-sets.data';
-import type { SetChangedPayload } from '../../core/services/data/item-sets.data';
-import { upsertItemFeedback } from '../../core/services/data/item-feedback.data';
-import { getWorkoutSettings } from '../../core/services/data/user-settings.data';
-import type { WorkoutSettings } from '../../core/services/data/user-settings.data';
+import { EntriesService } from '../../core/services/data/entries.service';
+import type { Entry } from '../../core/services/data/entries.service';
+import { ItemsService } from '../../core/services/data/items.service';
+import type { SessionItem, ItemSet } from '../../core/services/data/items.service';
+import { ItemSetsService } from '../../core/services/data/item-sets.service';
+import type { SetChangedPayload } from '../../core/services/data/item-sets.service';
+import { ItemFeedbackService } from '../../core/services/data/item-feedback.service';
+import { UserSettingsService } from '../../core/services/data/user-settings.service';
+import type { WorkoutSettings } from '../../core/services/data/user-settings.service';
 import type { Result } from '../../core/types/result';
 import { AppRoute } from '../../core/enums/app-route.enum';
 import { ProgressRoute } from '../../core/enums/progress-route.enum';
@@ -50,7 +38,11 @@ export class EntryFacade {
   private static readonly SECONDS_PER_MINUTE: number = 60;
   private static readonly TIMER_INTERVAL_MS: number = 1000;
 
-  private readonly supabase: SupabaseClient = inject(SupabaseService).client;
+  private readonly entriesService: EntriesService = inject(EntriesService);
+  private readonly itemsService: ItemsService = inject(ItemsService);
+  private readonly itemSetsService: ItemSetsService = inject(ItemSetsService);
+  private readonly itemFeedbackService: ItemFeedbackService = inject(ItemFeedbackService);
+  private readonly userSettingsService: UserSettingsService = inject(UserSettingsService);
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
@@ -76,7 +68,7 @@ export class EntryFacade {
       if (!params.entryId || !params.userId) {
         return Promise.resolve(undefined);
       }
-      return getEntry(this.supabase, params.entryId, params.userId);
+      return this.entriesService.getEntry(params.entryId, params.userId);
     },
   });
 
@@ -86,7 +78,7 @@ export class EntryFacade {
       if (!params.entryId) {
         return Promise.resolve(undefined);
       }
-      return getSessionData(this.supabase, params.entryId);
+      return this.itemsService.getSessionData(params.entryId);
     },
   });
 
@@ -100,8 +92,7 @@ export class EntryFacade {
       if (!params.subjectId || !params.userId) {
         return Promise.resolve(undefined);
       }
-      return getLastCompletedEntry(
-        this.supabase,
+      return this.entriesService.getLastCompletedEntry(
         params.subjectId,
         params.userId,
         params.excludeId,
@@ -120,7 +111,7 @@ export class EntryFacade {
         if (!params.entryId) {
           return Promise.resolve(undefined);
         }
-        return getSessionData(this.supabase, params.entryId);
+        return this.itemsService.getSessionData(params.entryId);
       },
     });
 
@@ -130,7 +121,7 @@ export class EntryFacade {
       if (!params.userId) {
         return Promise.resolve(undefined);
       }
-      return getWorkoutSettings(this.supabase, params.userId);
+      return this.userSettingsService.getWorkoutSettings(params.userId);
     },
   });
 
@@ -217,7 +208,7 @@ export class EntryFacade {
   }
 
   private async callStartEntry(entryId: string): Promise<void> {
-    await startEntry(this.supabase, entryId);
+    await this.entriesService.startEntry(entryId);
     this._entryResource.reload();
   }
 
@@ -228,7 +219,7 @@ export class EntryFacade {
       return;
     }
     const position = this.items().length;
-    const result = await createItem(this.supabase, { entryId, userId, name, position });
+    const result = await this.itemsService.createItem({ entryId, userId, name, position });
     if (!result.success) {
       this._errorMessage.set(result.error.message);
       return;
@@ -237,7 +228,7 @@ export class EntryFacade {
   }
 
   async deleteItem(itemId: string): Promise<void> {
-    const result = await deleteItem(this.supabase, itemId);
+    const result = await this.itemsService.deleteItem(itemId);
     if (!result.success) {
       this._errorMessage.set(result.error.message);
       return;
@@ -256,7 +247,7 @@ export class EntryFacade {
     }
     const nextIndex =
       !item.sets.length ? 0 : Math.max(...item.sets.map((setItem) => setItem.setIndex)) + 1;
-    const result = await upsertItemSet(this.supabase, {
+    const result = await this.itemSetsService.upsertItemSet({
       itemId,
       userId,
       setIndex: nextIndex,
@@ -277,7 +268,7 @@ export class EntryFacade {
     if (!userId) {
       return;
     }
-    const result = await upsertItemSet(this.supabase, {
+    const result = await this.itemSetsService.upsertItemSet({
       itemId,
       userId,
       setIndex,
@@ -292,7 +283,7 @@ export class EntryFacade {
   }
 
   async deleteSet(itemId: string, setIndex: number): Promise<void> {
-    const result = await deleteItemSet(this.supabase, itemId, setIndex);
+    const result = await this.itemSetsService.deleteItemSet(itemId, setIndex);
     if (!result.success) {
       this._errorMessage.set(result.error.message);
       return;
@@ -305,7 +296,7 @@ export class EntryFacade {
     if (!userId) {
       return;
     }
-    const result = await upsertItemFeedback(this.supabase, { itemId, userId, rating });
+    const result = await this.itemFeedbackService.upsertItemFeedback({ itemId, userId, rating });
     if (!result.success) {
       this._errorMessage.set(result.error.message);
       return;
@@ -314,7 +305,7 @@ export class EntryFacade {
   }
 
   async saveNote(itemId: string, note: string): Promise<void> {
-    const result = await updateItemNote(this.supabase, itemId, note);
+    const result = await this.itemsService.updateItemNote(itemId, note);
     if (!result.success) {
       this._errorMessage.set(result.error.message);
     }
@@ -352,7 +343,7 @@ export class EntryFacade {
     if (!entryId) {
       return;
     }
-    const result = await completeEntry(this.supabase, {
+    const result = await this.entriesService.completeEntry({
       entryId,
       durationSeconds,
       notes: notes || null,
