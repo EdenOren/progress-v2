@@ -5,11 +5,11 @@
     <app-ui-button
       [label]="data.cancelLabel"
       [variant]="buttonVariant.Ghost"
-      (click)="cancel()" />
+      (click)="onClose()" />
     <app-ui-button
       [label]="data.confirmLabel"
       [variant]="buttonVariant.Ghost"
       [color]="'warn'"
-      (click)="confirm()" />
+      (click)="onSubmit()" />
   </div>
 </app-ui-modal>

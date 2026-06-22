@@ -2,18 +2,20 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  output,
+  OutputEmitterRef,
   Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { UiButtonComponent } from '../../../../shared/components/ui-button/ui-button.component';
-import { UiModalComponent } from '../../../../shared/components/ui-modal/ui-modal.component';
-import { UiNumberInputComponent } from '../../../../shared/components/ui-number-input/ui-number-input.component';
-import { UiTextareaComponent } from '../../../../shared/components/ui-textarea/ui-textarea.component';
-import { ButtonVariant } from '../../../../shared/enums/button-variant.enum';
+import { UiButtonComponent } from '../ui-button/ui-button.component';
+import { UiModalComponent } from '../ui-modal/ui-modal.component';
+import { UiNumberInputComponent } from '../ui-number-input/ui-number-input.component';
+import { UiTextareaComponent } from '../ui-textarea/ui-textarea.component';
+import { ButtonVariant } from '../../enums/button-variant.enum';
 
 export interface CompleteSessionDialogData {
   exerciseCount: number;
@@ -38,11 +40,12 @@ export class CompleteSessionDialogComponent {
   private static readonly SECONDS_PER_MINUTE: number = 60;
 
   protected readonly data: CompleteSessionDialogData = inject<CompleteSessionDialogData>(MAT_DIALOG_DATA);
-  private readonly dialogRef: MatDialogRef<CompleteSessionDialogComponent, CompleteSessionResult> =
-    inject(MatDialogRef<CompleteSessionDialogComponent, CompleteSessionResult>);
   private readonly translateService: TranslateService = inject(TranslateService);
 
   protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
+
+  readonly submitted: OutputEmitterRef<CompleteSessionResult> = output<CompleteSessionResult>();
+  readonly closed: OutputEmitterRef<void> = output<void>();
 
   readonly translation: Signal<Record<string, string>> = toSignal(
     this.translateService.stream('ENTRY'),
@@ -63,14 +66,14 @@ export class CompleteSessionDialogComponent {
     this._notes.set(value);
   }
 
-  protected confirm(): void {
-    this.dialogRef.close({
+  protected onSubmit(): void {
+    this.submitted.emit({
       durationSeconds: this._durationMinutes() * CompleteSessionDialogComponent.SECONDS_PER_MINUTE,
       notes: this._notes(),
     });
   }
 
-  protected cancel(): void {
-    this.dialogRef.close(undefined);
+  protected onClose(): void {
+    this.closed.emit();
   }
 }

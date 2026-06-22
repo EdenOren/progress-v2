@@ -15,40 +15,32 @@
       </div>
     </div>
 
-    <div class="complete-dialog__field">
-      <label class="complete-dialog__label" for="duration-input">
-        {{ t['COMPLETE_DURATION_LABEL'] }}
-      </label>
-      <app-ui-number-input
-        [inputId]="'duration-input'"
-        [value]="durationMinutes()"
-        [min]="0"
-        [ariaLabel]="t['COMPLETE_DURATION_LABEL']"
-        (valueChange)="onDurationChange($event)" />
-    </div>
+    <app-ui-number-input
+      [inputId]="'duration-input'"
+      [label]="t['COMPLETE_DURATION_LABEL']"
+      [value]="durationMinutes()"
+      [min]="0"
+      [ariaLabel]="t['COMPLETE_DURATION_LABEL']"
+      (valueChange)="onDurationChange($event)" />
 
-    <div class="complete-dialog__field">
-      <label class="complete-dialog__label" for="notes-input">
-        {{ t['COMPLETE_NOTES_LABEL'] }}
-      </label>
-      <app-ui-textarea
-        [inputId]="'notes-input'"
-        [value]="notes()"
-        [ariaLabel]="t['COMPLETE_NOTES_LABEL']"
-        [placeholder]="t['COMPLETE_NOTES_PLACEHOLDER']"
-        [rows]="3"
-        (blurred)="onNotesChange($event)" />
-    </div>
+    <app-ui-textarea
+      [inputId]="'notes-input'"
+      [label]="t['COMPLETE_NOTES_LABEL']"
+      [value]="notes()"
+      [ariaLabel]="t['COMPLETE_NOTES_LABEL']"
+      [placeholder]="t['COMPLETE_NOTES_PLACEHOLDER']"
+      [rows]="3"
+      (blurred)="onNotesChange($event)" />
   </div>
   <div slot="actions">
     <app-ui-button
       [label]="t['COMPLETE_CANCEL']"
       [variant]="buttonVariant.Ghost"
-      (click)="cancel()" />
+      (click)="onClose()" />
     <app-ui-button
       [label]="t['COMPLETE_SAVE']"
       [variant]="buttonVariant.Ghost"
       [color]="'primary'"
-      (click)="confirm()" />
+      (click)="onSubmit()" />
   </div>
 </app-ui-modal>

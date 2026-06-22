@@ -3,20 +3,21 @@ import {
   Component,
   computed,
   inject,
+  output,
+  OutputEmitterRef,
   Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FieldTree, form, FormRoot, required } from '@angular/forms/signals';
-import { UiButtonComponent } from '../../../../shared/components/ui-button/ui-button.component';
-import { UiInputComponent } from '../../../../shared/components/ui-input/ui-input.component';
-import { UiModalComponent } from '../../../../shared/components/ui-modal/ui-modal.component';
-import { ButtonVariant } from '../../../../shared/enums/button-variant.enum';
-import { InputType } from '../../../../shared/enums/input-type.enum';
-import { ValidationKind } from '../../../../shared/enums/validation-kind.enum';
+import { UiButtonComponent } from '../ui-button/ui-button.component';
+import { UiInputComponent } from '../ui-input/ui-input.component';
+import { UiModalComponent } from '../ui-modal/ui-modal.component';
+import { ButtonVariant } from '../../enums/button-variant.enum';
+import { InputType } from '../../enums/input-type.enum';
+import { ValidationKind } from '../../enums/validation-kind.enum';
 
 interface AddItemModel {
   name: string;
@@ -32,13 +33,13 @@ interface AddItemModel {
 export class AddItemDialogComponent {
   static readonly DIALOG_WIDTH: string = '360px';
 
-  private readonly dialogRef: MatDialogRef<AddItemDialogComponent, string> = inject(
-    MatDialogRef<AddItemDialogComponent, string>,
-  );
   private readonly translateService: TranslateService = inject(TranslateService);
 
   protected readonly inputType: typeof InputType = InputType;
   protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
+
+  readonly submitted: OutputEmitterRef<string> = output<string>();
+  readonly closed: OutputEmitterRef<void> = output<void>();
 
   readonly translation: Signal<Record<string, string>> = toSignal(
     this.translateService.stream('ENTRY'),
@@ -65,15 +66,15 @@ export class AddItemDialogComponent {
     return '';
   });
 
-  protected submit(): void {
+  protected onSubmit(): void {
     if (!this.addItemForm().valid()) {
       this.addItemForm().markAsTouched();
       return;
     }
-    this.dialogRef.close(this._model().name.trim());
+    this.submitted.emit(this._model().name.trim());
   }
 
-  protected cancel(): void {
-    this.dialogRef.close(undefined);
+  protected onClose(): void {
+    this.closed.emit();
   }
 }

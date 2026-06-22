@@ -1,7 +1,9 @@
 @use 'abstract/variables' as variables;
 
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing-xs;
 }
 
 .ui-textarea {
@@ -24,5 +26,11 @@
 
   &::placeholder {
     color: var(--color-text-muted);
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
   }
 }

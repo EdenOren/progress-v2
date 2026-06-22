@@ -2,6 +2,12 @@
 
 :host {
   display: inline-block;
+
+  &.ui-number-input--labeled {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xs;
+  }
 }
 
 .ui-number-input {
@@ -34,5 +40,11 @@
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
     appearance: none;
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
   }
 }

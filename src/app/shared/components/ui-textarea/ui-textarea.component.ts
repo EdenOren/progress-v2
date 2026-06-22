@@ -14,6 +14,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UiTextareaComponent {
+  readonly label: InputSignal<string> = input<string>('');
   readonly value: InputSignal<string> = input<string>('');
   readonly ariaLabel: InputSignal<string> = input.required<string>();
   readonly placeholder: InputSignal<string> = input<string>('');

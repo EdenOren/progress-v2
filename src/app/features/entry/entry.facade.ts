@@ -12,8 +12,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { firstValueFrom, map } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { AuthService } from '../../core/services/platform/auth.service';
 import { SupabaseService } from '../../core/services/platform/supabase.service';
@@ -41,13 +40,10 @@ import { AppRoute } from '../../core/enums/app-route.enum';
 import { ProgressRoute } from '../../core/enums/progress-route.enum';
 import { FeedbackRating } from '../../shared/enums/feedback-rating.enum';
 import { DistanceUnit } from '../../shared/enums/distance-unit.enum';
-import {
-  AddItemDialogComponent,
-} from './components/add-item-dialog/add-item-dialog.component';
-import {
-  CompleteSessionDialogComponent,
-} from './components/complete-session-dialog/complete-session-dialog.component';
-import type { CompleteSessionDialogData } from './components/complete-session-dialog/complete-session-dialog.component';
+import { DialogService } from '../../shared/services/dialog.service';
+import { DialogType } from '../../shared/enums/dialog-type.enum';
+import type { CompleteSessionDialogData } from '../../shared/components/complete-session-dialog/complete-session-dialog.component';
+import type { CompleteSessionResult } from '../../shared/components/complete-session-dialog/complete-session-dialog.component';
 
 @Service({ autoProvided: false })
 export class EntryFacade {
@@ -58,7 +54,7 @@ export class EntryFacade {
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
-  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly dialogService: DialogService = inject(DialogService);
   private readonly translateService: TranslateService = inject(TranslateService);
 
   readonly translation: Signal<Record<string, string>> = toSignal(
@@ -325,10 +321,7 @@ export class EntryFacade {
   }
 
   async openAddItemDialog(): Promise<void> {
-    const dialogRef = this.dialog.open(AddItemDialogComponent, {
-      width: AddItemDialogComponent.DIALOG_WIDTH,
-    });
-    const name = await firstValueFrom(dialogRef.afterClosed());
+    const name: string | undefined = await this.dialogService.open(DialogType.AddItem);
     if (!name) {
       return;
     }
@@ -344,11 +337,10 @@ export class EntryFacade {
       totalSets: this.totalSets(),
       elapsedMinutes,
     };
-    const dialogRef = this.dialog.open(CompleteSessionDialogComponent, {
-      data: dialogData,
-      width: CompleteSessionDialogComponent.DIALOG_WIDTH,
-    });
-    const result = await firstValueFrom(dialogRef.afterClosed());
+    const result: CompleteSessionResult | undefined = await this.dialogService.open(
+      DialogType.CompleteSession,
+      dialogData,
+    );
     if (!result) {
       return;
     }

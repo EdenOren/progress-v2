@@ -42,16 +42,5 @@
     flex-shrink: 0;
   }
 
-  &__field {
-    display: flex;
-    flex-direction: column;
-    gap: variables.$spacing-xs;
-  }
-
-  &__label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--color-text-secondary);
-  }
 
 }

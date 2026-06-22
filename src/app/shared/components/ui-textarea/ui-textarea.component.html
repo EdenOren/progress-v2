@@ -1,3 +1,6 @@
+@if (label()) {
+  <label class="ui-textarea__label" [for]="inputId()">{{ label() }}</label>
+}
 <textarea
   class="ui-textarea"
   [id]="inputId()"

@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, inject, output, OutputEmitterRef } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UiModalComponent } from '../ui-modal/ui-modal.component';
 import { UiButtonComponent } from '../ui-button/ui-button.component';
 import { ButtonVariant } from '../../enums/button-variant.enum';
@@ -22,16 +22,16 @@ export class ConfirmationDialogComponent {
   static readonly DIALOG_WIDTH: string = '320px';
 
   protected readonly data: ConfirmationDialogData = inject<ConfirmationDialogData>(MAT_DIALOG_DATA);
-  private readonly dialogRef: MatDialogRef<ConfirmationDialogComponent, boolean> = inject(
-    MatDialogRef<ConfirmationDialogComponent, boolean>,
-  );
   protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
 
-  protected confirm(): void {
-    this.dialogRef.close(true);
+  readonly submitted: OutputEmitterRef<void> = output<void>();
+  readonly closed: OutputEmitterRef<void> = output<void>();
+
+  protected onSubmit(): void {
+    this.submitted.emit();
   }
 
-  protected cancel(): void {
-    this.dialogRef.close(false);
+  protected onClose(): void {
+    this.closed.emit();
   }
 }

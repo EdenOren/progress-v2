@@ -16,11 +16,11 @@
     <app-ui-button
       [label]="t['ADD_EXERCISE_CANCEL']"
       [variant]="buttonVariant.Ghost"
-      (click)="cancel()" />
+      (click)="onClose()" />
     <app-ui-button
       [label]="t['ADD_EXERCISE_SAVE']"
       [variant]="buttonVariant.Ghost"
       [color]="'primary'"
-      (click)="submit()" />
+      (click)="onSubmit()" />
   </div>
 </app-ui-modal>

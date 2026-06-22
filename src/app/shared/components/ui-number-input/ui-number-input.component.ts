@@ -12,8 +12,10 @@ import {
   templateUrl: './ui-number-input.component.html',
   styleUrl: './ui-number-input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '[class.ui-number-input--labeled]': 'label()' },
 })
 export class UiNumberInputComponent {
+  readonly label: InputSignal<string> = input<string>('');
   readonly value: InputSignal<number | null> = input<number | null>(null);
   readonly min: InputSignal<number> = input<number>(0);
   readonly max: InputSignal<number | null> = input<number | null>(null);

@@ -22,7 +22,8 @@ import type { Entry } from '../../core/services/data/entries.data';
 import type { Result } from '../../core/types/result';
 import { AppRoute } from '../../core/enums/app-route.enum';
 import { ProgressRoute } from '../../core/enums/progress-route.enum';
-import { ConfirmationDialogService } from '../../shared/services/confirmation-dialog.service';
+import { DialogService } from '../../shared/services/dialog.service';
+import { DialogType } from '../../shared/enums/dialog-type.enum';
 import type { ConfirmationDialogData } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Service({ autoProvided: false })
@@ -31,7 +32,7 @@ export class SubjectFacade {
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
-  private readonly confirmationDialogService: ConfirmationDialogService = inject(ConfirmationDialogService);
+  private readonly dialogService: DialogService = inject(DialogService);
   private readonly translateService: TranslateService = inject(TranslateService);
 
   readonly translation: Signal<Record<string, string>> = toSignal(
@@ -114,7 +115,7 @@ export class SubjectFacade {
       confirmLabel: this.translation()['DELETE_CONFIRM'] ?? '',
       cancelLabel: this.translation()['DELETE_CANCEL'] ?? '',
     };
-    const confirmed = await this.confirmationDialogService.open(dialogData);
+    const confirmed = await this.dialogService.open(DialogType.Confirmation, dialogData);
     if (!confirmed) {
       return;
     }

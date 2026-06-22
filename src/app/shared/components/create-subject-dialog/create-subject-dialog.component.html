@@ -21,11 +21,11 @@
     <app-ui-button
       [label]="t['CANCEL']"
       [variant]="buttonVariant.Ghost"
-      (click)="cancel()" />
+      (click)="onClose()" />
     <app-ui-button
       [label]="t['SAVE']"
       [variant]="buttonVariant.Ghost"
       [color]="'primary'"
-      (click)="submit()" />
+      (click)="onSubmit()" />
   </div>
 </app-ui-modal>
