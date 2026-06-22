@@ -4,6 +4,10 @@
   display: flex;
   flex-direction: column;
   gap: variables.$spacing-xs;
+
+  &.ui-input--number {
+    display: inline-block;
+  }
 }
 
 .ui-input {
@@ -11,6 +15,44 @@
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-text-primary);
+  }
+
+  &__number {
+    width: 64px;
+    padding: variables.$spacing-xs variables.$spacing-sm;
+    border: 1px solid var(--color-border);
+    border-radius: variables.$radius-sm;
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    font-size: 0.875rem;
+    font-family: inherit;
+    text-align: center;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+      border-color: var(--color-primary);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &--compact {
+      width: 48px;
+    }
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      appearance: none;
+    }
+  }
+
+  &__wrapper {
+    position: relative;
+    width: 100%;
   }
 
   &__control {
@@ -22,6 +64,7 @@
     color: var(--color-text-primary);
     background: var(--color-surface);
     outline: none;
+    box-sizing: border-box;
     transition: border-color variables.$transition-fast, box-shadow variables.$transition-fast;
 
     &::placeholder {
@@ -32,6 +75,43 @@
       border-color: var(--color-primary);
       box-shadow: 0 0 0 3px var(--color-primary-focus-ring);
     }
+
+    &--has-toggle {
+      padding-right: calc(#{variables.$spacing-md} + 36px);
+    }
+  }
+
+  &__password-toggle {
+    position: absolute;
+    top: 50%;
+    right: variables.$spacing-sm;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+      border-radius: variables.$radius-sm;
+    }
+  }
+
+  &__toggle-icon {
+    display: block;
+    width: 20px;
+    height: 20px;
   }
 
   &__error {

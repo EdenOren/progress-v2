@@ -46,6 +46,8 @@
           [field]="signupForm.password"
           [error]="passwordError()"
           [touched]="passwordTouched()"
+          [showPasswordAriaLabel]="t['SHOW_PASSWORD']"
+          [hidePasswordAriaLabel]="t['HIDE_PASSWORD']"
         />
 
         <app-ui-input
@@ -57,6 +59,8 @@
           [field]="signupForm.confirmPassword"
           [error]="confirmPasswordError()"
           [touched]="confirmPasswordTouched()"
+          [showPasswordAriaLabel]="t['SHOW_PASSWORD']"
+          [hidePasswordAriaLabel]="t['HIDE_PASSWORD']"
         />
 
         @if (errorMessage()) {

@@ -28,6 +28,8 @@
         [field]="loginForm.password"
         [error]="passwordError()"
         [touched]="passwordTouched()"
+        [showPasswordAriaLabel]="t['SHOW_PASSWORD']"
+        [hidePasswordAriaLabel]="t['HIDE_PASSWORD']"
       />
 
       @if (errorMessage()) {
