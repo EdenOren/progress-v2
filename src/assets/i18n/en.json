@@ -1,6 +1,7 @@
 {
   "NAV": {
     "PROGRESS": "Progress",
+    "DAILY_LOG": "Daily Log",
     "KPI": "KPI",
     "MENU": "Menu"
   },
@@ -78,6 +79,31 @@
     "DELETE_MESSAGE": "Delete \"{name}\"? This will permanently delete all {count} sessions. This cannot be undone.",
     "DELETE_CONFIRM": "Delete",
     "DELETE_CANCEL": "Cancel"
+  },
+  "DAILY_LOG": {
+    "TITLE": "Daily Log",
+    "LOADING": "Loading…",
+    "EMPTY": "No entries yet. Start by logging today.",
+    "ERROR": "Failed to load daily log.",
+    "LOG_TODAY": "Log today",
+    "SLEEP": "Sleep",
+    "WEIGHT": "Weight",
+    "WATER": "Water",
+    "WAIST": "Waist",
+    "SLEEP_UNIT": "h",
+    "WEIGHT_UNIT": "kg",
+    "WATER_UNIT": "L",
+    "WAIST_UNIT": "cm",
+    "DIALOG": {
+      "TITLE_CREATE": "Log Entry",
+      "TITLE_EDIT": "Edit Entry",
+      "SLEEP_LABEL": "Sleep (hours)",
+      "WEIGHT_LABEL": "Weight (kg)",
+      "WATER_LABEL": "Water (L)",
+      "WAIST_LABEL": "Waist (cm)",
+      "SAVE": "Save",
+      "CANCEL": "Cancel"
+    }
   },
   "ENTRY": {
     "BACK": "Back",
