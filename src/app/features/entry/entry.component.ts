@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { EntryFacade } from './entry.facade';
 import { ButtonType } from '../../shared/enums/button-type.enum';
 import { SessionItemComponent } from './components/session-item/session-item.component';
-import type { ItemSet } from '../../core/services/data/items.data';
+import type { ItemSet } from '../../core/services/data/items.service';
 import type {
   SetChangedEvent,
   SetRemovedEvent,

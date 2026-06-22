@@ -23,8 +23,8 @@ import {
   milesToMeters,
   yardsToMeters,
 } from '../../../../shared/utils/unit-conversion';
-import type { ItemSet } from '../../../../core/services/data/items.data';
-import type { SetChangedPayload } from '../../../../core/services/data/item-sets.data';
+import type { ItemSet } from '../../../../core/services/data/items.service';
+import type { SetChangedPayload } from '../../../../core/services/data/item-sets.service';
 
 @Component({
   selector: 'app-set-row',

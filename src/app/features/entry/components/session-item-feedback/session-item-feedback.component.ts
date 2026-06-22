@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FeedbackRating } from '../../../../shared/enums/feedback-rating.enum';
 import { ButtonType } from '../../../../shared/enums/button-type.enum';
-import type { ItemFeedback } from '../../../../core/services/data/items.data';
+import type { ItemFeedback } from '../../../../core/services/data/items.service';
 
 @Component({
   selector: 'app-session-item-feedback',

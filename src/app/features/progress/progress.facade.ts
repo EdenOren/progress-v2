@@ -11,12 +11,10 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import type { SupabaseClient } from '@supabase/supabase-js';
 import { AuthService } from '../../core/services/platform/auth.service';
-import { SupabaseService } from '../../core/services/platform/supabase.service';
-import { getWorkoutDomainId } from '../../core/services/data/domains.data';
-import { createSubject, getSubjects } from '../../core/services/data/subjects.data';
-import type { Subject } from '../../core/services/data/subjects.data';
+import { DomainsService } from '../../core/services/data/domains.service';
+import { SubjectsService } from '../../core/services/data/subjects.service';
+import type { Subject } from '../../core/services/data/subjects.service';
 import type { Result } from '../../core/types/result';
 import { AppRoute } from '../../core/enums/app-route.enum';
 import { ProgressRoute } from '../../core/enums/progress-route.enum';
@@ -26,7 +24,8 @@ import type { CreateSubjectFormData } from '../../shared/components/create-subje
 
 @Service({ autoProvided: false })
 export class ProgressFacade {
-  private readonly supabase: SupabaseClient = inject(SupabaseService).client;
+  private readonly domainsService: DomainsService = inject(DomainsService);
+  private readonly subjectsService: SubjectsService = inject(SubjectsService);
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
   private readonly dialogService: DialogService = inject(DialogService);
@@ -38,7 +37,7 @@ export class ProgressFacade {
   );
 
   private readonly domainIdResource: ResourceRef<Result<string> | undefined> = resource({
-    loader: () => getWorkoutDomainId(this.supabase),
+    loader: () => this.domainsService.getWorkoutDomainId(),
   });
 
   readonly workoutDomainId: Signal<string | null> = computed(() => {
@@ -55,7 +54,7 @@ export class ProgressFacade {
       if (!params.domainId) {
         return Promise.resolve(undefined);
       }
-      return getSubjects(this.supabase, params.userId);
+      return this.subjectsService.getSubjects(params.userId);
     },
   });
 
@@ -93,7 +92,7 @@ export class ProgressFacade {
       return;
     }
     this._errorMessage.set('');
-    const result: Result<Subject> = await createSubject(this.supabase, {
+    const result: Result<Subject> = await this.subjectsService.createSubject({
       userId: this.authService.userId(),
       domainId,
       name: formData.name,

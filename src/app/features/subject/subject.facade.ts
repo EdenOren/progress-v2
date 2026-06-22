@@ -12,13 +12,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs';
-import type { SupabaseClient } from '@supabase/supabase-js';
 import { AuthService } from '../../core/services/platform/auth.service';
-import { SupabaseService } from '../../core/services/platform/supabase.service';
-import { deleteSubject, getSubjectById } from '../../core/services/data/subjects.data';
-import type { Subject } from '../../core/services/data/subjects.data';
-import { getEntries, createEntry } from '../../core/services/data/entries.data';
-import type { Entry } from '../../core/services/data/entries.data';
+import { SubjectsService } from '../../core/services/data/subjects.service';
+import type { Subject } from '../../core/services/data/subjects.service';
+import { EntriesService } from '../../core/services/data/entries.service';
+import type { Entry } from '../../core/services/data/entries.service';
 import type { Result } from '../../core/types/result';
 import { AppRoute } from '../../core/enums/app-route.enum';
 import { ProgressRoute } from '../../core/enums/progress-route.enum';
@@ -28,7 +26,8 @@ import type { ConfirmationDialogData } from '../../shared/components/confirmatio
 
 @Service({ autoProvided: false })
 export class SubjectFacade {
-  private readonly supabase: SupabaseClient = inject(SupabaseService).client;
+  private readonly subjectsService: SubjectsService = inject(SubjectsService);
+  private readonly entriesService: EntriesService = inject(EntriesService);
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
@@ -50,7 +49,7 @@ export class SubjectFacade {
       if (!params.subjectId) {
         return Promise.resolve(undefined);
       }
-      return getSubjectById(this.supabase, params.userId, params.subjectId);
+      return this.subjectsService.getSubjectById(params.userId, params.subjectId);
     },
   });
 
@@ -60,7 +59,7 @@ export class SubjectFacade {
       if (!params.subjectId) {
         return Promise.resolve(undefined);
       }
-      return getEntries(this.supabase, params.userId, params.subjectId);
+      return this.entriesService.getEntries(params.userId, params.subjectId);
     },
   });
 
@@ -119,7 +118,7 @@ export class SubjectFacade {
     if (!confirmed) {
       return;
     }
-    const result = await deleteSubject(this.supabase, subject.id);
+    const result = await this.subjectsService.deleteSubject(subject.id);
     if (!result.success) {
       this._errorMessage.set(result.error.message);
       return;
@@ -135,7 +134,7 @@ export class SubjectFacade {
     }
     this._isStartingWorkout.set(true);
     const today = new Date().toISOString().slice(0, 10);
-    const result = await createEntry(this.supabase, {
+    const result = await this.entriesService.createEntry({
       userId,
       subjectId,
       performedAt: today,
