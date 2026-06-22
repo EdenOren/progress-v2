@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { EntryFacade } from './entry.facade';
+import { ButtonType } from '../../shared/enums/button-type.enum';
 import { SessionItemComponent } from './components/session-item/session-item.component';
 import type { ItemSet } from '../../core/services/data/items.data';
 import type {
@@ -21,6 +22,7 @@ import type {
 })
 export class EntryComponent {
   protected readonly facade: EntryFacade = inject(EntryFacade);
+  protected readonly ButtonType: typeof ButtonType = ButtonType;
 
   protected previousSetsFor(itemName: string): ItemSet[] {
     return this.facade.previousSetsMap().get(itemName) ?? [];

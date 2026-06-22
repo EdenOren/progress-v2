@@ -3,7 +3,7 @@
     <h1 class="progress__title">{{ facade.translation()['TITLE'] }}</h1>
     <button
       class="progress__add-btn"
-      type="button"
+      [type]="ButtonType.Button"
       (click)="addSubject()"
       [attr.aria-label]="facade.translation()['ADD_SUBJECT']">
       <mat-icon aria-hidden="true">add</mat-icon>

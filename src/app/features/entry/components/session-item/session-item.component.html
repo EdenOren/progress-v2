@@ -7,7 +7,7 @@
     @if (!isReadOnly()) {
       <button
         class="session-item__delete-btn"
-        type="button"
+        [type]="ButtonType.Button"
         (click)="onDeleteRequested()"
         [attr.aria-label]="t['DELETE_EXERCISE']">
         <mat-icon aria-hidden="true">delete_outline</mat-icon>
@@ -45,7 +45,7 @@
   @if (!isReadOnly()) {
     <button
       class="session-item__add-set-btn"
-      type="button"
+      [type]="ButtonType.Button"
       (click)="onSetAdded()">
       <mat-icon aria-hidden="true">add</mat-icon>
       {{ t['ADD_SET'] }}

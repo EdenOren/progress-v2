@@ -4,7 +4,7 @@
   <header class="entry__header">
     <button
       class="entry__back-btn"
-      type="button"
+      [type]="ButtonType.Button"
       (click)="navigateBack()"
       [attr.aria-label]="t['BACK']">
       <mat-icon aria-hidden="true">arrow_back</mat-icon>
@@ -15,7 +15,7 @@
     @if (!facade.isCompleted()) {
       <button
         class="entry__finish-btn"
-        type="button"
+        [type]="ButtonType.Button"
         (click)="openCompleteDialog()">
         {{ t['FINISH'] }}
       </button>
@@ -47,7 +47,7 @@
     @if (!facade.isCompleted()) {
       <button
         class="entry__add-btn"
-        type="button"
+        [type]="ButtonType.Button"
         (click)="openAddItemDialog()">
         <mat-icon aria-hidden="true">add</mat-icon>
         {{ t['ADD_EXERCISE'] }}

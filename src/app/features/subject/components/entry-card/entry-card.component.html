@@ -1,4 +1,4 @@
-<button class="entry-card" type="button" (click)="select()">
+<button class="entry-card" [type]="ButtonType.Button" (click)="select()">
   <div class="entry-card__body">
     <span class="entry-card__date">{{ entry().performedAt | date:'longDate' }}</span>
     @if (formattedDuration()) {

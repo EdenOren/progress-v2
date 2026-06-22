@@ -13,6 +13,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { UiNumberInputComponent } from '../../../../shared/components/ui-number-input/ui-number-input.component';
 import { TrackingType } from '../../../../shared/enums/tracking-type.enum';
+import { ButtonType } from '../../../../shared/enums/button-type.enum';
 import { DistanceUnit } from '../../../../shared/enums/distance-unit.enum';
 import {
   metersToKm,
@@ -53,6 +54,7 @@ export class SetRowComponent {
   readonly removed: OutputEmitterRef<void> = output<void>();
 
   protected readonly trackingTypeEnum: typeof TrackingType = TrackingType;
+  protected readonly ButtonType: typeof ButtonType = ButtonType;
 
   readonly distanceUnitLabel: Signal<string> = computed(
     () => SetRowComponent.DISTANCE_UNIT_LABELS[this.distanceUnit()],

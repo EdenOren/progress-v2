@@ -1,4 +1,4 @@
-<button class="subject-card" type="button" (click)="select()">
+<button class="subject-card" [type]="ButtonType.Button" (click)="select()">
   <div class="subject-card__body">
     <span class="subject-card__name">{{ subject().name }}</span>
     @if (subject().description) {

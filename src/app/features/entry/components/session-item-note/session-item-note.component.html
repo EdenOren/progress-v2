@@ -4,7 +4,7 @@
   @if (!noteExpanded()) {
     <button
       class="session-item-note__toggle"
-      type="button"
+      [type]="ButtonType.Button"
       (click)="expandNote()">
       {{ t['NOTE_PLACEHOLDER'] }}
     </button>

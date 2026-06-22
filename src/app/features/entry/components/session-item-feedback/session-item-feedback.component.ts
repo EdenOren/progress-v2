@@ -9,6 +9,7 @@ import {
   Signal,
 } from '@angular/core';
 import { FeedbackRating } from '../../../../shared/enums/feedback-rating.enum';
+import { ButtonType } from '../../../../shared/enums/button-type.enum';
 import type { ItemFeedback } from '../../../../core/services/data/items.data';
 
 @Component({
@@ -24,6 +25,7 @@ export class SessionItemFeedbackComponent {
   readonly feedbackChanged: OutputEmitterRef<FeedbackRating> = output<FeedbackRating>();
 
   protected readonly feedbackRating: typeof FeedbackRating = FeedbackRating;
+  protected readonly ButtonType: typeof ButtonType = ButtonType;
 
   readonly isSuccessFeedback: Signal<boolean> = computed(
     () => this.feedback()?.rating === FeedbackRating.Success,
