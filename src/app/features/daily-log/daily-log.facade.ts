@@ -5,11 +5,15 @@ import { AuthService } from '../../core/services/platform/auth.service';
 import { DailyLogsService } from '../../core/services/data/daily-log.service';
 import type { DailyLog } from '../../core/services/data/daily-log.service';
 import type { Result } from '../../core/types/result';
+import { DialogService } from '../../shared/services/dialog.service';
+import { DialogType } from '../../shared/enums/dialog-type.enum';
+import type { LogEntryFormData } from '../../shared/components/log-entry-dialog/log-entry-dialog.component';
 
 @Service({ autoProvided: false })
 export class DailyLogFacade {
   private readonly authService: AuthService = inject(AuthService);
   private readonly dailyLogsService: DailyLogsService = inject(DailyLogsService);
+  private readonly dialogService: DialogService = inject(DialogService);
   private readonly translateService: TranslateService = inject(TranslateService);
 
   readonly translation: Signal<Record<string, string>> = toSignal(
@@ -50,7 +54,31 @@ export class DailyLogFacade {
     () => !this.isLoading() && !this.hasError() && !this.entries().length,
   );
 
-  async openLogDialog(loggedDate: string, existingEntry?: DailyLog): Promise<void> {}
+  async openLogDialog(loggedDate: string, existingEntry?: DailyLog): Promise<void> {
+    const formData: LogEntryFormData | undefined = await this.dialogService.open(
+      DialogType.LogEntry,
+      { date: loggedDate, existingEntry },
+    );
+    if (!formData) {
+      return;
+    }
+    await this.upsertLog(formData);
+  }
+
+  private async upsertLog(formData: LogEntryFormData): Promise<void> {
+    const result: Result<DailyLog> = await this.dailyLogsService.upsertDailyLog({
+      userId: this.authService.userId(),
+      loggedDate: formData.loggedDate,
+      sleepHours: formData.sleepHours,
+      weightKg: formData.weightKg,
+      waterLiters: formData.waterLiters,
+      waistCm: formData.waistCm,
+    });
+    if (!result.success) {
+      return;
+    }
+    this._weekResource.reload();
+  }
 
   private formatDate(date: Date): string {
     return date.toISOString().split('T')[0];
