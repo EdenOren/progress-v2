@@ -27,6 +27,11 @@ export const routes: Routes = [
           import('./features/entry/entry.component').then((m) => m.EntryComponent),
       },
       {
+        path: AppRoute.DailyLog,
+        loadComponent: () =>
+          import('./features/daily-log/daily-log.component').then((m) => m.DailyLogComponent),
+      },
+      {
         path: AppRoute.Kpi,
         loadComponent: () =>
           import('./features/kpi/kpi.component').then((m) => m.KpiComponent),
