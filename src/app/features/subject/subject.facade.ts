@@ -11,21 +11,19 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { firstValueFrom, map } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { AuthService } from '../../core/services/platform/auth.service';
 import { SupabaseService } from '../../core/services/platform/supabase.service';
 import { deleteSubject, getSubjectById } from '../../core/services/data/subjects.data';
 import type { Subject } from '../../core/services/data/subjects.data';
-import { getEntries } from '../../core/services/data/entries.data';
+import { getEntries, createEntry } from '../../core/services/data/entries.data';
 import type { Entry } from '../../core/services/data/entries.data';
 import type { Result } from '../../core/types/result';
 import { AppRoute } from '../../core/enums/app-route.enum';
 import { ProgressRoute } from '../../core/enums/progress-route.enum';
-import {
-  ConfirmationDialogComponent,
-} from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { DialogService } from '../../shared/services/dialog.service';
+import { DialogType } from '../../shared/enums/dialog-type.enum';
 import type { ConfirmationDialogData } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Service({ autoProvided: false })
@@ -34,7 +32,7 @@ export class SubjectFacade {
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
-  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly dialogService: DialogService = inject(DialogService);
   private readonly translateService: TranslateService = inject(TranslateService);
 
   readonly translation: Signal<Record<string, string>> = toSignal(
@@ -99,6 +97,9 @@ export class SubjectFacade {
   private readonly _errorMessage: WritableSignal<string> = signal('');
   readonly errorMessage: Signal<string> = this._errorMessage;
 
+  private readonly _isStartingWorkout: WritableSignal<boolean> = signal(false);
+  readonly isStartingWorkout: Signal<boolean> = this._isStartingWorkout;
+
   async deleteSubjectWithConfirmation(): Promise<void> {
     const subject = this.subject();
     if (!subject) {
@@ -114,11 +115,7 @@ export class SubjectFacade {
       confirmLabel: this.translation()['DELETE_CONFIRM'] ?? '',
       cancelLabel: this.translation()['DELETE_CANCEL'] ?? '',
     };
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: dialogData,
-      width: ConfirmationDialogComponent.DIALOG_WIDTH,
-    });
-    const confirmed = await firstValueFrom(dialogRef.afterClosed());
+    const confirmed = await this.dialogService.open(DialogType.Confirmation, dialogData);
     if (!confirmed) {
       return;
     }
@@ -128,6 +125,27 @@ export class SubjectFacade {
       return;
     }
     void this.router.navigate([AppRoute.Progress]);
+  }
+
+  async startWorkout(): Promise<void> {
+    const subjectId = this.subjectIdParam();
+    const userId = this.authService.userId();
+    if (!subjectId || !userId) {
+      return;
+    }
+    this._isStartingWorkout.set(true);
+    const today = new Date().toISOString().slice(0, 10);
+    const result = await createEntry(this.supabase, {
+      userId,
+      subjectId,
+      performedAt: today,
+    });
+    this._isStartingWorkout.set(false);
+    if (!result.success) {
+      this._errorMessage.set(result.error.message);
+      return;
+    }
+    this.navigateToEntry(result.data.id);
   }
 
   navigateToEntry(entryId: string): void {

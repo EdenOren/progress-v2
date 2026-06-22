@@ -1,0 +1,46 @@
+@let t = translation();
+
+<app-ui-modal>
+  <span slot="title">{{ t['COMPLETE_TITLE'] }}</span>
+  <div slot="content" class="complete-dialog">
+    <div class="complete-dialog__stats">
+      <div class="complete-dialog__stat">
+        <span class="complete-dialog__stat-value">{{ data.exerciseCount }}</span>
+        <span class="complete-dialog__stat-label">{{ t['COMPLETE_EXERCISES_LABEL'] }}</span>
+      </div>
+      <div class="complete-dialog__stat-divider"></div>
+      <div class="complete-dialog__stat">
+        <span class="complete-dialog__stat-value">{{ data.totalSets }}</span>
+        <span class="complete-dialog__stat-label">{{ t['COMPLETE_SETS_LABEL'] }}</span>
+      </div>
+    </div>
+
+    <app-ui-number-input
+      [inputId]="'duration-input'"
+      [label]="t['COMPLETE_DURATION_LABEL']"
+      [value]="durationMinutes()"
+      [min]="0"
+      [ariaLabel]="t['COMPLETE_DURATION_LABEL']"
+      (valueChange)="onDurationChange($event)" />
+
+    <app-ui-textarea
+      [inputId]="'notes-input'"
+      [label]="t['COMPLETE_NOTES_LABEL']"
+      [value]="notes()"
+      [ariaLabel]="t['COMPLETE_NOTES_LABEL']"
+      [placeholder]="t['COMPLETE_NOTES_PLACEHOLDER']"
+      [rows]="3"
+      (blurred)="onNotesChange($event)" />
+  </div>
+  <div slot="actions">
+    <app-ui-button
+      [label]="t['COMPLETE_CANCEL']"
+      [variant]="buttonVariant.Ghost"
+      (click)="onClose()" />
+    <app-ui-button
+      [label]="t['COMPLETE_SAVE']"
+      [variant]="buttonVariant.Ghost"
+      [color]="'primary'"
+      (click)="onSubmit()" />
+  </div>
+</app-ui-modal>

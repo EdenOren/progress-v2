@@ -18,7 +18,14 @@
     </form>
   </div>
   <div slot="actions">
-    <button mat-button type="button" (click)="cancel()">{{ t['CANCEL'] }}</button>
-    <button mat-button type="button" color="primary" (click)="submit()">{{ t['SAVE'] }}</button>
+    <app-ui-button
+      [label]="t['CANCEL']"
+      [variant]="buttonVariant.Ghost"
+      (click)="onClose()" />
+    <app-ui-button
+      [label]="t['SAVE']"
+      [variant]="buttonVariant.Ghost"
+      [color]="'primary'"
+      (click)="onSubmit()" />
   </div>
 </app-ui-modal>

@@ -11,8 +11,6 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { firstValueFrom } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { AuthService } from '../../core/services/platform/auth.service';
 import { SupabaseService } from '../../core/services/platform/supabase.service';
@@ -22,15 +20,16 @@ import type { Subject } from '../../core/services/data/subjects.data';
 import type { Result } from '../../core/types/result';
 import { AppRoute } from '../../core/enums/app-route.enum';
 import { ProgressRoute } from '../../core/enums/progress-route.enum';
-import { CreateSubjectDialogComponent } from './components/create-subject-dialog/create-subject-dialog.component';
-import type { CreateSubjectFormData } from './components/create-subject-dialog/create-subject-dialog.component';
+import { DialogService } from '../../shared/services/dialog.service';
+import { DialogType } from '../../shared/enums/dialog-type.enum';
+import type { CreateSubjectFormData } from '../../shared/components/create-subject-dialog/create-subject-dialog.component';
 
 @Service({ autoProvided: false })
 export class ProgressFacade {
   private readonly supabase: SupabaseClient = inject(SupabaseService).client;
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
-  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly dialogService: DialogService = inject(DialogService);
   private readonly translateService: TranslateService = inject(TranslateService);
 
   readonly translation: Signal<Record<string, string>> = toSignal(
@@ -89,11 +88,7 @@ export class ProgressFacade {
     if (!domainId) {
       return;
     }
-    const dialogRef = this.dialog.open(
-      CreateSubjectDialogComponent,
-      { width: CreateSubjectDialogComponent.DIALOG_WIDTH },
-    );
-    const formData: CreateSubjectFormData | undefined = await firstValueFrom(dialogRef.afterClosed());
+    const formData: CreateSubjectFormData | undefined = await this.dialogService.open(DialogType.CreateSubject);
     if (!formData) {
       return;
     }

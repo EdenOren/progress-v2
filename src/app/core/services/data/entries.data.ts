@@ -85,3 +85,126 @@ export async function getEntries(
   }
   return ok(validated.data.map(mapEntry));
 }
+
+export async function getEntry(
+  supabase: SupabaseClient,
+  entryId: string,
+  userId: string,
+): Promise<Result<Entry>> {
+  const { data, error } = await supabase
+    .from('entries')
+    .select('*')
+    .eq('id', entryId)
+    .eq('user_id', userId)
+    .single();
+  if (error) {
+    return err(mapSupabaseError(error));
+  }
+  const validated = entrySchema.safeParse(data);
+  if (!validated.success) {
+    return err(new ValidationError('Invalid entry data'));
+  }
+  return ok(mapEntry(validated.data));
+}
+
+export interface CreateEntryInput {
+  userId: string;
+  subjectId: string;
+  performedAt: string;
+}
+
+export async function createEntry(
+  supabase: SupabaseClient,
+  input: CreateEntryInput,
+): Promise<Result<Entry>> {
+  const { data, error } = await supabase
+    .from('entries')
+    .insert({
+      user_id: input.userId,
+      subject_id: input.subjectId,
+      performed_at: input.performedAt,
+      is_completed: false,
+    })
+    .select()
+    .single();
+  if (error) {
+    return err(mapSupabaseError(error));
+  }
+  const validated = entrySchema.safeParse(data);
+  if (!validated.success) {
+    return err(new ValidationError('Invalid entry data'));
+  }
+  return ok(mapEntry(validated.data));
+}
+
+export async function startEntry(
+  supabase: SupabaseClient,
+  entryId: string,
+): Promise<Result<void>> {
+  const { error } = await supabase
+    .from('entries')
+    .update({ started_at: new Date().toISOString() })
+    .eq('id', entryId)
+    .is('started_at', null);
+  if (error) {
+    return err(mapSupabaseError(error));
+  }
+  return ok(undefined);
+}
+
+export interface CompleteEntryInput {
+  entryId: string;
+  durationSeconds: number;
+  notes: string | null;
+}
+
+export async function completeEntry(
+  supabase: SupabaseClient,
+  input: CompleteEntryInput,
+): Promise<Result<void>> {
+  const { error } = await supabase
+    .from('entries')
+    .update({
+      is_completed: true,
+      completed_at: new Date().toISOString(),
+      duration_seconds: input.durationSeconds,
+      notes: input.notes,
+    })
+    .eq('id', input.entryId);
+  if (error) {
+    return err(mapSupabaseError(error));
+  }
+  return ok(undefined);
+}
+
+export async function getLastCompletedEntry(
+  supabase: SupabaseClient,
+  subjectId: string,
+  userId: string,
+  excludeEntryId?: string,
+): Promise<Result<Entry | null>> {
+  let query = supabase
+    .from('entries')
+    .select('*')
+    .eq('subject_id', subjectId)
+    .eq('user_id', userId)
+    .eq('is_completed', true)
+    .order('performed_at', { ascending: false })
+    .limit(1);
+  if (excludeEntryId) {
+    query = query.neq('id', excludeEntryId);
+  }
+  const { data, error } = await query;
+  if (error) {
+    return err(mapSupabaseError(error));
+  }
+  if (!data || !data.length) {
+    return ok(null);
+  }
+  const [first] = data;
+  const validated = entrySchema.safeParse(first);
+  if (!validated.success) {
+    return err(new ValidationError('Invalid entry data'));
+  }
+  return ok(mapEntry(validated.data));
+}

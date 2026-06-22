@@ -16,6 +16,7 @@
   }
 
   &__back-btn,
+  &__start-btn,
   &__delete-btn {
     display: flex;
     align-items: center;
@@ -37,6 +38,19 @@
 
     &:active {
       background-color: var(--color-surface-alt);
+    }
+  }
+
+  &__start-btn {
+    color: var(--color-accent);
+
+    &:active {
+      background-color: rgb(5 150 105 / 0.08);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
     }
   }
 

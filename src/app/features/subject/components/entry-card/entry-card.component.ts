@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, InputSignal, outpu
 import { DatePipe } from '@angular/common';
 import { UiIconComponent } from '../../../../shared/components/ui-icon/ui-icon.component';
 import { AppIcon } from '../../../../shared/enums/app-icon.enum';
+import { ButtonType } from '../../../../shared/enums/button-type.enum';
 import type { Entry } from '../../../../core/services/data/entries.data';
 
 @Component({
@@ -19,6 +20,7 @@ export class EntryCardComponent {
   readonly selected: OutputEmitterRef<void> = output<void>();
 
   protected readonly appIcon: typeof AppIcon = AppIcon;
+  protected readonly ButtonType: typeof ButtonType = ButtonType;
 
   protected readonly formattedDuration: Signal<string> = computed(() => {
     const seconds = this.entry().durationSeconds;

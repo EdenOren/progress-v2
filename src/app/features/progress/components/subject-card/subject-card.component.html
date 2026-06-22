@@ -1,9 +1,9 @@
-<button class="subject-card" type="button" (click)="select()">
+<button class="subject-card" [type]="ButtonType.Button" (click)="select()">
   <div class="subject-card__body">
     <span class="subject-card__name">{{ subject().name }}</span>
     @if (subject().description) {
       <span class="subject-card__description">{{ subject().description }}</span>
     }
   </div>
-  <mat-icon class="subject-card__chevron" aria-hidden="true">chevron_right</mat-icon>
+  <app-ui-icon class="subject-card__chevron" [src]="appIcon.ChevronRight" aria-hidden="true" />
 </button>

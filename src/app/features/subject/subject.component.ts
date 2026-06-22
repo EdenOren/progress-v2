@@ -3,6 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SubjectFacade } from './subject.facade';
 import { EntryCardComponent } from './components/entry-card/entry-card.component';
+import { ButtonType } from '../../shared/enums/button-type.enum';
 
 @Component({
   selector: 'app-subject',
@@ -14,6 +15,7 @@ import { EntryCardComponent } from './components/entry-card/entry-card.component
 })
 export class SubjectComponent {
   protected readonly facade: SubjectFacade = inject(SubjectFacade);
+  protected readonly ButtonType: typeof ButtonType = ButtonType;
 
   protected navigateBack(): void {
     this.facade.navigateBack();
@@ -25,5 +27,9 @@ export class SubjectComponent {
 
   protected deleteSubject(): void {
     void this.facade.deleteSubjectWithConfirmation();
+  }
+
+  protected startWorkout(): void {
+    void this.facade.startWorkout();
   }
 }

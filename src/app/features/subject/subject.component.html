@@ -2,15 +2,27 @@
   <header class="subject__header">
     <button
       class="subject__back-btn"
-      type="button"
+      [type]="ButtonType.Button"
       (click)="navigateBack()"
       [attr.aria-label]="facade.translation()['BACK']">
       <mat-icon aria-hidden="true">arrow_back</mat-icon>
     </button>
     <h1 class="subject__title">{{ facade.subject()?.name ?? '' }}</h1>
     <button
+      class="subject__start-btn"
+      [type]="ButtonType.Button"
+      (click)="startWorkout()"
+      [disabled]="facade.isStartingWorkout()"
+      [attr.aria-label]="facade.translation()['START_WORKOUT']">
+      @if (facade.isStartingWorkout()) {
+        <mat-icon aria-hidden="true">hourglass_empty</mat-icon>
+      } @else {
+        <mat-icon aria-hidden="true">play_arrow</mat-icon>
+      }
+    </button>
+    <button
       class="subject__delete-btn"
-      type="button"
+      [type]="ButtonType.Button"
       (click)="deleteSubject()"
       [attr.aria-label]="facade.translation()['DELETE_TITLE']">
       <mat-icon aria-hidden="true">delete</mat-icon>

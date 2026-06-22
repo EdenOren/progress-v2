@@ -51,9 +51,20 @@
 - [x] Routing: progress/subject/:subjectId, progress/subject/:subjectId/entry/:entryId
 - [x] withComponentInputBinding() added to router
 
-## Phase 5 — Active Workout Session
-- [ ] Live session: timer, exercise list, set inputs, feedback
-- [ ] Completion summary screen
+## Phase 5 — Active Workout Session ✓ (complete — branch: feature/5-session)
+- [x] Data layer: items.data.ts, item-sets.data.ts, item-feedback.data.ts, user-settings.data.ts
+- [x] entries.data.ts mutations: getEntry, createEntry, startEntry, completeEntry, getLastCompletedEntry
+- [x] Enums: FeedbackRating, TrackingType, DistanceUnit
+- [x] Unit conversion utility (meters ↔ km/miles/yards)
+- [x] SetRowComponent — 3 tracking type variants (weight×reps, MM:SS timer, distance with unit)
+- [x] SessionItemComponent — sets, previous session, feedback buttons, note input
+- [x] AddItemDialogComponent — Signal Forms dialog
+- [x] CompleteSessionDialogComponent — stats, editable duration, optional notes
+- [x] EntryFacade — full: timer, resources, all mutation methods
+- [x] EntryComponent — full template replacing stub
+- [x] SubjectFacade.startWorkout() — creates entry, navigates
+- [x] SubjectComponent — Start Workout button (play icon in header)
+- [x] en.json ENTRY section fully expanded
 
 ## Phase 6 — Daily Log
 - [ ] 7-day log entries list

@@ -1,9 +1,26 @@
-<button
-  class="ui-button"
-  [class.ui-button--google]="isGoogle()"
-  [class.ui-button--loading]="isLoading()"
-  [type]="type()"
-  [disabled]="isLoading()"
->
-  {{ label() }}
-</button>
+@switch (variant()) {
+  @case (buttonVariant.Ghost) {
+    <button
+      mat-button
+      [color]="color()"
+      [type]="type()">
+      @if (icon()) {
+        <mat-icon aria-hidden="true">{{ icon() }}</mat-icon>
+      }
+      {{ label() }}
+    </button>
+  }
+  @default {
+    <button
+      class="ui-button"
+      [class.ui-button--google]="variant() === buttonVariant.Google"
+      [class.ui-button--loading]="isLoading()"
+      [type]="type()"
+      [disabled]="isLoading()">
+      @if (icon()) {
+        <mat-icon aria-hidden="true">{{ icon() }}</mat-icon>
+      }
+      {{ label() }}
+    </button>
+  }
+}
