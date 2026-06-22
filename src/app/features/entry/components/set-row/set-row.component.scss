@@ -1,0 +1,66 @@
+@use 'abstract/variables' as variables;
+
+.set-row {
+  display: flex;
+  align-items: center;
+  gap: variables.$spacing-sm;
+  padding: variables.$spacing-xs 0;
+
+  &__label {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    min-width: 40px;
+    flex-shrink: 0;
+  }
+
+  &__inputs {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-xs;
+    flex: 1;
+  }
+
+  &__separator {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  &__unit {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  &__remove-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    border-radius: variables.$radius-full;
+    flex-shrink: 0;
+    margin-left: auto;
+    transition: color variables.$transition-fast, background-color variables.$transition-fast;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      color: var(--color-error);
+      background-color: rgb(220 38 38 / 0.08);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+  }
+}

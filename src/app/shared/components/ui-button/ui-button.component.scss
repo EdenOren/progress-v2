@@ -5,6 +5,10 @@
 }
 
 .ui-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$spacing-xs;
   width: 100%;
   padding: variables.$spacing-sm variables.$spacing-md;
   border: none;
@@ -12,12 +16,11 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
   transition:
     background-color variables.$transition-fast,
     opacity variables.$transition-fast;
-
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
 
   &:hover:not(:disabled) {
     background: var(--color-primary-dark);

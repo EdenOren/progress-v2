@@ -1,0 +1,24 @@
+@let t = translation();
+
+@if (!isReadOnly()) {
+  @if (!noteExpanded()) {
+    <button
+      class="session-item-note__toggle"
+      type="button"
+      (click)="expandNote()">
+      {{ t['NOTE_PLACEHOLDER'] }}
+    </button>
+  } @else {
+    <app-ui-textarea
+      [value]="note() ?? ''"
+      [ariaLabel]="t['NOTE_PLACEHOLDER']"
+      (blurred)="onNoteChange($event)" />
+  }
+}
+
+@if (isReadOnly() && note()) {
+  <div class="session-item-note__readonly">
+    <span class="session-item-note__readonly-label">{{ t['NOTE_PLACEHOLDER'] }}</span>
+    <p>{{ note() }}</p>
+  </div>
+}

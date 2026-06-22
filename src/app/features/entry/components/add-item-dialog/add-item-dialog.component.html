@@ -1,0 +1,26 @@
+@let t = translation();
+<app-ui-modal>
+  <span slot="title">{{ t['ADD_EXERCISE_TITLE'] }}</span>
+  <div slot="content">
+    <form [formRoot]="addItemForm">
+      <app-ui-input
+        [inputId]="'item-name'"
+        [label]="t['EXERCISE_NAME_LABEL']"
+        [placeholder]="t['EXERCISE_NAME_PLACEHOLDER']"
+        [field]="addItemForm.name"
+        [error]="nameError()"
+        [touched]="nameTouched()" />
+    </form>
+  </div>
+  <div slot="actions">
+    <app-ui-button
+      [label]="t['ADD_EXERCISE_CANCEL']"
+      [variant]="buttonVariant.Ghost"
+      (click)="cancel()" />
+    <app-ui-button
+      [label]="t['ADD_EXERCISE_SAVE']"
+      [variant]="buttonVariant.Ghost"
+      [color]="'primary'"
+      (click)="submit()" />
+  </div>
+</app-ui-modal>

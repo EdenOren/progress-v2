@@ -26,4 +26,8 @@ export class SubjectComponent {
   protected deleteSubject(): void {
     void this.facade.deleteSubjectWithConfirmation();
   }
+
+  protected startWorkout(): void {
+    void this.facade.startWorkout();
+  }
 }

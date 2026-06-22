@@ -8,12 +8,13 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
 import { TranslateService } from '@ngx-translate/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FieldTree, form, FormRoot, required } from '@angular/forms/signals';
+import { UiButtonComponent } from '../../../../shared/components/ui-button/ui-button.component';
 import { UiInputComponent } from '../../../../shared/components/ui-input/ui-input.component';
 import { UiModalComponent } from '../../../../shared/components/ui-modal/ui-modal.component';
+import { ButtonVariant } from '../../../../shared/enums/button-variant.enum';
 import { InputType } from '../../../../shared/enums/input-type.enum';
 import { ValidationKind } from '../../../../shared/enums/validation-kind.enum';
 
@@ -32,7 +33,7 @@ interface CreateSubjectModel {
   templateUrl: './create-subject-dialog.component.html',
   styleUrl: './create-subject-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [UiModalComponent, MatButtonModule, FormRoot, UiInputComponent],
+  imports: [UiModalComponent, UiButtonComponent, FormRoot, UiInputComponent],
 })
 export class CreateSubjectDialogComponent {
   static readonly DIALOG_WIDTH: string = '360px';
@@ -42,6 +43,7 @@ export class CreateSubjectDialogComponent {
   private readonly translateService: TranslateService = inject(TranslateService);
 
   protected readonly inputType: typeof InputType = InputType;
+  protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
 
   readonly translation: Signal<Record<string, string>> = toSignal(
     this.translateService.stream('PROGRESS.CREATE_SUBJECT'),

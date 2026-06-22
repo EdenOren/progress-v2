@@ -1,15 +1,61 @@
+@let t = facade.translation();
+
 <div class="entry">
   <header class="entry__header">
     <button
       class="entry__back-btn"
       type="button"
       (click)="navigateBack()"
-      [attr.aria-label]="facade.translation()['BACK']">
+      [attr.aria-label]="t['BACK']">
       <mat-icon aria-hidden="true">arrow_back</mat-icon>
     </button>
-    <h1 class="entry__title">{{ facade.translation()['TITLE'] }}</h1>
+
+    <span class="entry__timer" aria-live="off">{{ facade.formattedTime() }}</span>
+
+    @if (!facade.isCompleted()) {
+      <button
+        class="entry__finish-btn"
+        type="button"
+        (click)="openCompleteDialog()">
+        {{ t['FINISH'] }}
+      </button>
+    }
   </header>
+
   <div class="entry__body">
-    <p class="entry__placeholder">{{ facade.translation()['COMING_SOON'] }}</p>
+    @if (facade.isLoading()) {
+      <p class="entry__status">{{ t['LOADING'] }}</p>
+    } @else if (!facade.items().length) {
+      <p class="entry__empty">{{ t['EMPTY'] }}</p>
+    } @else {
+      @for (item of facade.items(); track item.id) {
+        <app-session-item
+          [item]="item"
+          [previousSets]="previousSetsFor(item.name)"
+          [distanceUnit]="facade.distanceUnit()"
+          [isReadOnly]="facade.isCompleted()"
+          [translation]="t"
+          (setChanged)="onSetChanged($event)"
+          (setAdded)="onSetAdded($event)"
+          (setRemoved)="onSetRemoved($event)"
+          (feedbackChanged)="onFeedbackChanged($event)"
+          (noteChanged)="onNoteChanged($event)"
+          (deleteRequested)="onItemDeleted($event)" />
+      }
+    }
+
+    @if (!facade.isCompleted()) {
+      <button
+        class="entry__add-btn"
+        type="button"
+        (click)="openAddItemDialog()">
+        <mat-icon aria-hidden="true">add</mat-icon>
+        {{ t['ADD_EXERCISE'] }}
+      </button>
+    }
+
+    @if (facade.errorMessage()) {
+      <p class="entry__error">{{ facade.errorMessage() }}</p>
+    }
   </div>
 </div>

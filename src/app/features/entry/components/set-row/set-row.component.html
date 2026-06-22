@@ -1,0 +1,72 @@
+@let t = translation();
+@let setLabel = t['SET_NUMBER'] + ' ' + setNumber();
+
+<div class="set-row">
+  <span class="set-row__label">{{ setLabel }}</span>
+
+  @switch (trackingType()) {
+    @case (trackingTypeEnum.WeightReps) {
+      <div class="set-row__inputs">
+        <app-ui-number-input
+          [value]="weightKg()"
+          [min]="0"
+          [step]="0.5"
+          [ariaLabel]="t['WEIGHT_UNIT']"
+          [disabled]="isReadOnly()"
+          (valueChange)="onWeightChange($event)" />
+        <span class="set-row__separator">×</span>
+        <app-ui-number-input
+          [value]="reps()"
+          [min]="0"
+          [ariaLabel]="t['REPS_UNIT']"
+          [disabled]="isReadOnly()"
+          (valueChange)="onRepsChange($event)" />
+        <span class="set-row__unit">{{ t['REPS_UNIT'] }}</span>
+      </div>
+    }
+    @case (trackingTypeEnum.Duration) {
+      <div class="set-row__inputs">
+        <app-ui-number-input
+          [value]="durationMinutes()"
+          [min]="0"
+          [max]="99"
+          [ariaLabel]="t['DURATION_MINUTES']"
+          [disabled]="isReadOnly()"
+          [compact]="true"
+          (valueChange)="onMinutesChange($event)" />
+        <span class="set-row__separator">:</span>
+        <app-ui-number-input
+          [value]="durationSeconds()"
+          [min]="0"
+          [max]="59"
+          [ariaLabel]="t['DURATION_SECONDS']"
+          [disabled]="isReadOnly()"
+          [compact]="true"
+          (valueChange)="onSecondsChange($event)" />
+        <span class="set-row__unit">{{ t['DURATION_MINUTES_SHORT'] }}</span>
+      </div>
+    }
+    @case (trackingTypeEnum.Distance) {
+      <div class="set-row__inputs">
+        <app-ui-number-input
+          [value]="displayDistance()"
+          [min]="0"
+          [step]="0.01"
+          [ariaLabel]="distanceUnitLabel()"
+          [disabled]="isReadOnly()"
+          (valueChange)="onDistanceChange($event)" />
+        <span class="set-row__unit">{{ distanceUnitLabel() }}</span>
+      </div>
+    }
+  }
+
+  @if (!isReadOnly()) {
+    <button
+      class="set-row__remove-btn"
+      type="button"
+      (click)="onRemoved()"
+      [attr.aria-label]="t['REMOVE_SET']">
+      <mat-icon aria-hidden="true">remove_circle_outline</mat-icon>
+    </button>
+  }
+</div>

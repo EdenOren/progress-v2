@@ -1,0 +1,28 @@
+@let t = translation();
+
+<div class="session-item-feedback">
+  <span class="session-item-feedback__label">{{ t['FEEDBACK_LABEL'] }}</span>
+  <div class="session-item-feedback__buttons">
+    <button
+      class="session-item-feedback__btn session-item-feedback__btn--success"
+      [class.session-item-feedback__btn--active]="isSuccessFeedback()"
+      type="button"
+      (click)="onFeedbackChanged(feedbackRating.Success)">
+      {{ t['FEEDBACK_SUCCESS'] }}
+    </button>
+    <button
+      class="session-item-feedback__btn session-item-feedback__btn--hard"
+      [class.session-item-feedback__btn--active]="isHardFeedback()"
+      type="button"
+      (click)="onFeedbackChanged(feedbackRating.Hard)">
+      {{ t['FEEDBACK_HARD'] }}
+    </button>
+    <button
+      class="session-item-feedback__btn session-item-feedback__btn--fail"
+      [class.session-item-feedback__btn--active]="isFailFeedback()"
+      type="button"
+      (click)="onFeedbackChanged(feedbackRating.Fail)">
+      {{ t['FEEDBACK_FAIL'] }}
+    </button>
+  </div>
+</div>

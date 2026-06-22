@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { A11yModule } from '@angular/cdk/a11y';
 import { UiModalComponent } from '../ui-modal/ui-modal.component';
+import { UiButtonComponent } from '../ui-button/ui-button.component';
+import { ButtonVariant } from '../../enums/button-variant.enum';
 
 export interface ConfirmationDialogData {
   title: string;
@@ -16,7 +16,7 @@ export interface ConfirmationDialogData {
   templateUrl: './confirmation-dialog.component.html',
   styleUrl: './confirmation-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [UiModalComponent, MatButtonModule, A11yModule],
+  imports: [UiModalComponent, UiButtonComponent],
 })
 export class ConfirmationDialogComponent {
   static readonly DIALOG_WIDTH: string = '320px';
@@ -25,6 +25,7 @@ export class ConfirmationDialogComponent {
   private readonly dialogRef: MatDialogRef<ConfirmationDialogComponent, boolean> = inject(
     MatDialogRef<ConfirmationDialogComponent, boolean>,
   );
+  protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
 
   protected confirm(): void {
     this.dialogRef.close(true);

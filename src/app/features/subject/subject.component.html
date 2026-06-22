@@ -9,6 +9,18 @@
     </button>
     <h1 class="subject__title">{{ facade.subject()?.name ?? '' }}</h1>
     <button
+      class="subject__start-btn"
+      type="button"
+      (click)="startWorkout()"
+      [disabled]="facade.isStartingWorkout()"
+      [attr.aria-label]="facade.translation()['START_WORKOUT']">
+      @if (facade.isStartingWorkout()) {
+        <mat-icon aria-hidden="true">hourglass_empty</mat-icon>
+      } @else {
+        <mat-icon aria-hidden="true">play_arrow</mat-icon>
+      }
+    </button>
+    <button
       class="subject__delete-btn"
       type="button"
       (click)="deleteSubject()"

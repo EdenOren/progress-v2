@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, input, InputSignal, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { ButtonType } from '../../enums/button-type.enum';
 import { ButtonVariant } from '../../enums/button-variant.enum';
 
@@ -7,14 +9,15 @@ import { ButtonVariant } from '../../enums/button-variant.enum';
   templateUrl: './ui-button.component.html',
   styleUrl: './ui-button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatButtonModule, MatIconModule],
 })
 export class UiButtonComponent {
   readonly label: InputSignal<string> = input.required<string>();
   readonly type: InputSignal<ButtonType> = input<ButtonType>(ButtonType.Button);
   readonly isLoading: InputSignal<boolean> = input<boolean>(false);
   readonly variant: InputSignal<ButtonVariant> = input<ButtonVariant>(ButtonVariant.Primary);
+  readonly icon: InputSignal<string> = input<string>('');
+  readonly color: InputSignal<string> = input<string>('');
 
-  protected readonly isGoogle: Signal<boolean> = computed(
-    () => this.variant() === ButtonVariant.Google,
-  );
+  protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
 }

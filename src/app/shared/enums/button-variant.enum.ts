@@ -1,4 +1,5 @@
 export enum ButtonVariant {
   Primary = 'primary',
-  Google = 'google'
+  Google = 'google',
+  Ghost = 'ghost',
 }

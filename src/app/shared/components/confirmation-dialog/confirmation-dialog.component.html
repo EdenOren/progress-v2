@@ -2,19 +2,14 @@
   <span slot="title">{{ data.title }}</span>
   <p slot="content" class="confirmation-dialog__message">{{ data.message }}</p>
   <div slot="actions">
-    <button
-      mat-button
-      type="button"
-      (click)="cancel()">
-      {{ data.cancelLabel }}
-    </button>
-    <button
-      mat-button
-      cdkFocusInitial
-      type="button"
-      color="warn"
-      (click)="confirm()">
-      {{ data.confirmLabel }}
-    </button>
+    <app-ui-button
+      [label]="data.cancelLabel"
+      [variant]="buttonVariant.Ghost"
+      (click)="cancel()" />
+    <app-ui-button
+      [label]="data.confirmLabel"
+      [variant]="buttonVariant.Ghost"
+      [color]="'warn'"
+      (click)="confirm()" />
   </div>
 </app-ui-modal>
