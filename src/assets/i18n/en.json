@@ -16,9 +16,7 @@
       "LOADING": "Signing in…",
       "GOOGLE_BUTTON": "Continue with Google",
       "NO_ACCOUNT": "Don't have an account?",
-      "SIGNUP_LINK": "Create one",
-      "SHOW_PASSWORD": "Show password",
-      "HIDE_PASSWORD": "Hide password"
+      "SIGNUP_LINK": "Create one"
     },
     "SIGNUP": {
       "TITLE": "Create your account",
@@ -36,9 +34,7 @@
       "HAS_ACCOUNT": "Already have an account?",
       "LOGIN_LINK": "Sign in",
       "VERIFY_EMAIL": "Check your email to complete sign-up.",
-      "TRY_AGAIN": "Try a different email",
-      "SHOW_PASSWORD": "Show password",
-      "HIDE_PASSWORD": "Hide password"
+      "TRY_AGAIN": "Try a different email"
     },
     "CALLBACK": {
       "LOADING": "Completing sign in…"

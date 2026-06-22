@@ -38,8 +38,6 @@ export class UiInputComponent {
   readonly autocomplete: InputSignal<string> = input<string>('off');
   readonly error: InputSignal<string> = input<string>('');
   readonly touched: InputSignal<boolean> = input<boolean>(false);
-  readonly showPasswordAriaLabel: InputSignal<string> = input<string>('');
-  readonly hidePasswordAriaLabel: InputSignal<string> = input<string>('');
 
   readonly value: InputSignal<number | null> = input<number | null>(null);
   readonly min: InputSignal<number> = input<number>(0);
