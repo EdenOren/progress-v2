@@ -11,6 +11,7 @@ import type { LogEntryFormData } from '../../shared/components/log-entry-dialog/
 
 @Service({ autoProvided: false })
 export class DailyLogFacade {
+  private static readonly WEEK_LENGTH_DAYS: number = 6;
   private readonly authService: AuthService = inject(AuthService);
   private readonly dailyLogsService: DailyLogsService = inject(DailyLogsService);
   private readonly dialogService: DialogService = inject(DialogService);
@@ -24,9 +25,9 @@ export class DailyLogFacade {
   private readonly _weekResource: ResourceRef<Result<DailyLog[]> | undefined> = resource({
     params: () => ({ userId: this.authService.userId() }),
     loader: ({ params }) => {
-      const to = new Date();
-      const from = new Date();
-      from.setDate(from.getDate() - 6);
+      const to: Date = new Date();
+      const from: Date = new Date();
+      from.setDate(from.getDate() - DailyLogFacade.WEEK_LENGTH_DAYS);
       return this.dailyLogsService.getDailyLogsForRange(
         params.userId,
         this.formatDate(from),
@@ -81,6 +82,7 @@ export class DailyLogFacade {
   }
 
   private formatDate(date: Date): string {
-    return date.toISOString().split('T')[0];
+    const [dateString] = date.toISOString().split('T');
+    return dateString;
   }
 }

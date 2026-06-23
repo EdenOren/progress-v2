@@ -20,6 +20,7 @@ export class DailyLogComponent {
   }
 
   protected onLogToday(): void {
-    void this.facade.openLogDialog(new Date().toISOString().split('T')[0]);
+    const [today] = new Date().toISOString().split('T');
+    void this.facade.openLogDialog(today);
   }
 }
