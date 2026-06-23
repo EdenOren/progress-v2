@@ -16,6 +16,11 @@ import {
   ConfirmationDialogComponent,
   ConfirmationDialogData,
 } from '../components/confirmation-dialog/confirmation-dialog.component';
+import {
+  LogEntryDialogComponent,
+  LogEntryDialogData,
+  LogEntryFormData,
+} from '../components/log-entry-dialog/log-entry-dialog.component';
 
 interface DialogCloseable<T> {
   submitted: OutputEmitterRef<T>;
@@ -30,6 +35,7 @@ export class DialogService {
   open(type: DialogType.AddItem): Promise<string | undefined>;
   open(type: DialogType.CompleteSession, data: CompleteSessionDialogData): Promise<CompleteSessionResult | undefined>;
   open(type: DialogType.Confirmation, data: ConfirmationDialogData): Promise<boolean>;
+  open(type: DialogType.LogEntry, data: LogEntryDialogData): Promise<LogEntryFormData | undefined>;
   open(type: DialogType, data?: unknown): Promise<unknown> {
     switch (type) {
       case DialogType.CreateSubject:
@@ -46,6 +52,11 @@ export class DialogService {
         return this.openDialog<CompleteSessionResult>(
           CompleteSessionDialogComponent,
           { width: CompleteSessionDialogComponent.DIALOG_WIDTH, data },
+        );
+      case DialogType.LogEntry:
+        return this.openDialog<LogEntryFormData>(
+          LogEntryDialogComponent,
+          { width: LogEntryDialogComponent.DIALOG_WIDTH, data },
         );
       case DialogType.Confirmation: {
         const ref = this.matDialog.open<ConfirmationDialogComponent, ConfirmationDialogData, boolean>(

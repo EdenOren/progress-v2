@@ -66,22 +66,79 @@
 - [x] SubjectComponent — Start Workout button (play icon in header)
 - [x] en.json ENTRY section fully expanded
 
-## Phase 6 — Daily Log
-- [ ] 7-day log entries list
-- [ ] Log modal (Signal Forms)
+## Phase 6 — Daily Log ✓ (complete — branch: feature/6-daily-log)
+- [x] daily-log/daily-log.service.ts + daily-log/daily-log.model.ts — getDailyLogsForRange, upsertDailyLog, Zod ZodType<T> annotations
+- [x] en.json DAILY_LOG section + NAV.DAILY_LOG
+- [x] AppRoute.DailyLog, AppIcon.DailyLog, daily-log.svg icon
+- [x] 4th nav tab (Progress | Daily Log | KPI | Menu) in HomeFacade
+- [x] DailyLogComponent + DailyLogFacade (weekResource, computed signals)
+- [x] LogCardComponent (dumb: date + per-metric display, UiButton edit action)
+- [x] Lazy route under home shell children
+- [x] LogEntryDialogComponent (4 number inputs, pre-fills from existingEntry, create/edit title)
+- [x] DialogType.LogEntry + DialogService overload
+- [x] DailyLogFacade.openLogDialog() + upsertLog() + reload()
 
-## Phase 7 — Profile
-- [ ] Editable form (display name, DOB, height)
+## Phase 7 — Profile (branch: feature/7-profile)
 
-## Phase 8 — Goals
-- [ ] Health goals form (sleep, water, weight, waist targets)
+### Commit 1 — data layer
+- [ ] profiles.data.ts — getProfile, updateProfile + Zod schema (display_name, date_of_birth, height_cm)
+- [ ] en.json PROFILE section (keys only)
 
-## Phase 9 — KPI Dashboard
-- [ ] 2x2 grid of KPI cards
-- [ ] KPI calculations utility
+### Commit 2 — route + shell
+- [ ] ProfileComponent stub + ProfileFacade stub
+- [ ] Lazy route under shell children (menu tab area)
 
-## Phase 10 — Settings
-- [ ] Single flat page (weight unit, distance unit, unit system)
+### Commit 3 — profile form
+- [ ] ProfileFacade: profileResource, translation, updateProfile mutation
+- [ ] ProfileComponent: Signal Form (display name, DOB date picker, height input)
+- [ ] Save button with loading / success / error feedback
+
+## Phase 8 — Goals (branch: feature/8-goals)
+
+### Commit 1 — data layer
+- [ ] health-goals.data.ts — getHealthGoals, upsertHealthGoals + Zod schema
+- [ ] en.json GOALS section (keys only)
+
+### Commit 2 — route + shell
+- [ ] GoalsComponent stub + GoalsFacade stub
+- [ ] Lazy route under shell children
+
+### Commit 3 — goals form
+- [ ] GoalsFacade: goalsResource, translation, upsertGoals mutation
+- [ ] GoalsComponent: Signal Form (sleep target h, water target L, weight target kg, waist target cm)
+- [ ] Save with loading / success / error feedback
+
+## Phase 9 — KPI Dashboard (branch: feature/9-kpi)
+
+### Commit 1 — calculations utility
+- [ ] kpi.utils.ts — pure functions: avgSleep, avgWeight, avgWater, avgWaist (last 7 days vs targets)
+- [ ] Unit tests for each calculation function
+
+### Commit 2 — data + facade
+- [ ] KpiFacade: weekLogResource, healthGoalsResource, translation signal
+- [ ] Computed KPI values (delta vs goal, trend direction)
+
+### Commit 3 — KPI cards UI
+- [ ] KpiCardComponent (dumb): inputs label, value, unit, delta, trend
+- [ ] KpiComponent: 2×2 grid layout using KpiCardComponent
+- [ ] en.json KPI section
+- [ ] SCSS for card grid
+
+## Phase 10 — Settings (branch: feature/10-settings)
+
+### Commit 1 — data layer
+- [ ] user-settings.data.ts: updateWorkoutSettings (weight_unit, distance_unit) — already partially exists; extend if needed
+- [ ] SettingsRoute enum in core/enums/
+- [ ] en.json SETTINGS section (keys only)
+
+### Commit 2 — route + shell
+- [ ] SettingsComponent stub + SettingsFacade stub
+- [ ] Lazy route under shell children
+
+### Commit 3 — settings form
+- [ ] SettingsFacade: settingsResource, translation, saveSettings mutation
+- [ ] SettingsComponent: weight unit selector (kg/lb), distance unit selector (km/mi), unit system (metric/imperial)
+- [ ] Save on change (no submit button — auto-save pattern)
 
 ## Phase 11 — Security (future)
 - [ ] New device detection: user_sessions table (device fingerprint, IP, user-agent, timestamp) + Supabase Edge Function on auth sign_in hook

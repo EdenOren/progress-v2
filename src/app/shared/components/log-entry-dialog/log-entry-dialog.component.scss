@@ -1,0 +1,7 @@
+@use 'abstract/variables' as variables;
+
+.log-entry-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing-md;
+}

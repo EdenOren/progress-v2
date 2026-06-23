@@ -1,0 +1,27 @@
+<div class="daily-log">
+  @if (facade.isLoading()) {
+    <p class="daily-log__status">{{ facade.translation()['LOADING'] }}</p>
+  } @else if (facade.hasError()) {
+    <p class="daily-log__status daily-log__status--error">{{ facade.translation()['ERROR'] }}</p>
+  } @else if (facade.isEmpty()) {
+    <div class="daily-log__empty">
+      <p class="daily-log__empty-text">{{ facade.translation()['EMPTY'] }}</p>
+    </div>
+  } @else {
+    <ul class="daily-log__list">
+      @for (entry of facade.entries(); track entry.id) {
+        <li class="daily-log__list-item">
+          <app-log-card
+            [entry]="entry"
+            [translation]="facade.translation()"
+            (editClicked)="onEditEntry($event)" />
+        </li>
+      }
+    </ul>
+  }
+
+  <app-ui-button
+    class="daily-log__fab"
+    [label]="facade.translation()['LOG_TODAY']"
+    (click)="onLogToday()" />
+</div>

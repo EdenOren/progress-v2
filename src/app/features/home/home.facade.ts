@@ -21,6 +21,7 @@ interface TabConfig {
 
 const TABS: TabConfig[] = [
   { route: AppRoute.Progress, labelKey: 'PROGRESS', icon: AppIcon.Progress },
+  { route: AppRoute.DailyLog, labelKey: 'DAILY_LOG', icon: AppIcon.DailyLog },
   { route: AppRoute.Kpi, labelKey: 'KPI', icon: AppIcon.Kpi },
   { route: AppRoute.Menu, labelKey: 'MENU', icon: AppIcon.Menu },
 ];

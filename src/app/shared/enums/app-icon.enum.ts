@@ -1,5 +1,6 @@
 export enum AppIcon {
   Progress = '/assets/icons/progress.svg',
+  DailyLog = '/assets/icons/daily-log.svg',
   Kpi = '/assets/icons/kpi.svg',
   Menu = '/assets/icons/menu.svg',
   CheckCircle = '/assets/icons/check-circle.svg',

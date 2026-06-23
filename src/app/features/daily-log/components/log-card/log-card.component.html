@@ -1,0 +1,35 @@
+<div class="log-card">
+  <div class="log-card__body">
+    <span class="log-card__date">{{ entry().loggedDate | date: 'EEE, MMM d' }}</span>
+    <div class="log-card__metrics">
+      @if (entry().sleepHours !== null) {
+        <span class="log-card__metric">
+          <span class="log-card__metric-label">{{ translation()['SLEEP'] }}</span>
+          <span class="log-card__metric-value">{{ entry().sleepHours }}{{ translation()['SLEEP_UNIT'] }}</span>
+        </span>
+      }
+      @if (entry().weightKg !== null) {
+        <span class="log-card__metric">
+          <span class="log-card__metric-label">{{ translation()['WEIGHT'] }}</span>
+          <span class="log-card__metric-value">{{ entry().weightKg }}{{ translation()['WEIGHT_UNIT'] }}</span>
+        </span>
+      }
+      @if (entry().waterLiters !== null) {
+        <span class="log-card__metric">
+          <span class="log-card__metric-label">{{ translation()['WATER'] }}</span>
+          <span class="log-card__metric-value">{{ entry().waterLiters }}{{ translation()['WATER_UNIT'] }}</span>
+        </span>
+      }
+      @if (entry().waistCm !== null) {
+        <span class="log-card__metric">
+          <span class="log-card__metric-label">{{ translation()['WAIST'] }}</span>
+          <span class="log-card__metric-value">{{ entry().waistCm }}{{ translation()['WAIST_UNIT'] }}</span>
+        </span>
+      }
+    </div>
+  </div>
+  <app-ui-button
+    [label]="translation()['EDIT']"
+    [variant]="buttonVariant.Ghost"
+    (click)="onEdit()" />
+</div>
