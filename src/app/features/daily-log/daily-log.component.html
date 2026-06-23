@@ -20,11 +20,8 @@
     </ul>
   }
 
-  <button
+  <app-ui-button
     class="daily-log__fab"
-    [type]="buttonType.Button"
-    [attr.aria-label]="facade.translation()['LOG_TODAY']"
-    (click)="onLogToday()">
-    <mat-icon aria-hidden="true">add</mat-icon>
-  </button>
+    [label]="facade.translation()['LOG_TODAY']"
+    (click)="onLogToday()" />
 </div>

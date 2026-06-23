@@ -94,6 +94,7 @@
     "WEIGHT_UNIT": "kg",
     "WATER_UNIT": "L",
     "WAIST_UNIT": "cm",
+    "EDIT": "Edit",
     "DIALOG": {
       "TITLE_CREATE": "Log Entry",
       "TITLE_EDIT": "Edit Entry",

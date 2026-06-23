@@ -66,28 +66,17 @@
 - [x] SubjectComponent — Start Workout button (play icon in header)
 - [x] en.json ENTRY section fully expanded
 
-## Phase 6 — Daily Log (branch: feature/6-daily-log)
-
-### Commit 1 — data layer
-- [ ] daily-log.data.ts — getDailyLog, upsertDailyLog functions + Zod schemas
-- [ ] en.json DAILY_LOG section (keys only, placeholder values)
-
-### Commit 2 — route + shell
-- [ ] DailyLogRoute enum in core/enums/
-- [ ] DailyLogComponent stub (empty shell, no logic)
-- [ ] DailyLogFacade stub (@Service autoProvided: false)
-- [ ] Lazy route wired into app.routes.ts under shell children
-
-### Commit 3 — 7-day list
-- [ ] DailyLogFacade: weekResource (last 7 days), translation signal, computed day list
-- [ ] DailyLogComponent: render 7-day list (date, sleep h, weight kg, water L, waist cm)
-- [ ] Loading / empty / error states
-
-### Commit 4 — log modal
-- [ ] LogEntryDialogComponent: Signal Forms (sleep, weight, water, waist)
-- [ ] DailyLogFacade: openLogDialog(), upsertLog() mutation, reload after save
-- [ ] Trigger dialog from DailyLogComponent (FAB or "Log today" button)
-- [ ] en.json LOG_ENTRY_DIALOG section
+## Phase 6 — Daily Log ✓ (complete — branch: feature/6-daily-log)
+- [x] daily-log/daily-log.service.ts + daily-log/daily-log.model.ts — getDailyLogsForRange, upsertDailyLog, Zod ZodType<T> annotations
+- [x] en.json DAILY_LOG section + NAV.DAILY_LOG
+- [x] AppRoute.DailyLog, AppIcon.DailyLog, daily-log.svg icon
+- [x] 4th nav tab (Progress | Daily Log | KPI | Menu) in HomeFacade
+- [x] DailyLogComponent + DailyLogFacade (weekResource, computed signals)
+- [x] LogCardComponent (dumb: date + per-metric display, UiButton edit action)
+- [x] Lazy route under home shell children
+- [x] LogEntryDialogComponent (4 number inputs, pre-fills from existingEntry, create/edit title)
+- [x] DialogType.LogEntry + DialogService overload
+- [x] DailyLogFacade.openLogDialog() + upsertLog() + reload()
 
 ## Phase 7 — Profile (branch: feature/7-profile)
 

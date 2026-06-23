@@ -50,26 +50,7 @@
     position: absolute;
     right: variables.$spacing-md;
     bottom: variables.$spacing-lg;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 56px;
-    height: 56px;
-    border: none;
-    border-radius: variables.$radius-full;
-    background-color: var(--color-primary);
-    color: var(--color-text-inverse);
+    width: auto;
     box-shadow: variables.$shadow-lg;
-    cursor: pointer;
-    transition: background-color variables.$transition-fast;
-
-    &:focus-visible {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-    }
-
-    &:active {
-      background-color: var(--color-primary-dark);
-    }
   }
 }
