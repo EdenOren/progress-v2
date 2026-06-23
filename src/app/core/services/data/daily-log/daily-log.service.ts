@@ -1,13 +1,14 @@
 import { inject, Service } from '@angular/core';
 import { z } from 'zod';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { SupabaseService } from '../platform/supabase.service';
-import { mapSupabaseError } from '../../errors/error-mapper';
-import { ValidationError } from '../../errors/app-error';
-import { err, ok } from '../../types/result';
-import type { Result } from '../../types/result';
+import { SupabaseService } from '../../platform/supabase.service';
+import { mapSupabaseError } from '../../../errors/error-mapper';
+import { ValidationError } from '../../../errors/app-error';
+import { err, ok } from '../../../types/result';
+import type { Result } from '../../../types/result';
+import type { DailyLog, DailyLogRaw, UpsertDailyLogInput } from './daily-log.model';
 
-const dailyLogSchema = z.object({
+const dailyLogSchema: z.ZodType<DailyLogRaw> = z.object({
   id: z.string().uuid(),
   user_id: z.string().uuid(),
   logged_date: z.string(),
@@ -17,28 +18,7 @@ const dailyLogSchema = z.object({
   waist_cm: z.number().nullable(),
 });
 
-type DailyLogRaw = z.infer<typeof dailyLogSchema>;
-
-const dailyLogArraySchema = z.array(dailyLogSchema);
-
-export interface DailyLog {
-  id: string;
-  userId: string;
-  loggedDate: string;
-  sleepHours: number | null;
-  weightKg: number | null;
-  waterLiters: number | null;
-  waistCm: number | null;
-}
-
-export interface UpsertDailyLogInput {
-  userId: string;
-  loggedDate: string;
-  sleepHours: number | null;
-  weightKg: number | null;
-  waterLiters: number | null;
-  waistCm: number | null;
-}
+const dailyLogArraySchema: z.ZodType<DailyLogRaw[]> = z.array(dailyLogSchema);
 
 function mapDailyLog(raw: DailyLogRaw): DailyLog {
   return {

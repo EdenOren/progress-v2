@@ -2,8 +2,8 @@ import { computed, inject, resource, ResourceRef, Service, Signal } from '@angul
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/platform/auth.service';
-import { DailyLogsService } from '../../core/services/data/daily-log.service';
-import type { DailyLog } from '../../core/services/data/daily-log.service';
+import { DailyLogsService } from '../../core/services/data/daily-log/daily-log.service';
+import type { DailyLog } from '../../core/services/data/daily-log/daily-log.model';
 import type { Result } from '../../core/types/result';
 import { DialogService } from '../../shared/services/dialog.service';
 import { DialogType } from '../../shared/enums/dialog-type.enum';

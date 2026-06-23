@@ -1,15 +1,10 @@
 <div class="daily-log">
-  <header class="daily-log__header">
-    <h1 class="daily-log__title">{{ facade.translation()['TITLE'] }}</h1>
-  </header>
-
   @if (facade.isLoading()) {
     <p class="daily-log__status">{{ facade.translation()['LOADING'] }}</p>
   } @else if (facade.hasError()) {
     <p class="daily-log__status daily-log__status--error">{{ facade.translation()['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {
     <div class="daily-log__empty">
-      <mat-icon class="daily-log__empty-icon" aria-hidden="true">event_note</mat-icon>
       <p class="daily-log__empty-text">{{ facade.translation()['EMPTY'] }}</p>
     </div>
   } @else {
@@ -27,7 +22,7 @@
 
   <button
     class="daily-log__fab"
-    [type]="ButtonType.Button"
+    [type]="buttonType.Button"
     [attr.aria-label]="facade.translation()['LOG_TODAY']"
     (click)="onLogToday()">
     <mat-icon aria-hidden="true">add</mat-icon>

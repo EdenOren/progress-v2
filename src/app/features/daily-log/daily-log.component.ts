@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DailyLogFacade } from './daily-log.facade';
 import { LogCardComponent } from './components/log-card/log-card.component';
 import { ButtonType } from '../../shared/enums/button-type.enum';
-import type { DailyLog } from '../../core/services/data/daily-log.service';
+import type { DailyLog } from '../../core/services/data/daily-log/daily-log.model';
 
 @Component({
   selector: 'app-daily-log',
@@ -15,7 +15,7 @@ import type { DailyLog } from '../../core/services/data/daily-log.service';
 })
 export class DailyLogComponent {
   protected readonly facade: DailyLogFacade = inject(DailyLogFacade);
-  protected readonly ButtonType: typeof ButtonType = ButtonType;
+  protected readonly buttonType: typeof ButtonType = ButtonType;
 
   protected onEditEntry(entry: DailyLog): void {
     void this.facade.openLogDialog(entry.loggedDate, entry);

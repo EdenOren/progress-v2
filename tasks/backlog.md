@@ -66,22 +66,90 @@
 - [x] SubjectComponent — Start Workout button (play icon in header)
 - [x] en.json ENTRY section fully expanded
 
-## Phase 6 — Daily Log
-- [ ] 7-day log entries list
-- [ ] Log modal (Signal Forms)
+## Phase 6 — Daily Log (branch: feature/6-daily-log)
 
-## Phase 7 — Profile
-- [ ] Editable form (display name, DOB, height)
+### Commit 1 — data layer
+- [ ] daily-log.data.ts — getDailyLog, upsertDailyLog functions + Zod schemas
+- [ ] en.json DAILY_LOG section (keys only, placeholder values)
 
-## Phase 8 — Goals
-- [ ] Health goals form (sleep, water, weight, waist targets)
+### Commit 2 — route + shell
+- [ ] DailyLogRoute enum in core/enums/
+- [ ] DailyLogComponent stub (empty shell, no logic)
+- [ ] DailyLogFacade stub (@Service autoProvided: false)
+- [ ] Lazy route wired into app.routes.ts under shell children
 
-## Phase 9 — KPI Dashboard
-- [ ] 2x2 grid of KPI cards
-- [ ] KPI calculations utility
+### Commit 3 — 7-day list
+- [ ] DailyLogFacade: weekResource (last 7 days), translation signal, computed day list
+- [ ] DailyLogComponent: render 7-day list (date, sleep h, weight kg, water L, waist cm)
+- [ ] Loading / empty / error states
 
-## Phase 10 — Settings
-- [ ] Single flat page (weight unit, distance unit, unit system)
+### Commit 4 — log modal
+- [ ] LogEntryDialogComponent: Signal Forms (sleep, weight, water, waist)
+- [ ] DailyLogFacade: openLogDialog(), upsertLog() mutation, reload after save
+- [ ] Trigger dialog from DailyLogComponent (FAB or "Log today" button)
+- [ ] en.json LOG_ENTRY_DIALOG section
+
+## Phase 7 — Profile (branch: feature/7-profile)
+
+### Commit 1 — data layer
+- [ ] profiles.data.ts — getProfile, updateProfile + Zod schema (display_name, date_of_birth, height_cm)
+- [ ] en.json PROFILE section (keys only)
+
+### Commit 2 — route + shell
+- [ ] ProfileComponent stub + ProfileFacade stub
+- [ ] Lazy route under shell children (menu tab area)
+
+### Commit 3 — profile form
+- [ ] ProfileFacade: profileResource, translation, updateProfile mutation
+- [ ] ProfileComponent: Signal Form (display name, DOB date picker, height input)
+- [ ] Save button with loading / success / error feedback
+
+## Phase 8 — Goals (branch: feature/8-goals)
+
+### Commit 1 — data layer
+- [ ] health-goals.data.ts — getHealthGoals, upsertHealthGoals + Zod schema
+- [ ] en.json GOALS section (keys only)
+
+### Commit 2 — route + shell
+- [ ] GoalsComponent stub + GoalsFacade stub
+- [ ] Lazy route under shell children
+
+### Commit 3 — goals form
+- [ ] GoalsFacade: goalsResource, translation, upsertGoals mutation
+- [ ] GoalsComponent: Signal Form (sleep target h, water target L, weight target kg, waist target cm)
+- [ ] Save with loading / success / error feedback
+
+## Phase 9 — KPI Dashboard (branch: feature/9-kpi)
+
+### Commit 1 — calculations utility
+- [ ] kpi.utils.ts — pure functions: avgSleep, avgWeight, avgWater, avgWaist (last 7 days vs targets)
+- [ ] Unit tests for each calculation function
+
+### Commit 2 — data + facade
+- [ ] KpiFacade: weekLogResource, healthGoalsResource, translation signal
+- [ ] Computed KPI values (delta vs goal, trend direction)
+
+### Commit 3 — KPI cards UI
+- [ ] KpiCardComponent (dumb): inputs label, value, unit, delta, trend
+- [ ] KpiComponent: 2×2 grid layout using KpiCardComponent
+- [ ] en.json KPI section
+- [ ] SCSS for card grid
+
+## Phase 10 — Settings (branch: feature/10-settings)
+
+### Commit 1 — data layer
+- [ ] user-settings.data.ts: updateWorkoutSettings (weight_unit, distance_unit) — already partially exists; extend if needed
+- [ ] SettingsRoute enum in core/enums/
+- [ ] en.json SETTINGS section (keys only)
+
+### Commit 2 — route + shell
+- [ ] SettingsComponent stub + SettingsFacade stub
+- [ ] Lazy route under shell children
+
+### Commit 3 — settings form
+- [ ] SettingsFacade: settingsResource, translation, saveSettings mutation
+- [ ] SettingsComponent: weight unit selector (kg/lb), distance unit selector (km/mi), unit system (metric/imperial)
+- [ ] Save on change (no submit button — auto-save pattern)
 
 ## Phase 11 — Security (future)
 - [ ] New device detection: user_sessions table (device fingerprint, IP, user-agent, timestamp) + Supabase Edge Function on auth sign_in hook

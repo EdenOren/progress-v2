@@ -1,4 +1,4 @@
-<button class="log-card" [type]="ButtonType.Button" (click)="onEdit()">
+<button class="log-card" [type]="buttonType.Button" (click)="onEdit()">
   <span class="log-card__date">{{ entry().loggedDate | date: 'EEE, MMM d' }}</span>
   <div class="log-card__metrics">
     @if (entry().sleepHours !== null) {

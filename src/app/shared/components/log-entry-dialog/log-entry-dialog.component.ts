@@ -17,7 +17,7 @@ import { UiInputComponent } from '../ui-input/ui-input.component';
 import { UiModalComponent } from '../ui-modal/ui-modal.component';
 import { ButtonVariant } from '../../enums/button-variant.enum';
 import { InputType } from '../../enums/input-type.enum';
-import type { DailyLog } from '../../../core/services/data/daily-log.service';
+import type { DailyLog } from '../../../core/services/data/daily-log/daily-log.model';
 
 export interface LogEntryDialogData {
   date: string;
