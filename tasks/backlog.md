@@ -78,20 +78,15 @@
 - [x] DialogType.LogEntry + DialogService overload
 - [x] DailyLogFacade.openLogDialog() + upsertLog() + reload()
 
-## Phase 7 — Profile (branch: feature/7-profile)
-
-### Commit 1 — data layer
-- [ ] profiles.data.ts — getProfile, updateProfile + Zod schema (display_name, date_of_birth, height_cm)
-- [ ] en.json PROFILE section (keys only)
-
-### Commit 2 — route + shell
-- [ ] ProfileComponent stub + ProfileFacade stub
-- [ ] Lazy route under shell children (menu tab area)
-
-### Commit 3 — profile form
-- [ ] ProfileFacade: profileResource, translation, updateProfile mutation
-- [ ] ProfileComponent: Signal Form (display name, DOB date picker, height input)
-- [ ] Save button with loading / success / error feedback
+## Phase 7 — Profile ✓ (complete — branch: feature/7-profile)
+- [x] 013_expand_profiles.sql — ADD COLUMN date_of_birth DATE
+- [x] core/services/data/profile/profile.service.ts + profile.model.ts (ProfileRaw, Profile, UpdateProfileInput, mapProfile)
+- [x] en.json MENU + PROFILE sections
+- [x] AppRoute.Profile, lazy route under shell children
+- [x] MenuComponent — Profile navigation link
+- [x] ProfileFacade — _profileResource, translation, saveProfile(), saveSuccess/saveError signals
+- [x] ProfileComponent — Signal Form (displayName required, dateOfBirth), WritableSignal for heightCm, one-shot effect pre-fill, save feedback
+- [x] InputType.Date added to shared enum
 
 ## Phase 8 — Goals (branch: feature/8-goals)
 
