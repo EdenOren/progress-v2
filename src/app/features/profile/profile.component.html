@@ -1,0 +1,51 @@
+@if (facade.isLoading()) {
+  <p class="profile__loading">{{ facade.translation()['LOADING'] }}</p>
+} @else if (facade.hasError()) {
+  <p class="profile__error">{{ facade.translation()['LOAD_ERROR'] }}</p>
+} @else {
+  <form [formRoot]="profileForm" class="profile__form">
+    <app-ui-input
+      inputId="display-name"
+      [label]="facade.translation()['DISPLAY_NAME']"
+      [type]="inputType.Text"
+      [field]="profileForm.displayName"
+      [error]="displayNameError()"
+      [touched]="displayNameTouched()"
+    />
+
+    <app-ui-input
+      inputId="date-of-birth"
+      [label]="facade.translation()['DATE_OF_BIRTH']"
+      [type]="inputType.Date"
+      [field]="profileForm.dateOfBirth"
+    />
+
+    <app-ui-input
+      inputId="height"
+      [label]="facade.translation()['HEIGHT']"
+      [type]="inputType.Number"
+      [value]="heightCm()"
+      [min]="50"
+      [max]="300"
+      (valueChange)="onHeightChange($event)"
+    />
+
+    @if (facade.saveSuccess()) {
+      <p class="profile__feedback profile__feedback--success">
+        {{ facade.translation()['SAVE_SUCCESS'] }}
+      </p>
+    }
+    @if (facade.saveError()) {
+      <p class="profile__feedback profile__feedback--error">
+        {{ facade.translation()['SAVE_ERROR'] }}
+      </p>
+    }
+
+    <app-ui-button
+      [label]="facade.translation()['SAVE']"
+      [variant]="buttonVariant.Primary"
+      [isLoading]="facade.isLoading()"
+      (click)="onSave()"
+    />
+  </form>
+}
