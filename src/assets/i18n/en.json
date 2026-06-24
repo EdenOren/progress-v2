@@ -106,6 +106,14 @@
       "CANCEL": "Cancel"
     }
   },
+  "PROFILE": {
+    "DISPLAY_NAME": "Display name",
+    "DATE_OF_BIRTH": "Date of birth",
+    "HEIGHT": "Height (cm)",
+    "SAVE": "Save",
+    "SAVE_SUCCESS": "Profile saved",
+    "SAVE_ERROR": "Failed to save profile"
+  },
   "ENTRY": {
     "BACK": "Back",
     "FINISH": "Finish",
