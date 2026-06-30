@@ -10,9 +10,9 @@ import { TrackingType } from '../../../shared/enums/tracking-type.enum';
 import { FeedbackRating } from '../../../shared/enums/feedback-rating.enum';
 
 const itemSetSchema = z.object({
-  id: z.string().uuid(),
-  item_id: z.string().uuid(),
-  user_id: z.string().uuid(),
+  id: z.string(),
+  item_id: z.string(),
+  user_id: z.string(),
   set_index: z.number(),
   weight_kg: z.number().nullable(),
   reps: z.number().nullable(),
@@ -23,18 +23,18 @@ const itemSetSchema = z.object({
 });
 
 const itemFeedbackSchema = z.object({
-  id: z.string().uuid(),
-  item_id: z.string().uuid(),
-  user_id: z.string().uuid(),
+  id: z.string(),
+  item_id: z.string(),
+  user_id: z.string(),
   rating: z.nativeEnum(FeedbackRating),
   comment: z.string().nullable(),
   created_at: z.string(),
 });
 
 const sessionItemSchema = z.object({
-  id: z.string().uuid(),
-  entry_id: z.string().uuid(),
-  user_id: z.string().uuid(),
+  id: z.string(),
+  entry_id: z.string(),
+  user_id: z.string(),
   name: z.string(),
   position: z.number(),
   tracking_type: z.nativeEnum(TrackingType),
@@ -129,9 +129,9 @@ function mapSessionItem(raw: SessionItemRaw): SessionItem {
 }
 
 const itemSchema = z.object({
-  id: z.string().uuid(),
-  entry_id: z.string().uuid(),
-  user_id: z.string().uuid(),
+  id: z.string(),
+  entry_id: z.string(),
+  user_id: z.string(),
   name: z.string(),
   position: z.number(),
   tracking_type: z.nativeEnum(TrackingType),

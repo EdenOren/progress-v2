@@ -14,8 +14,8 @@ const workoutSettingsSchema = z.object({
 });
 
 const userSettingsSchema = z.object({
-  id: z.string().uuid(),
-  user_id: z.string().uuid(),
+  id: z.string(),
+  user_id: z.string(),
   module_settings: z.object({
     workout: workoutSettingsSchema.optional(),
   }).nullable(),

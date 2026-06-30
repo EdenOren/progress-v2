@@ -7,7 +7,7 @@ import { ValidationError } from '../../errors/app-error';
 import { err, ok } from '../../types/result';
 import type { Result } from '../../types/result';
 
-const domainIdSchema: z.ZodType<{ id: string }> = z.object({ id: z.string().uuid() });
+const domainIdSchema: z.ZodType<{ id: string }> = z.object({ id: z.string() });
 
 @Service()
 export class DomainsService {

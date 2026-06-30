@@ -9,7 +9,7 @@ import type { Result } from '../../../types/result';
 import type { Profile, ProfileRaw, UpdateProfileInput } from './profile.model';
 
 const profileSchema: z.ZodType<ProfileRaw> = z.object({
-  id: z.string().uuid(),
+  id: z.string(),
   display_name: z.string(),
   avatar_url: z.string().nullable(),
   height_cm: z.number().nullable(),
