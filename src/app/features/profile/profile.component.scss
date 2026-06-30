@@ -1,0 +1,29 @@
+@use 'abstract/colors' as colors;
+
+.profile {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  &__loading,
+  &__error {
+    padding: 16px;
+    text-align: center;
+  }
+
+  &__feedback {
+    font-size: 14px;
+    text-align: center;
+
+    &--success {
+      color: colors.$accent;
+    }
+
+    &--error {
+      color: colors.$error;
+    }
+  }
+}

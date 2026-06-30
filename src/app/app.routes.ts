@@ -41,6 +41,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/menu/menu.component').then((m) => m.MenuComponent),
       },
+      {
+        path: AppRoute.Profile,
+        loadComponent: () =>
+          import('./features/profile/profile.component').then((m) => m.ProfileComponent),
+      },
     ],
   },
   {
