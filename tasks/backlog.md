@@ -79,7 +79,7 @@
 - [x] DailyLogFacade.openLogDialog() + upsertLog() + reload()
 
 ## Phase 7 — Profile ✓ (complete — branch: feature/7-profile)
-- [x] 013_expand_profiles.sql — ADD COLUMN date_of_birth DATE
+- [x] date_of_birth DATE column — already exists in DB, no migration needed
 - [x] core/services/data/profile/profile.service.ts + profile.model.ts (ProfileRaw, Profile, UpdateProfileInput, mapProfile)
 - [x] en.json MENU + PROFILE sections
 - [x] AppRoute.Profile, lazy route under shell children
