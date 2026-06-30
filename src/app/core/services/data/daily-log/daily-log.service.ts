@@ -9,8 +9,8 @@ import type { Result } from '../../../types/result';
 import type { DailyLog, DailyLogRaw, UpsertDailyLogInput } from './daily-log.model';
 
 const dailyLogSchema: z.ZodType<DailyLogRaw> = z.object({
-  id: z.string().uuid(),
-  user_id: z.string().uuid(),
+  id: z.string(),
+  user_id: z.string(),
   logged_date: z.string(),
   sleep_hours: z.number().nullable(),
   weight_kg: z.number().nullable(),

@@ -8,9 +8,9 @@ import { err, ok } from '../../types/result';
 import type { Result } from '../../types/result';
 
 const subjectSchema = z.object({
-  id: z.string().uuid(),
-  user_id: z.string().uuid(),
-  domain_id: z.string().uuid(),
+  id: z.string(),
+  user_id: z.string(),
+  domain_id: z.string(),
   name: z.string(),
   description: z.string().nullable(),
   is_active: z.boolean(),

@@ -22,9 +22,9 @@ interface EntryRaw {
 }
 
 const entrySchema: z.ZodType<EntryRaw> = z.object({
-  id: z.string().uuid(),
-  user_id: z.string().uuid(),
-  subject_id: z.string().uuid(),
+  id: z.string(),
+  user_id: z.string(),
+  subject_id: z.string(),
   performed_at: z.string(),
   notes: z.string().nullable(),
   is_completed: z.boolean(),
