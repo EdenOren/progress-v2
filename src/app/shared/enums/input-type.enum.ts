@@ -3,5 +3,5 @@ export enum InputType {
   Email = 'email',
   Password = 'password',
   Number = 'number',
-  Date = 'date',
+  Date = 'date'
 }
