@@ -1,14 +1,76 @@
 @use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
 
 .home {
   display: flex;
   flex-direction: column;
   height: 100dvh;
 
+  @include mixins.respond-to(lg) {
+    flex-direction: row;
+  }
+
+  &__sidebar {
+    display: none;
+
+    @include mixins.respond-to(lg) {
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      width: 240px;
+      padding: variables.$spacing-md;
+      gap: variables.$spacing-xs;
+      background-color: var(--color-surface);
+      border-right: 1px solid var(--color-border);
+    }
+  }
+
+  &__sidebar-tab {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-sm;
+    padding: variables.$spacing-sm variables.$spacing-md;
+    border: none;
+    border-radius: variables.$radius-md;
+    background: transparent;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    transition: background-color variables.$transition-fast, color variables.$transition-fast;
+
+    &:hover {
+      background-color: var(--color-surface-alt);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    &--active {
+      color: var(--color-primary);
+      background-color: var(--color-surface-alt);
+    }
+  }
+
+  &__sidebar-tab-icon {
+    color: inherit;
+    flex-shrink: 0;
+  }
+
+  &__sidebar-tab-label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
   &__content {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
+
+    @include mixins.respond-to(lg) {
+      max-width: variables.$container-max-width;
+      margin-inline: auto;
+    }
   }
 
   &__nav {
@@ -18,6 +80,10 @@
     border-top: 1px solid var(--color-border);
     padding-bottom: env(safe-area-inset-bottom, 0);
     flex-shrink: 0;
+
+    @include mixins.respond-to(lg) {
+      display: none;
+    }
   }
 
   &__tab {

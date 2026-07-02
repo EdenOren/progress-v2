@@ -1,4 +1,17 @@
 <div class="home">
+  <nav class="home__sidebar" aria-label="Main navigation">
+    @for (tab of facade.tabs(); track tab.route) {
+      <button
+        class="home__sidebar-tab"
+        [class.home__sidebar-tab--active]="tab.isActive"
+        [type]="buttonType.Button"
+        (click)="navigate(tab.route)"
+        [attr.aria-current]="tab.isActive ? 'page' : null">
+        <app-ui-icon class="home__sidebar-tab-icon" [src]="tab.icon" aria-hidden="true" />
+        <span class="home__sidebar-tab-label">{{ tab.label }}</span>
+      </button>
+    }
+  </nav>
   <main class="home__content">
     <router-outlet />
   </main>
