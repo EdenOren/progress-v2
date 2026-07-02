@@ -1,4 +1,5 @@
 @use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
 
 .progress {
   display: flex;
@@ -24,8 +25,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    @include mixins.touch-target;
     border: none;
     border-radius: variables.$radius-full;
     background-color: var(--color-primary);
@@ -45,10 +45,17 @@
 
   &__list {
     list-style: none;
-    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: variables.$spacing-md;
+    padding: variables.$spacing-md;
     margin: 0;
     flex: 1;
     overflow-y: auto;
+
+    @include mixins.respond-to(md) {
+      grid-template-columns: repeat(auto-fill, minmax(variables.$card-grid-min, 1fr));
+    }
   }
 
   &__list-item {
@@ -81,6 +88,12 @@
     width: 48px;
     height: 48px;
     color: var(--color-text-muted);
+
+    @include mixins.respond-to(md) {
+      font-size: 64px;
+      width: 64px;
+      height: 64px;
+    }
   }
 
   &__empty-text {
