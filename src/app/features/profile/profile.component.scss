@@ -1,21 +1,22 @@
 @use 'abstract/colors' as colors;
+@use 'abstract/variables' as variables;
 
 .profile {
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 16px;
+    gap: variables.$spacing-md;
+    padding: variables.$spacing-md;
   }
 
   &__loading,
   &__error {
-    padding: 16px;
+    padding: variables.$spacing-md;
     text-align: center;
   }
 
   &__feedback {
-    font-size: 14px;
+    font-size: var(--text-sm);
     text-align: center;
 
     &--success {
