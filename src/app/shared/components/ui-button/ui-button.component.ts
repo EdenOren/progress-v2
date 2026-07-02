@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonType } from '../../enums/button-type.enum';
 import { ButtonVariant } from '../../enums/button-variant.enum';
+import { ButtonSize } from '../../enums/button-size.enum';
 
 @Component({
   selector: 'app-ui-button',
@@ -16,8 +17,10 @@ export class UiButtonComponent {
   readonly type: InputSignal<ButtonType> = input<ButtonType>(ButtonType.Button);
   readonly isLoading: InputSignal<boolean> = input<boolean>(false);
   readonly variant: InputSignal<ButtonVariant> = input<ButtonVariant>(ButtonVariant.Primary);
+  readonly size: InputSignal<ButtonSize> = input<ButtonSize>(ButtonSize.Md);
   readonly icon: InputSignal<string> = input<string>('');
   readonly color: InputSignal<string> = input<string>('');
 
   protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
+  protected readonly buttonSize: typeof ButtonSize = ButtonSize;
 }

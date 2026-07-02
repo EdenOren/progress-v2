@@ -11,6 +11,8 @@ import { map, switchMap } from 'rxjs';
     `
       :host {
         display: block;
+        width: 24px;
+        height: 24px;
       }
 
       span {
@@ -21,12 +23,17 @@ import { map, switchMap } from 'rxjs';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[style.width.px]': 'size()',
+    '[style.height.px]': 'size()',
+  },
 })
 export class UiIconComponent {
   private readonly http: HttpClient = inject(HttpClient);
   private readonly sanitizer: DomSanitizer = inject(DomSanitizer);
 
   readonly src: InputSignal<string> = input.required<string>();
+  readonly size: InputSignal<number | null> = input<number | null>(null);
 
   readonly svgContent: Signal<SafeHtml> = toSignal(
     toObservable(this.src).pipe(

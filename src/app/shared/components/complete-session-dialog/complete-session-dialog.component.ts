@@ -37,7 +37,6 @@ export interface CompleteSessionResult {
   imports: [UiModalComponent, UiButtonComponent, UiInputComponent, UiTextareaComponent],
 })
 export class CompleteSessionDialogComponent {
-  static readonly DIALOG_WIDTH: string = '360px';
   private static readonly SECONDS_PER_MINUTE: number = 60;
 
   protected readonly data: CompleteSessionDialogData = inject<CompleteSessionDialogData>(MAT_DIALOG_DATA);

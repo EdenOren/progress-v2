@@ -1,0 +1,6 @@
+@use 'abstract/variables' as variables;
+
+.app-dialog-panel {
+  width: calc(100vw - #{variables.$spacing-lg * 2});
+  max-width: variables.$dialog-max-width;
+}

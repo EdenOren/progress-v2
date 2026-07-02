@@ -18,7 +18,7 @@
   }
 
   &__number {
-    width: 64px;
+    width: clamp(48px, 15vw, 64px);
     padding: variables.$spacing-xs variables.$spacing-sm;
     border: 1px solid var(--color-border);
     border-radius: variables.$radius-sm;
@@ -41,7 +41,7 @@
     }
 
     &--compact {
-      width: 48px;
+      width: clamp(40px, 12vw, 48px);
     }
 
     &::-webkit-inner-spin-button,
