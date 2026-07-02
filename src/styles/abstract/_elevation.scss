@@ -1,0 +1,5 @@
+@use 'variables' as variables;
+
+$elevation-card: variables.$shadow-sm;
+$elevation-card-hover: variables.$shadow-md;
+$elevation-modal: variables.$shadow-lg;
