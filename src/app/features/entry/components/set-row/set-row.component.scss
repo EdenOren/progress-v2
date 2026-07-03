@@ -1,10 +1,11 @@
 @use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
 
 .set-row {
   display: flex;
   align-items: center;
   gap: variables.$spacing-sm;
-  padding: variables.$spacing-xs 0;
+  padding: variables.$spacing-sm 0;
 
   &__label {
     font-size: 12px;
@@ -36,8 +37,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    @include mixins.touch-target;
     border: none;
     background: transparent;
     cursor: pointer;

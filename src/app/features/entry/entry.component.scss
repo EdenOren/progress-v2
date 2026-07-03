@@ -1,4 +1,5 @@
 @use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
 
 .entry {
   display: flex;
@@ -12,15 +13,13 @@
     border-bottom: 1px solid var(--color-border);
     flex-shrink: 0;
     min-height: 56px;
-    position: relative;
   }
 
   &__back-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    @include mixins.touch-target;
     border: none;
     border-radius: variables.$radius-full;
     background: transparent;
@@ -40,9 +39,8 @@
   }
 
   &__timer {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    flex: 1;
+    text-align: center;
     font-size: 18px;
     font-weight: 700;
     color: var(--color-secondary);
