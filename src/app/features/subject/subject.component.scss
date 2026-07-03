@@ -1,4 +1,5 @@
 @use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
 
 .subject {
   display: flex;
@@ -21,8 +22,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    @include mixins.touch-target;
     border: none;
     border-radius: variables.$radius-full;
     background: transparent;
@@ -30,6 +30,10 @@
     color: var(--color-text-secondary);
     flex-shrink: 0;
     transition: background-color variables.$transition-fast;
+
+    &:hover {
+      background-color: var(--color-surface-alt);
+    }
 
     &:focus-visible {
       outline: 2px solid var(--color-primary);
@@ -64,12 +68,16 @@
 
   &__title {
     flex: 1;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--color-text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    @include mixins.respond-to(sm) {
+      font-size: 18px;
+    }
   }
 
   &__list {
