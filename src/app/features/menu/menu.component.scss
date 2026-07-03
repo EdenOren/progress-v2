@@ -1,3 +1,5 @@
+@use 'abstract/variables' as variables;
+
 .menu {
-  padding: 16px;
+  padding: variables.$spacing-md;
 }

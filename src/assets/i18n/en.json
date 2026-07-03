@@ -109,6 +109,9 @@
   "MENU": {
     "PROFILE": "Profile"
   },
+  "KPI": {
+    "COMING_SOON": "Your KPIs will show up here once you start logging."
+  },
   "PROFILE": {
     "LOADING": "Loading profile…",
     "LOAD_ERROR": "Failed to load profile",
