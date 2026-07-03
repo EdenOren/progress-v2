@@ -36,14 +36,13 @@ function mapDailyLog(raw: DailyLogRaw): DailyLog {
 export class DailyLogsService {
   private readonly supabase: SupabaseClient = inject(SupabaseService).client;
 
-  async getDailyLogsForRange(userId: string, from: string, to: string): Promise<Result<DailyLog[]>> {
+  async getRecentDailyLogs(userId: string, limit: number): Promise<Result<DailyLog[]>> {
     const { data, error } = await this.supabase
       .from('daily_log_entries')
       .select('*')
       .eq('user_id', userId)
-      .gte('logged_date', from)
-      .lte('logged_date', to)
-      .order('logged_date', { ascending: false });
+      .order('logged_date', { ascending: false })
+      .limit(limit);
     if (error) {
       return err(mapSupabaseError(error));
     }

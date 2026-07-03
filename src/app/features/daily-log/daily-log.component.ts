@@ -20,7 +20,10 @@ export class DailyLogComponent {
   }
 
   protected onLogToday(): void {
-    const [today] = new Date().toISOString().split('T');
-    void this.facade.openLogDialog(today);
+    const now: Date = new Date();
+    const year: number = now.getFullYear();
+    const month: string = String(now.getMonth() + 1).padStart(2, '0');
+    const day: string = String(now.getDate()).padStart(2, '0');
+    void this.facade.openLogDialog(`${year}-${month}-${day}`);
   }
 }
