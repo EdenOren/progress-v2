@@ -88,6 +88,49 @@
 - [x] ProfileComponent — Signal Form (displayName required, dateOfBirth), WritableSignal for heightCm, one-shot effect pre-fill, save feedback
 - [x] InputType.Date added to shared enum
 
+## Phase DR-1 — Design Tokens (branch: refactor/design-tokens)
+- [ ] _typography.scss — leading-tight/leading-snug tokens, h1-h4 element rules
+- [ ] _variables.scss — $touch-target-min, $dialog-max-width, $container-max-width, $card-grid-min
+- [ ] New _elevation.scss — $elevation-card/-card-hover/-modal wrapping existing $shadow-*
+- [ ] _mixins.scss — touch-target mixin
+
+## Phase DR-2 — Shared Components (branch: refactor/shared-components)
+- [ ] ui-button — ButtonSize enum (Sm/Md), touch-target mixin on icon-only/ghost, CSS spinner loading state
+- [ ] ui-icon — size InputSignal (default 24)
+- [ ] ui-input / ui-textarea — responsive number-input width, textarea font-size fix
+- [ ] dialog.service.ts — shared DEFAULT_DIALOG_CONFIG (maxWidth 92vw, shared panelClass)
+- [ ] New global _dialog.scss — responsive dialog width via panelClass, capped at $dialog-max-width
+- [ ] confirmation-dialog — fix template/SCSS BEM class mismatch
+- [ ] Remove per-dialog DIALOG_WIDTH constants (all 5 dialogs)
+
+## Phase DR-3 — App Shell Nav (branch: refactor/app-shell-nav)
+- [ ] home.component — desktop sidebar rail (≥1024px) alongside existing bottom nav
+- [ ] Bottom nav hidden at lg via respond-to mixin; content max-width container at lg
+
+## Phase DR-4 — Progress Dashboard (branch: refactor/progress-dashboard)
+- [ ] progress.component — responsive card grid (1 col mobile, auto-fill md+), elevation tokens
+- [ ] Empty-state icon scales up at md+
+
+## Phase DR-5 — Daily Log Redesign (branch: refactor/daily-log)
+- [ ] Row min-height to $touch-target-min, text size bump at md+
+- [ ] FAB repositioned using env(safe-area-inset-bottom)
+
+## Phase DR-6 — Entry/Session Redesign (branch: refactor/entry-session)
+- [ ] Header timer un-absolutely-positioned (flex space-between)
+- [ ] Set-row responsive input width, touch-target mixin on delete/remove buttons
+- [ ] Row padding bump, feedback buttons min-height
+
+## Phase DR-7 — Subject Redesign (branch: refactor/subject)
+- [ ] Header buttons touch-target mixin + contrast fix
+- [ ] Responsive title font-size step-down, entry-card min-height + hover feedback
+
+## Phase DR-8 — Menu/KPI Shell Restyle (branch: refactor/menu-kpi-shell)
+- [ ] Menu — tokenized spacing, new ButtonSize on Profile button
+- [ ] KPI — replace `<p>KPI</p>` stub with proper empty-state (icon + KPI.COMING_SOON), matching Progress empty-state pattern
+
+## Phase DR-9 — Profile Pass (branch: refactor/profile-pass)
+- [ ] Verify/adjust spacing to tokens, save button adopts new ButtonSize
+
 ## Phase 8 — Goals (branch: feature/8-goals)
 
 ### Commit 1 — data layer
