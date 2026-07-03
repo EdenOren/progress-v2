@@ -37,8 +37,6 @@ interface CreateSubjectModel {
   imports: [UiModalComponent, UiButtonComponent, FormRoot, UiInputComponent],
 })
 export class CreateSubjectDialogComponent {
-  static readonly DIALOG_WIDTH: string = '360px';
-
   private readonly translateService: TranslateService = inject(TranslateService);
 
   protected readonly inputType: typeof InputType = InputType;

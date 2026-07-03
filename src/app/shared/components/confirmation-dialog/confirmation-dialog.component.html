@@ -1,7 +1,7 @@
 <app-ui-modal>
-  <span slot="title">{{ data.title }}</span>
+  <span slot="title" class="confirmation-dialog__title">{{ data.title }}</span>
   <p slot="content" class="confirmation-dialog__message">{{ data.message }}</p>
-  <div slot="actions">
+  <div slot="actions" class="confirmation-dialog__actions">
     <app-ui-button
       [label]="data.cancelLabel"
       [variant]="buttonVariant.Ghost"

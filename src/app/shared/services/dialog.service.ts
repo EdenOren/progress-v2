@@ -27,6 +27,10 @@ interface DialogCloseable<T> {
   closed: OutputEmitterRef<void>;
 }
 
+const DEFAULT_DIALOG_CONFIG: MatDialogConfig = {
+  panelClass: 'app-dialog-panel',
+};
+
 @Service()
 export class DialogService {
   private readonly matDialog: MatDialog = inject(MatDialog);
@@ -39,29 +43,17 @@ export class DialogService {
   open(type: DialogType, data?: unknown): Promise<unknown> {
     switch (type) {
       case DialogType.CreateSubject:
-        return this.openDialog<CreateSubjectFormData>(
-          CreateSubjectDialogComponent,
-          { width: CreateSubjectDialogComponent.DIALOG_WIDTH },
-        );
+        return this.openDialog<CreateSubjectFormData>(CreateSubjectDialogComponent);
       case DialogType.AddItem:
-        return this.openDialog<string>(
-          AddItemDialogComponent,
-          { width: AddItemDialogComponent.DIALOG_WIDTH },
-        );
+        return this.openDialog<string>(AddItemDialogComponent);
       case DialogType.CompleteSession:
-        return this.openDialog<CompleteSessionResult>(
-          CompleteSessionDialogComponent,
-          { width: CompleteSessionDialogComponent.DIALOG_WIDTH, data },
-        );
+        return this.openDialog<CompleteSessionResult>(CompleteSessionDialogComponent, { data });
       case DialogType.LogEntry:
-        return this.openDialog<LogEntryFormData>(
-          LogEntryDialogComponent,
-          { width: LogEntryDialogComponent.DIALOG_WIDTH, data },
-        );
+        return this.openDialog<LogEntryFormData>(LogEntryDialogComponent, { data });
       case DialogType.Confirmation: {
         const ref = this.matDialog.open<ConfirmationDialogComponent, ConfirmationDialogData, boolean>(
           ConfirmationDialogComponent,
-          { width: ConfirmationDialogComponent.DIALOG_WIDTH, data: data as ConfirmationDialogData },
+          { ...DEFAULT_DIALOG_CONFIG, data: data as ConfirmationDialogData },
         );
         ref.componentInstance.submitted.subscribe(() => ref.close(true));
         ref.componentInstance.closed.subscribe(() => ref.close(false));
@@ -74,7 +66,7 @@ export class DialogService {
     component: Type<DialogCloseable<T>>,
     config: MatDialogConfig = {},
   ): Promise<T | undefined> {
-    const ref = this.matDialog.open(component, config);
+    const ref = this.matDialog.open(component, { ...DEFAULT_DIALOG_CONFIG, ...config });
     const instance = ref.componentInstance;
     instance.submitted.subscribe((value: T) => ref.close(value));
     instance.closed.subscribe(() => ref.close(undefined));

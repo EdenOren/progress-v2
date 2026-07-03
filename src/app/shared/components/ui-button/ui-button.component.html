@@ -14,10 +14,12 @@
     <button
       class="ui-button"
       [class.ui-button--google]="variant() === buttonVariant.Google"
-      [class.ui-button--loading]="isLoading()"
+      [class.ui-button--sm]="size() === buttonSize.Sm"
       [type]="type()"
       [disabled]="isLoading()">
-      @if (icon()) {
+      @if (isLoading()) {
+        <span class="ui-button__spinner" aria-hidden="true"></span>
+      } @else if (icon()) {
         <mat-icon aria-hidden="true">{{ icon() }}</mat-icon>
       }
       {{ label() }}

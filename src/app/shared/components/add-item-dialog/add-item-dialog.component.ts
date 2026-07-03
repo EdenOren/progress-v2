@@ -31,8 +31,6 @@ interface AddItemModel {
   imports: [UiModalComponent, UiButtonComponent, FormRoot, UiInputComponent],
 })
 export class AddItemDialogComponent {
-  static readonly DIALOG_WIDTH: string = '360px';
-
   private readonly translateService: TranslateService = inject(TranslateService);
 
   protected readonly inputType: typeof InputType = InputType;

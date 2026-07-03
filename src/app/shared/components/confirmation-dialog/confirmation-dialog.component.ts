@@ -19,8 +19,6 @@ export interface ConfirmationDialogData {
   imports: [UiModalComponent, UiButtonComponent],
 })
 export class ConfirmationDialogComponent {
-  static readonly DIALOG_WIDTH: string = '320px';
-
   protected readonly data: ConfirmationDialogData = inject<ConfirmationDialogData>(MAT_DIALOG_DATA);
   protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
 

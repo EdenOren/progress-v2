@@ -40,8 +40,6 @@ export interface LogEntryFormData {
   imports: [UiModalComponent, UiButtonComponent, UiInputComponent],
 })
 export class LogEntryDialogComponent {
-  static readonly DIALOG_WIDTH: string = '360px';
-
   protected readonly data: LogEntryDialogData = inject<LogEntryDialogData>(MAT_DIALOG_DATA);
   private readonly translateService: TranslateService = inject(TranslateService);
 
