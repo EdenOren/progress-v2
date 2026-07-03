@@ -17,7 +17,30 @@
       "LOADING": "Signing in…",
       "GOOGLE_BUTTON": "Continue with Google",
       "NO_ACCOUNT": "Don't have an account?",
-      "SIGNUP_LINK": "Create one"
+      "SIGNUP_LINK": "Create one",
+      "FORGOT_PASSWORD_LINK": "Forgot password?"
+    },
+    "FORGOT_PASSWORD": {
+      "TITLE": "Forgot your password?",
+      "SUBTITLE": "Enter your email and we'll send you a reset link",
+      "EMAIL_LABEL": "Email address",
+      "EMAIL_PLACEHOLDER": "you@example.com",
+      "SUBMIT_BUTTON": "Send reset link",
+      "LOADING": "Sending…",
+      "SUCCESS": "Check your email for a reset link.",
+      "BACK_TO_LOGIN": "Back to sign in"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Reset your password",
+      "SUBTITLE": "Enter your new password",
+      "PASSWORD_LABEL": "New password",
+      "PASSWORD_PLACEHOLDER": "Min. 8 characters",
+      "CONFIRM_PASSWORD_LABEL": "Confirm password",
+      "CONFIRM_PASSWORD_PLACEHOLDER": "Re-enter password",
+      "SUBMIT_BUTTON": "Update password",
+      "LOADING": "Updating…",
+      "INVALID_LINK": "This reset link has expired or is invalid.",
+      "REQUEST_NEW_LINK": "Request a new link"
     },
     "SIGNUP": {
       "TITLE": "Create your account",
