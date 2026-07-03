@@ -108,10 +108,23 @@
     }
   },
   "MENU": {
-    "PROFILE": "Profile"
+    "PROFILE": "Profile",
+    "SETTINGS": "Settings"
   },
   "KPI": {
     "COMING_SOON": "Your KPIs will show up here once you start logging."
+  },
+  "SETTINGS": {
+    "LOADING": "Loading settings…",
+    "LOAD_ERROR": "Failed to load settings",
+    "WEIGHT_UNIT_LABEL": "Weight unit",
+    "WEIGHT_UNIT_KG": "kg",
+    "WEIGHT_UNIT_LB": "lb",
+    "DISTANCE_UNIT_LABEL": "Distance unit",
+    "DISTANCE_UNIT_KM": "km",
+    "DISTANCE_UNIT_MILES": "mi",
+    "SAVE_SUCCESS": "Settings saved",
+    "SAVE_ERROR": "Failed to save settings"
   },
   "PROFILE": {
     "LOADING": "Loading profile…",
