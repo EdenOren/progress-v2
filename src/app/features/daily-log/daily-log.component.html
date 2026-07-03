@@ -1,4 +1,7 @@
 <div class="daily-log">
+  @if (facade.saveError()) {
+    <p class="daily-log__status daily-log__status--error">{{ facade.translation()['SAVE_ERROR'] }}</p>
+  }
   @if (facade.isLoading()) {
     <p class="daily-log__status">{{ facade.translation()['LOADING'] }}</p>
   } @else if (facade.hasError()) {

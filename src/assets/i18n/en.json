@@ -95,6 +95,7 @@
     "WATER_UNIT": "L",
     "WAIST_UNIT": "cm",
     "EDIT": "Edit",
+    "SAVE_ERROR": "Failed to save entry. Please try again.",
     "DIALOG": {
       "TITLE_CREATE": "Log Entry",
       "TITLE_EDIT": "Edit Entry",

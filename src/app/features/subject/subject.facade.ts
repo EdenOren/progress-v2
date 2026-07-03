@@ -133,7 +133,11 @@ export class SubjectFacade {
       return;
     }
     this._isStartingWorkout.set(true);
-    const today = new Date().toISOString().slice(0, 10);
+    const now: Date = new Date();
+    const year: number = now.getFullYear();
+    const month: string = String(now.getMonth() + 1).padStart(2, '0');
+    const day: string = String(now.getDate()).padStart(2, '0');
+    const today: string = `${year}-${month}-${day}`;
     const result = await this.entriesService.createEntry({
       userId,
       subjectId,

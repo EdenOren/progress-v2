@@ -12,8 +12,8 @@
 - [x] i18n en.json
 
 ## Phase 1 — DB Migrations (user runs these on Supabase)
-- [ ] 012_expand_daily_log.sql — add water_intake_liters, waist_cm to daily_log_entries
-- [ ] 013_expand_profiles.sql — add date_of_birth DATE to profiles
+- [x] 012_expand_daily_log.sql — water_intake_liters, waist_cm confirmed present on daily_log_entries
+- [x] 013_expand_profiles.sql — date_of_birth confirmed present on profiles
 - [ ] 014_health_goals.sql — create health_goals table + RLS
 - [ ] 015_simplify_settings.sql — drop active_module constraint
 
@@ -88,48 +88,54 @@
 - [x] ProfileComponent — Signal Form (displayName required, dateOfBirth), WritableSignal for heightCm, one-shot effect pre-fill, save feedback
 - [x] InputType.Date added to shared enum
 
-## Phase DR-1 — Design Tokens (branch: refactor/design-tokens)
-- [ ] _typography.scss — leading-tight/leading-snug tokens, h1-h4 element rules
-- [ ] _variables.scss — $touch-target-min, $dialog-max-width, $container-max-width, $card-grid-min
-- [ ] New _elevation.scss — $elevation-card/-card-hover/-modal wrapping existing $shadow-*
-- [ ] _mixins.scss — touch-target mixin
+## Phase DR-1 — Design Tokens ✓ (complete — branch: refactor/design-tokens, merged PR #12)
+- [x] _typography.scss — leading-tight/leading-snug tokens, h1-h4 element rules
+- [x] _variables.scss — $touch-target-min, $dialog-max-width, $container-max-width, $card-grid-min
+- [x] New _elevation.scss — $elevation-card/-card-hover/-modal wrapping existing $shadow-*
+- [x] _mixins.scss — touch-target mixin
 
-## Phase DR-2 — Shared Components (branch: refactor/shared-components)
-- [ ] ui-button — ButtonSize enum (Sm/Md), touch-target mixin on icon-only/ghost, CSS spinner loading state
-- [ ] ui-icon — size InputSignal (default 24)
-- [ ] ui-input / ui-textarea — responsive number-input width, textarea font-size fix
-- [ ] dialog.service.ts — shared DEFAULT_DIALOG_CONFIG (maxWidth 92vw, shared panelClass)
-- [ ] New global _dialog.scss — responsive dialog width via panelClass, capped at $dialog-max-width
-- [ ] confirmation-dialog — fix template/SCSS BEM class mismatch
-- [ ] Remove per-dialog DIALOG_WIDTH constants (all 5 dialogs)
+## Phase DR-2 — Shared Components ✓ (complete — branch: refactor/shared-components, merged PR #13)
+- [x] ui-button — ButtonSize enum (Sm/Md), touch-target mixin on icon-only/ghost, CSS spinner loading state
+- [x] ui-icon — size InputSignal (default 24)
+- [x] ui-input / ui-textarea — responsive number-input width, textarea font-size fix
+- [x] dialog.service.ts — shared DEFAULT_DIALOG_CONFIG (shared panelClass)
+- [x] New global _dialog.scss — responsive dialog width via panelClass, capped at $dialog-max-width
+- [x] confirmation-dialog — fix template/SCSS BEM class mismatch
+- [x] Remove per-dialog DIALOG_WIDTH constants (all 5 dialogs)
 
-## Phase DR-3 — App Shell Nav (branch: refactor/app-shell-nav)
-- [ ] home.component — desktop sidebar rail (≥1024px) alongside existing bottom nav
-- [ ] Bottom nav hidden at lg via respond-to mixin; content max-width container at lg
+## Phase DR-3 — App Shell Nav ✓ (complete — branch: refactor/app-shell-nav, merged PR #14)
+- [x] home.component — desktop sidebar rail (≥1024px) alongside existing bottom nav
+- [x] Bottom nav hidden at lg via respond-to mixin; content max-width container at lg
 
-## Phase DR-4 — Progress Dashboard (branch: refactor/progress-dashboard)
-- [ ] progress.component — responsive card grid (1 col mobile, auto-fill md+), elevation tokens
-- [ ] Empty-state icon scales up at md+
+## Phase DR-4 — Progress Dashboard ✓ (complete — branch: refactor/progress-dashboard, merged PR #15)
+- [x] progress.component — responsive card grid (1 col mobile, auto-fill md+), elevation tokens
+- [x] Empty-state icon scales up at md+
 
-## Phase DR-5 — Daily Log Redesign (branch: refactor/daily-log)
-- [ ] Row min-height to $touch-target-min, text size bump at md+
-- [ ] FAB repositioned using env(safe-area-inset-bottom)
+## Phase DR-5 — Daily Log Redesign ✓ (complete — branch: refactor/daily-log, merged PR #16)
+- [x] Row min-height to $touch-target-min, text size bump at md+
+- [x] FAB repositioned using env(safe-area-inset-bottom)
 
-## Phase DR-6 — Entry/Session Redesign (branch: refactor/entry-session)
-- [ ] Header timer un-absolutely-positioned (flex space-between)
-- [ ] Set-row responsive input width, touch-target mixin on delete/remove buttons
-- [ ] Row padding bump, feedback buttons min-height
+## Phase DR-6 — Entry/Session Redesign ✓ (complete — branch: refactor/entry-session, merged PR #17)
+- [x] Header timer un-absolutely-positioned (flex space-between)
+- [x] Set-row responsive input width, touch-target mixin on delete/remove buttons
+- [x] Row padding bump, feedback buttons min-height
 
-## Phase DR-7 — Subject Redesign (branch: refactor/subject)
-- [ ] Header buttons touch-target mixin + contrast fix
-- [ ] Responsive title font-size step-down, entry-card min-height + hover feedback
+## Phase DR-7 — Subject Redesign ✓ (complete — branch: refactor/subject, merged PR #18)
+- [x] Header buttons touch-target mixin + contrast fix
+- [x] Responsive title font-size step-down, entry-card min-height + hover feedback
 
-## Phase DR-8 — Menu/KPI Shell Restyle (branch: refactor/menu-kpi-shell)
-- [ ] Menu — tokenized spacing, new ButtonSize on Profile button
-- [ ] KPI — replace `<p>KPI</p>` stub with proper empty-state (icon + KPI.COMING_SOON), matching Progress empty-state pattern
+## Phase DR-8 — Menu/KPI Shell Restyle ✓ (complete — branch: refactor/menu-kpi-shell, merged PR #19)
+- [x] Menu — tokenized spacing, new ButtonSize on Profile button
+- [x] KPI — replace `<p>KPI</p>` stub with proper empty-state (icon + KPI.COMING_SOON), matching Progress empty-state pattern
 
-## Phase DR-9 — Profile Pass (branch: refactor/profile-pass)
-- [ ] Verify/adjust spacing to tokens, save button adopts new ButtonSize
+## Phase DR-9 — Profile Pass ✓ (complete — branch: refactor/profile-pass, merged PR #20)
+- [x] Verify/adjust spacing to tokens, save button adopts new ButtonSize
+
+## Phase DR-10 — Daily Log Bug Fixes (branch: bugfix/21-daily-log-fixes, PR #21 open)
+- [x] Fixed last-7-calendar-days query → last-7-entries query (entries with gaps were hidden)
+- [x] Fixed UTC-vs-local-date bug in "today" calculation (daily-log + subject.facade startWorkout)
+- [x] Daily log save failures now surface a visible error instead of failing silently
+- [x] Subject cards render uniform size regardless of description length
 
 ## Phase 8 — Goals (branch: feature/8-goals)
 

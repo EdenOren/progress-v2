@@ -1,9 +1,7 @@
 <button class="subject-card" [type]="ButtonType.Button" (click)="select()">
   <div class="subject-card__body">
     <span class="subject-card__name">{{ subject().name }}</span>
-    @if (subject().description) {
-      <span class="subject-card__description">{{ subject().description }}</span>
-    }
+    <span class="subject-card__description">{{ subject().description }}</span>
   </div>
   <app-ui-icon class="subject-card__chevron" [src]="appIcon.ChevronRight" aria-hidden="true" />
 </button>

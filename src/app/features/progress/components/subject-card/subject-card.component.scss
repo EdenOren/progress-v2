@@ -47,6 +47,7 @@
 
   &__description {
     font-size: 13px;
+    min-height: 1em;
     color: var(--color-text-secondary);
     white-space: nowrap;
     overflow: hidden;

@@ -1,4 +1,13 @@
-import { computed, inject, resource, ResourceRef, Service, Signal } from '@angular/core';
+import {
+  computed,
+  inject,
+  resource,
+  ResourceRef,
+  Service,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/platform/auth.service';
@@ -11,7 +20,7 @@ import type { LogEntryFormData } from '../../shared/components/log-entry-dialog/
 
 @Service({ autoProvided: false })
 export class DailyLogFacade {
-  private static readonly WEEK_LENGTH_DAYS: number = 6;
+  private static readonly RECENT_ENTRIES_LIMIT: number = 7;
   private readonly authService: AuthService = inject(AuthService);
   private readonly dailyLogsService: DailyLogsService = inject(DailyLogsService);
   private readonly dialogService: DialogService = inject(DialogService);
@@ -22,29 +31,21 @@ export class DailyLogFacade {
     { initialValue: {} as Record<string, string> },
   );
 
-  private readonly _weekResource: ResourceRef<Result<DailyLog[]> | undefined> = resource({
+  private readonly _recentEntriesResource: ResourceRef<Result<DailyLog[]> | undefined> = resource({
     params: () => ({ userId: this.authService.userId() }),
-    loader: ({ params }) => {
-      const to: Date = new Date();
-      const from: Date = new Date();
-      from.setDate(from.getDate() - DailyLogFacade.WEEK_LENGTH_DAYS);
-      return this.dailyLogsService.getDailyLogsForRange(
-        params.userId,
-        this.formatDate(from),
-        this.formatDate(to),
-      );
-    },
+    loader: ({ params }) =>
+      this.dailyLogsService.getRecentDailyLogs(params.userId, DailyLogFacade.RECENT_ENTRIES_LIMIT),
   });
 
-  readonly isLoading: Signal<boolean> = computed(() => this._weekResource.isLoading());
+  readonly isLoading: Signal<boolean> = computed(() => this._recentEntriesResource.isLoading());
 
   readonly hasError: Signal<boolean> = computed(() => {
-    const result = this._weekResource.value();
+    const result = this._recentEntriesResource.value();
     return !!result && !result.success;
   });
 
   readonly entries: Signal<DailyLog[]> = computed(() => {
-    const result = this._weekResource.value();
+    const result = this._recentEntriesResource.value();
     if (!result?.success) {
       return [];
     }
@@ -66,7 +67,12 @@ export class DailyLogFacade {
     await this.upsertLog(formData);
   }
 
+  private readonly _saveError: WritableSignal<boolean> = signal(false);
+
+  readonly saveError: Signal<boolean> = this._saveError;
+
   private async upsertLog(formData: LogEntryFormData): Promise<void> {
+    this._saveError.set(false);
     const result: Result<DailyLog> = await this.dailyLogsService.upsertDailyLog({
       userId: this.authService.userId(),
       loggedDate: formData.loggedDate,
@@ -76,13 +82,9 @@ export class DailyLogFacade {
       waistCm: formData.waistCm,
     });
     if (!result.success) {
+      this._saveError.set(true);
       return;
     }
-    this._weekResource.reload();
-  }
-
-  private formatDate(date: Date): string {
-    const [dateString] = date.toISOString().split('T');
-    return dateString;
+    this._recentEntriesResource.reload();
   }
 }
