@@ -26,7 +26,7 @@
 - [x] en.json AUTH section (login, signup, callback, validation, error)
 - [x] Auth refactor: AuthRoute → core/enums, form in component, shared UI components (UiInput, UiButton, UiLink), stream-based i18n
 
-## Phase 2b — Auth Extensions
+## Phase 2b — Auth Extensions — PRIORITY
 - [ ] Forgot password flow: ForgotPasswordComponent (/auth/forgot-password) — calls supabase.auth.resetPasswordForEmail()
 - [ ] Reset password page: ResetPasswordComponent (/auth/reset-password) — receives token from email link, calls supabase.auth.updateUser({ password })
 - [ ] AuthRoute enum entries: ForgotPassword, ResetPassword
@@ -137,7 +137,7 @@
 - [x] Daily log save failures now surface a visible error instead of failing silently
 - [x] Subject cards render uniform size regardless of description length
 
-## Phase 8 — Goals (branch: feature/8-goals)
+## Phase 8 — Goals — ON HOLD (branch: feature/8-goals)
 
 ### Commit 1 — data layer
 - [ ] health-goals.data.ts — getHealthGoals, upsertHealthGoals + Zod schema
@@ -152,7 +152,7 @@
 - [ ] GoalsComponent: Signal Form (sleep target h, water target L, weight target kg, waist target cm)
 - [ ] Save with loading / success / error feedback
 
-## Phase 9 — KPI Dashboard (branch: feature/9-kpi)
+## Phase 9 — KPI Dashboard — ON HOLD (branch: feature/9-kpi)
 
 ### Commit 1 — calculations utility
 - [ ] kpi.utils.ts — pure functions: avgSleep, avgWeight, avgWater, avgWaist (last 7 days vs targets)
@@ -168,23 +168,24 @@
 - [ ] en.json KPI section
 - [ ] SCSS for card grid
 
-## Phase 10 — Settings (branch: feature/10-settings)
+## Phase 10 — Settings ✓ (complete — branch: feature/10-settings)
 
 ### Commit 1 — data layer
-- [ ] user-settings.data.ts: updateWorkoutSettings (weight_unit, distance_unit) — already partially exists; extend if needed
-- [ ] SettingsRoute enum in core/enums/
-- [ ] en.json SETTINGS section (keys only)
+- [x] user-settings.service.ts: updateWorkoutSettings (weight_unit, distance_unit), new WeightUnit enum
+- [x] en.json SETTINGS section + MENU.SETTINGS
+- [x] No SettingsRoute enum needed — Settings is a flat page like Profile, no sub-routes
 
 ### Commit 2 — route + shell
-- [ ] SettingsComponent stub + SettingsFacade stub
-- [ ] Lazy route under shell children
+- [x] AppRoute.Settings, lazy route under shell children
+- [x] SettingsComponent + SettingsFacade
+- [x] Menu — Settings navigation link
 
 ### Commit 3 — settings form
-- [ ] SettingsFacade: settingsResource, translation, saveSettings mutation
-- [ ] SettingsComponent: weight unit selector (kg/lb), distance unit selector (km/mi), unit system (metric/imperial)
-- [ ] Save on change (no submit button — auto-save pattern)
+- [x] SettingsFacade: settingsResource, translation, setWeightUnit()/setDistanceUnit() with optimistic update + rollback on failure
+- [x] SettingsComponent: weight unit toggle (kg/lb), distance unit toggle (km/mi) — button-group pattern, no unit_system field (no DB column for it)
+- [x] Save on click (no submit button — auto-save pattern), saving/saveSuccess/saveError feedback
 
-## Phase 11 — Security (future)
+## Phase 11 — Security — PRIORITY
 - [ ] New device detection: user_sessions table (device fingerprint, IP, user-agent, timestamp) + Supabase Edge Function on auth sign_in hook
 - [ ] In-app + email alert when sign-in from unrecognised device
 - [ ] Email notification on account changes (password reset, email change)
