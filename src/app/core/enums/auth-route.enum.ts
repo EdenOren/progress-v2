@@ -1,5 +1,7 @@
 export enum AuthRoute {
   Login = 'login',
   Signup = 'signup',
-  Callback = 'callback'
+  Callback = 'callback',
+  ForgotPassword = 'forgot-password',
+  ResetPassword = 'reset-password'
 }

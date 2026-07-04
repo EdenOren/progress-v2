@@ -30,6 +30,10 @@
         [touched]="passwordTouched()"
       />
 
+      <p class="login-page__forgot-password">
+        <app-ui-link [label]="t['FORGOT_PASSWORD_LINK']" [route]="['../', authRoute.ForgotPassword]" />
+      </p>
+
       @if (errorMessage()) {
         <p class="login-page__error">{{ errorMessage() }}</p>
       }

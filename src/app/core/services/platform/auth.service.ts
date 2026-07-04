@@ -6,6 +6,8 @@ import { mapSupabaseAuthError } from '../../errors/error-mapper';
 import type { Result } from '../../types/result';
 import { err, ok } from '../../types/result';
 import { SupabaseService } from './supabase.service';
+import { AppRoute } from '../../enums/app-route.enum';
+import { AuthRoute } from '../../enums/auth-route.enum';
 
 @Service()
 export class AuthService {
@@ -67,6 +69,24 @@ export class AuthService {
 
   async signOut(): Promise<Result<void>> {
     const { error } = await this.supabase.auth.signOut();
+    if (error) {
+      return err(mapSupabaseAuthError(error.message));
+    }
+    return ok(undefined);
+  }
+
+  async resetPasswordForEmail(email: string): Promise<Result<void>> {
+    const { error } = await this.supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${this.document.location.origin}/${AppRoute.Auth}/${AuthRoute.ResetPassword}`,
+    });
+    if (error) {
+      return err(mapSupabaseAuthError(error.message));
+    }
+    return ok(undefined);
+  }
+
+  async updateUserPassword(password: string): Promise<Result<void>> {
+    const { error } = await this.supabase.auth.updateUser({ password });
     if (error) {
       return err(mapSupabaseAuthError(error.message));
     }

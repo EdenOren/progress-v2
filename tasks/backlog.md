@@ -26,12 +26,12 @@
 - [x] en.json AUTH section (login, signup, callback, validation, error)
 - [x] Auth refactor: AuthRoute → core/enums, form in component, shared UI components (UiInput, UiButton, UiLink), stream-based i18n
 
-## Phase 2b — Auth Extensions — PRIORITY
-- [ ] Forgot password flow: ForgotPasswordComponent (/auth/forgot-password) — calls supabase.auth.resetPasswordForEmail()
-- [ ] Reset password page: ResetPasswordComponent (/auth/reset-password) — receives token from email link, calls supabase.auth.updateUser({ password })
-- [ ] AuthRoute enum entries: ForgotPassword, ResetPassword
-- [ ] en.json AUTH.FORGOT_PASSWORD + AUTH.RESET_PASSWORD sections
-- [ ] Wire lazy routes into auth.routes.ts
+## Phase 2b — Auth Extensions ✓ (complete — branch: feature/23-auth-password-reset)
+- [x] Forgot password flow: ForgotPasswordComponent (/auth/forgot-password) — calls supabase.auth.resetPasswordForEmail()
+- [x] Reset password page: ResetPasswordComponent (/auth/reset-password) — receives token from email link, calls supabase.auth.updateUser({ password })
+- [x] AuthRoute enum entries: ForgotPassword, ResetPassword
+- [x] en.json AUTH.FORGOT_PASSWORD + AUTH.RESET_PASSWORD sections
+- [x] Wire lazy routes into auth.routes.ts (ResetPassword intentionally has no guestGuard — see plan)
 
 ## Phase 3 — Navigation Shell ✓ (complete — branch: feature/3-nav-shell)
 - [x] ShellComponent with bottom 3-tab nav (Progress | KPI | Menu)
