@@ -25,8 +25,13 @@ export class MenuComponent {
   );
 
   readonly profileLabel: Signal<string> = computed(() => this.translation()['PROFILE'] ?? '');
+  readonly settingsLabel: Signal<string> = computed(() => this.translation()['SETTINGS'] ?? '');
 
   protected onNavigateToProfile(): void {
     void this.router.navigate([AppRoute.Profile]);
+  }
+
+  protected onNavigateToSettings(): void {
+    void this.router.navigate([AppRoute.Settings]);
   }
 }
