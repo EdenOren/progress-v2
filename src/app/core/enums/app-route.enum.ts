@@ -4,5 +4,6 @@ export enum AppRoute {
   DailyLog = 'daily-log',
   Kpi = 'kpi',
   Menu = 'menu',
-  Profile = 'profile'
+  Profile = 'profile',
+  Settings = 'settings'
 }
