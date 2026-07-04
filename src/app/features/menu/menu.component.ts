@@ -28,6 +28,7 @@ export class MenuComponent {
   );
 
   readonly profileLabel: Signal<string> = computed(() => this.translation()['PROFILE'] ?? '');
+  readonly settingsLabel: Signal<string> = computed(() => this.translation()['SETTINGS'] ?? '');
   readonly logoutLabel: Signal<string> = computed(() => this.translation()['LOGOUT'] ?? '');
 
   private readonly _isLoggingOut: WritableSignal<boolean> = signal(false);
@@ -35,6 +36,10 @@ export class MenuComponent {
 
   protected onNavigateToProfile(): void {
     void this.router.navigate([AppRoute.Profile]);
+  }
+
+  protected onNavigateToSettings(): void {
+    void this.router.navigate([AppRoute.Settings]);
   }
 
   protected onLogout(): void {

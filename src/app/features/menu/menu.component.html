@@ -5,6 +5,11 @@
     (click)="onNavigateToProfile()"
   />
   <app-ui-button
+    [label]="settingsLabel()"
+    [variant]="buttonVariant.Ghost"
+    (click)="onNavigateToSettings()"
+  />
+  <app-ui-button
     [label]="logoutLabel()"
     [variant]="buttonVariant.Ghost"
     [isLoading]="isLoggingOut()"

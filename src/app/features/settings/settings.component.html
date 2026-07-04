@@ -1,0 +1,60 @@
+@let t = facade.translation();
+
+@if (facade.isLoading()) {
+  <p class="settings__loading">{{ t['LOADING'] }}</p>
+} @else if (facade.hasError()) {
+  <p class="settings__error">{{ t['LOAD_ERROR'] }}</p>
+} @else {
+  <div class="settings">
+    <div class="settings__group">
+      <span class="settings__label">{{ t['WEIGHT_UNIT_LABEL'] }}</span>
+      <div class="settings__buttons">
+        <button
+          class="settings__btn"
+          [class.settings__btn--active]="facade.weightUnit() === weightUnit.Kg"
+          [type]="buttonType.Button"
+          [disabled]="facade.saving()"
+          (click)="onWeightUnitChanged(weightUnit.Kg)">
+          {{ t['WEIGHT_UNIT_KG'] }}
+        </button>
+        <button
+          class="settings__btn"
+          [class.settings__btn--active]="facade.weightUnit() === weightUnit.Lb"
+          [type]="buttonType.Button"
+          [disabled]="facade.saving()"
+          (click)="onWeightUnitChanged(weightUnit.Lb)">
+          {{ t['WEIGHT_UNIT_LB'] }}
+        </button>
+      </div>
+    </div>
+
+    <div class="settings__group">
+      <span class="settings__label">{{ t['DISTANCE_UNIT_LABEL'] }}</span>
+      <div class="settings__buttons">
+        <button
+          class="settings__btn"
+          [class.settings__btn--active]="facade.distanceUnit() === distanceUnit.Km"
+          [type]="buttonType.Button"
+          [disabled]="facade.saving()"
+          (click)="onDistanceUnitChanged(distanceUnit.Km)">
+          {{ t['DISTANCE_UNIT_KM'] }}
+        </button>
+        <button
+          class="settings__btn"
+          [class.settings__btn--active]="facade.distanceUnit() === distanceUnit.Miles"
+          [type]="buttonType.Button"
+          [disabled]="facade.saving()"
+          (click)="onDistanceUnitChanged(distanceUnit.Miles)">
+          {{ t['DISTANCE_UNIT_MILES'] }}
+        </button>
+      </div>
+    </div>
+
+    @if (facade.saveSuccess()) {
+      <p class="settings__feedback settings__feedback--success">{{ t['SAVE_SUCCESS'] }}</p>
+    }
+    @if (facade.saveError()) {
+      <p class="settings__feedback settings__feedback--error">{{ t['SAVE_ERROR'] }}</p>
+    }
+  </div>
+}
