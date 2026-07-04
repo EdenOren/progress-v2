@@ -108,7 +108,8 @@
     }
   },
   "MENU": {
-    "PROFILE": "Profile"
+    "PROFILE": "Profile",
+    "LOGOUT": "Log out"
   },
   "KPI": {
     "COMING_SOON": "Your KPIs will show up here once you start logging."

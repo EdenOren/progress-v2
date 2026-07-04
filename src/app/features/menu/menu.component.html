@@ -4,4 +4,10 @@
     [variant]="buttonVariant.Ghost"
     (click)="onNavigateToProfile()"
   />
+  <app-ui-button
+    [label]="logoutLabel()"
+    [variant]="buttonVariant.Ghost"
+    [isLoading]="isLoggingOut()"
+    (click)="onLogout()"
+  />
 </div>
