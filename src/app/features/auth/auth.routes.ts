@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthRoute } from '../../core/enums/auth-route.enum';
 import { guestGuard } from '../../core/guards/guest.guard';
+import { deviceVerificationPendingGuard } from '../../core/guards/device-verification-pending.guard';
 
 export const authRoutes: Routes = [
   {
@@ -30,6 +31,12 @@ export const authRoutes: Routes = [
     path: AuthRoute.ResetPassword,
     loadComponent: () =>
       import('./reset-password/reset-password.component').then((m) => m.ResetPasswordComponent),
+  },
+  {
+    path: AuthRoute.VerifyDevice,
+    canActivate: [deviceVerificationPendingGuard],
+    loadComponent: () =>
+      import('./verify-device/verify-device.component').then((m) => m.VerifyDeviceComponent),
   },
   { path: '', redirectTo: AuthRoute.Login, pathMatch: 'full' },
 ];

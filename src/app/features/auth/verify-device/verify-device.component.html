@@ -1,0 +1,47 @@
+@let t = facade.translation();
+
+<div class="verify-device-page">
+  <div class="verify-device-page__card">
+    <header class="verify-device-page__header">
+      <h1 class="verify-device-page__title">{{ t['TITLE'] }}</h1>
+      <p class="verify-device-page__subtitle">{{ t['SUBTITLE'] }}</p>
+    </header>
+
+    <form class="verify-device-page__form" [formRoot]="verifyDeviceForm">
+      <app-ui-input
+        inputId="verify-device-code"
+        [label]="t['CODE_LABEL']"
+        [placeholder]="t['CODE_PLACEHOLDER']"
+        [type]="inputType.Text"
+        autocomplete="one-time-code"
+        [field]="verifyDeviceForm.code"
+        [error]="codeError()"
+        [touched]="codeTouched()"
+      />
+
+      @if (facade.errorMessage()) {
+        <p class="verify-device-page__error">{{ facade.errorMessage() }}</p>
+      }
+
+      <app-ui-button
+        [label]="facade.submitLabel()"
+        [type]="buttonType.Button"
+        [isLoading]="facade.isLoading()"
+        (click)="submit()"
+      />
+    </form>
+
+    <app-ui-button
+      [label]="facade.resendLabel()"
+      [type]="buttonType.Button"
+      [variant]="buttonVariant.Ghost"
+      [isLoading]="facade.isResending()"
+      [disabled]="!facade.canResend()"
+      (click)="resend()"
+    />
+
+    <p class="verify-device-page__footer">
+      <app-ui-link [label]="t['BACK_TO_LOGIN']" [route]="['../', authRoute.Login]" />
+    </p>
+  </div>
+</div>

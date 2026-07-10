@@ -46,3 +46,6 @@ Thumbs.db
 # Environment files with real credentials — fill in locally
 /src/environments/environment.ts
 /src/environments/environment.prod.ts
+
+# Supabase CLI local metadata
+/supabase/.temp

@@ -185,8 +185,25 @@
 - [x] SettingsComponent: weight unit toggle (kg/lb), distance unit toggle (km/mi) — button-group pattern, no unit_system field (no DB column for it)
 - [x] Save on click (no submit button — auto-save pattern), saving/saveSuccess/saveError feedback
 
-## Phase 11 — Security — PRIORITY
-- [ ] New device detection: user_sessions table (device fingerprint, IP, user-agent, timestamp) + Supabase Edge Function on auth sign_in hook
-- [ ] In-app + email alert when sign-in from unrecognised device
+## Phase 11a — Security: New Device Detection — code complete, pending manual deploy (branch: feature/25-security-device-detection)
+- [x] 016_user_sessions.sql — user_sessions table (fingerprint hash, user-agent, last IP, timestamps) + RLS
+- [x] record-device-session Edge Function — fingerprints on user_id + user-agent, upserts session, sends Brevo email on new device (switched from Resend — no owned domain to verify)
+- [x] DeviceSessionService + AuthService wiring — invoke on SIGNED_IN event only
+- [x] In-app dismissible banner in HomeComponent (via HomeFacade) on new-device detection
+- [ ] Requires (manual, outside repo): run 016 migration, deploy Edge Function, Brevo account + verified single sender, BREVO_API_KEY/BREVO_FROM_EMAIL secrets
+- See `plans/phase-11-security-device-detection.md`
+
+## Phase 11b — Security: Account-Change Email Notifications — ON HOLD
 - [ ] Email notification on account changes (password reset, email change)
-- [ ] Requires: Edge Function setup, email provider (Resend / SendGrid), 016_user_sessions.sql migration
+- [ ] Deferred until Phase 11a ships; will reuse the same Brevo setup
+
+## Phase 11c — Security: Block New-Device Login Behind Email OTP — code complete, pending manual deploy (branch: feature/25-security-device-detection)
+- [x] 017_login_otp_challenges.sql — short-lived OTP challenge table, zero RLS policies (service-role only)
+- [x] supabase/functions/_shared/{crypto,device,brevo,otp}.ts — shared fingerprint/hash/email helpers, record-device-session refactored to use them
+- [x] login-with-device-check / verify-device-otp / resend-device-otp Edge Functions — withhold session tokens from an unrecognised device until OTP passes
+- [x] LoginChallengeService + AuthService rework — signInWithEmail() now returns LoginStatus.Success | OtpRequired, added verifyDeviceOtp()/resendDeviceOtp()
+- [x] VerifyDeviceComponent + facade + deviceVerificationPendingGuard — new /auth/verify-device screen, LoginFacade branches on LoginStatus
+- [x] UiButtonComponent — added disabled InputSignal (needed for resend-cooldown button)
+- [x] Scope: password sign-in only — Google OAuth, signup, and password-reset session establishment stay on the Phase 11a passive alert-only path (see plan for why)
+- [ ] Requires (manual, outside repo): run 017 migration, deploy login-with-device-check/verify-device-otp/resend-device-otp + redeploy record-device-session (now imports _shared/), no new secrets beyond existing BREVO_API_KEY/BREVO_FROM_EMAIL
+- See `plans/phase-11c-security-new-device-otp.md`

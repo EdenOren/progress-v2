@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { filter, map } from 'rxjs';
 import { AppRoute } from '../../core/enums/app-route.enum';
 import { AppIcon } from '../../shared/enums/app-icon.enum';
+import { AuthService } from '../../core/services/platform/auth.service';
 
 export interface NavTab {
   route: AppRoute;
@@ -30,10 +31,26 @@ const TABS: TabConfig[] = [
 export class HomeFacade {
   private readonly router: Router = inject(Router);
   private readonly translateService: TranslateService = inject(TranslateService);
+  private readonly authService: AuthService = inject(AuthService);
 
   readonly translation: Signal<Record<string, string>> = toSignal(
     this.translateService.stream('NAV'),
     { initialValue: {} as Record<string, string> },
+  );
+
+  readonly securityTranslation: Signal<Record<string, string>> = toSignal(
+    this.translateService.stream('SECURITY'),
+    { initialValue: {} as Record<string, string> },
+  );
+
+  readonly isNewDevice: Signal<boolean> = computed(() => this.authService.isNewDevice());
+
+  readonly newDeviceAlertMessage: Signal<string> = computed(
+    () => this.securityTranslation()['NEW_DEVICE_ALERT_MESSAGE'] ?? '',
+  );
+
+  readonly newDeviceAlertDismissLabel: Signal<string> = computed(
+    () => this.securityTranslation()['NEW_DEVICE_ALERT_DISMISS'] ?? '',
   );
 
   readonly activeRoute: Signal<AppRoute> = toSignal(
@@ -57,6 +74,10 @@ export class HomeFacade {
 
   navigateTo(route: AppRoute): void {
     void this.router.navigate([route]);
+  }
+
+  dismissNewDeviceAlert(): void {
+    this.authService.acknowledgeNewDevice();
   }
 
   private resolveActiveRoute(): AppRoute {

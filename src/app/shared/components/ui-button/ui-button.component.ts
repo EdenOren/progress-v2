@@ -16,6 +16,7 @@ export class UiButtonComponent {
   readonly label: InputSignal<string> = input.required<string>();
   readonly type: InputSignal<ButtonType> = input<ButtonType>(ButtonType.Button);
   readonly isLoading: InputSignal<boolean> = input<boolean>(false);
+  readonly disabled: InputSignal<boolean> = input<boolean>(false);
   readonly variant: InputSignal<ButtonVariant> = input<ButtonVariant>(ButtonVariant.Primary);
   readonly size: InputSignal<ButtonSize> = input<ButtonSize>(ButtonSize.Md);
   readonly icon: InputSignal<string> = input<string>('');
