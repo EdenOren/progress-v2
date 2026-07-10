@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/platform/auth.service';
 import { AppRoute } from '../../../core/enums/app-route.enum';
+import { AuthRoute } from '../../../core/enums/auth-route.enum';
+import { LoginStatus } from '../../../core/enums/login-status.enum';
 import { ValidationTranslationService } from '../../../shared/services/validation-translation.service';
 
 @Service({ autoProvided: false })
@@ -38,7 +40,11 @@ export class LoginFacade {
     this._errorMessage.set('');
     const result = await this.authService.signInWithEmail(emailValue, password);
     if (result.success) {
-      await this.router.navigate([AppRoute.Progress]);
+      if (result.data.status === LoginStatus.OtpRequired) {
+        await this.router.navigate([AppRoute.Auth, AuthRoute.VerifyDevice]);
+      } else {
+        await this.router.navigate([AppRoute.Progress]);
+      }
     } else {
       this._errorMessage.set(result.error.message);
     }

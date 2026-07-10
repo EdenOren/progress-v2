@@ -3,7 +3,8 @@
     <button
       mat-button
       [color]="color()"
-      [type]="type()">
+      [type]="type()"
+      [disabled]="disabled() || isLoading()">
       @if (icon()) {
         <mat-icon aria-hidden="true">{{ icon() }}</mat-icon>
       }
@@ -16,7 +17,7 @@
       [class.ui-button--google]="variant() === buttonVariant.Google"
       [class.ui-button--sm]="size() === buttonSize.Sm"
       [type]="type()"
-      [disabled]="isLoading()">
+      [disabled]="disabled() || isLoading()">
       @if (isLoading()) {
         <span class="ui-button__spinner" aria-hidden="true"></span>
       } @else if (icon()) {

@@ -13,6 +13,18 @@
     }
   </nav>
   <main class="home__content">
+    @if (facade.isNewDevice()) {
+      <div class="home__device-alert" role="alert">
+        <span class="home__device-alert-message">{{ facade.newDeviceAlertMessage() }}</span>
+        <app-ui-button
+          class="home__device-alert-dismiss"
+          [label]="facade.newDeviceAlertDismissLabel()"
+          [type]="buttonType.Button"
+          [variant]="buttonVariant.Ghost"
+          [size]="buttonSize.Sm"
+          (click)="dismissDeviceAlert()" />
+      </div>
+    }
     <router-outlet />
   </main>
   <nav class="home__nav" aria-label="Main navigation">

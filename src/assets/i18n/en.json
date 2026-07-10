@@ -5,6 +5,10 @@
     "KPI": "KPI",
     "MENU": "Menu"
   },
+  "SECURITY": {
+    "NEW_DEVICE_ALERT_MESSAGE": "We noticed a sign-in from a new device. If this wasn't you, reset your password immediately.",
+    "NEW_DEVICE_ALERT_DISMISS": "Dismiss"
+  },
   "AUTH": {
     "LOGIN": {
       "TITLE": "Welcome back",
@@ -62,6 +66,18 @@
     },
     "CALLBACK": {
       "LOADING": "Completing sign in…"
+    },
+    "VERIFY_DEVICE": {
+      "TITLE": "Verify this device",
+      "SUBTITLE": "Enter the 6-digit code we emailed you to finish signing in",
+      "CODE_LABEL": "Verification code",
+      "CODE_PLACEHOLDER": "000000",
+      "CODE_LENGTH_ERROR": "Enter the 6-digit code",
+      "SUBMIT_BUTTON": "Verify",
+      "LOADING": "Verifying…",
+      "RESEND_BUTTON": "Resend code",
+      "RESEND_COOLDOWN_LABEL": "Resend available in",
+      "BACK_TO_LOGIN": "Back to sign in"
     },
     "VALIDATION": {
       "REQUIRED": "This field is required",

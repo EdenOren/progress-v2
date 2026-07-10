@@ -73,6 +73,21 @@
     }
   }
 
+  &__device-alert {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: variables.$spacing-sm;
+    padding: variables.$spacing-sm variables.$spacing-md;
+    background-color: var(--color-warning);
+    color: var(--color-text-inverse);
+  }
+
+  &__device-alert-message {
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
   &__nav {
     display: flex;
     align-items: stretch;
