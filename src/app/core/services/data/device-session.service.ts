@@ -8,10 +8,12 @@ import type { Result } from '../../types/result';
 
 const deviceSessionResultSchema: z.ZodType<DeviceSessionResult> = z.object({
   isNewDevice: z.boolean(),
+  alertEmailSent: z.boolean().optional(),
 });
 
 export interface DeviceSessionResult {
   isNewDevice: boolean;
+  alertEmailSent?: boolean;
 }
 
 @Service()

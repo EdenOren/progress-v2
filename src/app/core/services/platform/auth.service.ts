@@ -12,6 +12,7 @@ import { SupabaseAuthEvent } from '../../enums/supabase-auth-event.enum';
 import { LoginStatus } from '../../enums/login-status.enum';
 import { DeviceSessionService } from '../data/device-session.service';
 import { LoginChallengeService } from '../data/login-challenge.service';
+import { AccountNotificationsService } from '../data/account-notifications.service';
 
 @Service()
 export class AuthService {
@@ -19,6 +20,7 @@ export class AuthService {
   private readonly document: Document = inject(DOCUMENT);
   private readonly deviceSessionService: DeviceSessionService = inject(DeviceSessionService);
   private readonly loginChallengeService: LoginChallengeService = inject(LoginChallengeService);
+  private readonly accountNotificationsService: AccountNotificationsService = inject(AccountNotificationsService);
   private readonly _session: WritableSignal<Session | null> = signal(null);
   private readonly _isNewDevice: WritableSignal<boolean> = signal(false);
   private readonly _pendingOtpChallengeId: WritableSignal<string | null> = signal(null);
@@ -51,6 +53,9 @@ export class AuthService {
     this.deviceSessionService.recordSession().then((result) => {
       if (isOk(result)) {
         this._isNewDevice.set(result.data.isNewDevice);
+        if (result.data.alertEmailSent === false) {
+          console.error('New-device alert email failed to send');
+        }
       } else {
         console.error('Failed to record device session:', result.error);
       }
@@ -158,6 +163,15 @@ export class AuthService {
     if (error) {
       return err(mapSupabaseAuthError(error.message));
     }
+    this.notifyPasswordChanged();
     return ok(undefined);
+  }
+
+  private notifyPasswordChanged(): void {
+    this.accountNotificationsService.notifyPasswordChanged().then((result) => {
+      if (!isOk(result)) {
+        console.error('Failed to send password-changed notification:', result.error);
+      }
+    });
   }
 }

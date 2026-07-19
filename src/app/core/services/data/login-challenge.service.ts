@@ -1,11 +1,11 @@
 import { inject, Service } from '@angular/core';
 import { z } from 'zod';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { FunctionsHttpError } from '@supabase/supabase-js';
 import { SupabaseService } from '../platform/supabase.service';
 import { AuthError, NetworkError, ValidationError } from '../../errors/app-error';
 import { err, ok } from '../../types/result';
 import type { Result } from '../../types/result';
+import { resolveEdgeFunctionErrorMessage } from './edge-function-error.util';
 
 const loginWithDeviceCheckResultSchema: z.ZodType<LoginWithDeviceCheckResult> = z.union([
   z.object({ requiresOtp: z.literal(false), accessToken: z.string(), refreshToken: z.string() }),
@@ -35,7 +35,7 @@ export class LoginChallengeService {
       body: { email, password },
     });
     if (error) {
-      return err(new AuthError(await this.resolveErrorMessage(error, 'Unable to sign in')));
+      return err(new AuthError(await resolveEdgeFunctionErrorMessage(error, 'Unable to sign in')));
     }
     const validated = loginWithDeviceCheckResultSchema.safeParse(data);
     if (!validated.success) {
@@ -49,7 +49,7 @@ export class LoginChallengeService {
       body: { challengeId, code },
     });
     if (error) {
-      return err(new AuthError(await this.resolveErrorMessage(error, 'Unable to verify code')));
+      return err(new AuthError(await resolveEdgeFunctionErrorMessage(error, 'Unable to verify code')));
     }
     const validated = verifyDeviceOtpResultSchema.safeParse(data);
     if (!validated.success) {
@@ -63,23 +63,8 @@ export class LoginChallengeService {
       body: { challengeId },
     });
     if (error) {
-      return err(new NetworkError(await this.resolveErrorMessage(error, 'Unable to resend code')));
+      return err(new NetworkError(await resolveEdgeFunctionErrorMessage(error, 'Unable to resend code')));
     }
     return ok(undefined);
-  }
-
-  private async resolveErrorMessage(error: unknown, fallback: string): Promise<string> {
-    if (!(error instanceof FunctionsHttpError)) {
-      return fallback;
-    }
-    try {
-      const body: unknown = await error.context.json();
-      if (body && typeof body === 'object' && 'error' in body && typeof (body as { error: unknown }).error === 'string') {
-        return (body as { error: string }).error;
-      }
-    } catch {
-      return fallback;
-    }
-    return fallback;
   }
 }
