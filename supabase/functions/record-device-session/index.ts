@@ -1,69 +1,36 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { CORS_HEADERS, getRequestContext, hashFingerprint } from '../_shared/device.ts';
+import { authenticateRequest } from '../_shared/auth.ts';
+import type { AuthenticatedContext } from '../_shared/auth.ts';
+import { HttpMethod, JSON_HEADERS } from '../_shared/http.ts';
 import { sendBrevoEmail } from '../_shared/brevo.ts';
+import { buildSecurityAlertEmailHtml } from '../_shared/email-templates.ts';
 
-function buildAlertEmailHtml(userAgent: string, ipAddress: string, signedInAt: string): string {
-  return `
-    <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
-      <div style="background-color: #7c3aed; padding: 24px 32px;">
-        <span style="color: #ffffff; font-size: 18px; font-weight: 700;">Progress</span>
-      </div>
-      <div style="padding: 32px;">
-        <p style="margin: 0 0 8px; color: #111827; font-size: 20px; font-weight: 700;">New sign-in to your account</p>
-        <p style="margin: 0 0 24px; color: #6b7280; font-size: 14px;">
-          We noticed a sign-in from a device we haven't seen before. If this was you, no action is needed.
-        </p>
-        <div style="background-color: #f9fafb; border-radius: 8px; padding: 16px 20px; margin-bottom: 24px;">
-          <p style="margin: 0 0 6px; color: #111827; font-size: 14px;"><strong>Time:</strong> ${signedInAt}</p>
-          <p style="margin: 0 0 6px; color: #111827; font-size: 14px;"><strong>Device:</strong> ${userAgent}</p>
-          <p style="margin: 0; color: #111827; font-size: 14px;"><strong>IP address:</strong> ${ipAddress}</p>
-        </div>
-        <div style="background-color: #fef3c7; border-radius: 8px; padding: 14px 18px; color: #92400e; font-size: 13px;">
-          <strong>Wasn't you?</strong> Reset your password immediately to secure your account.
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-async function sendNewDeviceEmail(toEmail: string, userAgent: string, ipAddress: string): Promise<void> {
+async function sendNewDeviceEmail(toEmail: string, userAgent: string, ipAddress: string): Promise<boolean> {
   const signedInAt: string = new Date().toISOString();
-  await sendBrevoEmail(
+  return sendBrevoEmail(
     toEmail,
     'New sign-in to your Progress account',
-    buildAlertEmailHtml(userAgent, ipAddress, signedInAt),
+    buildSecurityAlertEmailHtml({
+      heading: 'New sign-in to your account',
+      message: 'We noticed a sign-in from a device we haven\'t seen before. If this was you, no action is needed.',
+      userAgent,
+      ipAddress,
+      timestamp: signedInAt,
+      warningText: 'Reset your password immediately to secure your account.',
+    }),
   );
 }
 
 Deno.serve(async (req: Request) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === HttpMethod.Options) {
     return new Response(null, { headers: CORS_HEADERS });
   }
 
-  const jsonHeaders: Record<string, string> = { ...CORS_HEADERS, 'Content-Type': 'application/json' };
-
-  const authorization: string | null = req.headers.get('Authorization');
-  if (!authorization) {
-    return new Response(JSON.stringify({ error: 'Missing authorization header' }), {
-      status: 401,
-      headers: jsonHeaders,
-    });
+  const authContext: AuthenticatedContext | Response = await authenticateRequest(req);
+  if (authContext instanceof Response) {
+    return authContext;
   }
-
-  const supabase = createClient(
-    Deno.env.get('SUPABASE_URL') ?? '',
-    Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-    { global: { headers: { Authorization: authorization } } },
-  );
-
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-  if (userError || !userData.user.email) {
-    return new Response(JSON.stringify({ error: 'Unable to resolve authenticated user' }), {
-      status: 401,
-      headers: jsonHeaders,
-    });
-  }
-  const { user } = userData;
+  const { supabase, user, email } = authContext;
 
   const { userAgent, ipAddress } = getRequestContext(req);
   const fingerprintHash: string = await hashFingerprint(user.id, userAgent);
@@ -78,7 +45,7 @@ Deno.serve(async (req: Request) => {
   if (selectError) {
     return new Response(JSON.stringify({ error: selectError.message }), {
       status: 500,
-      headers: jsonHeaders,
+      headers: JSON_HEADERS,
     });
   }
 
@@ -90,10 +57,10 @@ Deno.serve(async (req: Request) => {
     if (updateError) {
       return new Response(JSON.stringify({ error: updateError.message }), {
         status: 500,
-        headers: jsonHeaders,
+        headers: JSON_HEADERS,
       });
     }
-    return new Response(JSON.stringify({ isNewDevice: false }), { headers: jsonHeaders });
+    return new Response(JSON.stringify({ isNewDevice: false }), { headers: JSON_HEADERS });
   }
 
   const { error: insertError } = await supabase.from('user_sessions').insert({
@@ -105,11 +72,11 @@ Deno.serve(async (req: Request) => {
   if (insertError) {
     return new Response(JSON.stringify({ error: insertError.message }), {
       status: 500,
-      headers: jsonHeaders,
+      headers: JSON_HEADERS,
     });
   }
 
-  await sendNewDeviceEmail(user.email, userAgent, ipAddress);
+  const alertEmailSent: boolean = await sendNewDeviceEmail(email, userAgent, ipAddress);
 
-  return new Response(JSON.stringify({ isNewDevice: true }), { headers: jsonHeaders });
+  return new Response(JSON.stringify({ isNewDevice: true, alertEmailSent }), { headers: JSON_HEADERS });
 });

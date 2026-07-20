@@ -1,11 +1,11 @@
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
-export async function sendBrevoEmail(toEmail: string, subject: string, htmlContent: string): Promise<void> {
+export async function sendBrevoEmail(toEmail: string, subject: string, htmlContent: string): Promise<boolean> {
   const brevoApiKey: string | undefined = Deno.env.get('BREVO_API_KEY');
   const brevoFromEmail: string | undefined = Deno.env.get('BREVO_FROM_EMAIL');
   if (!brevoApiKey || !brevoFromEmail) {
     console.error('missing BREVO_API_KEY or BREVO_FROM_EMAIL secret');
-    return;
+    return false;
   }
 
   const response: Response = await fetch(BREVO_API_URL, {
@@ -24,5 +24,7 @@ export async function sendBrevoEmail(toEmail: string, subject: string, htmlConte
 
   if (!response.ok) {
     console.error(`Brevo API error ${response.status}: ${await response.text()}`);
+    return false;
   }
+  return true;
 }
