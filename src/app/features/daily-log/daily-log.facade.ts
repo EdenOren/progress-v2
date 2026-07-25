@@ -13,9 +13,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/platform/auth.service';
 import { DailyLogsService } from '../../core/services/data/daily-log/daily-log.service';
 import type { DailyLog } from '../../core/services/data/daily-log/daily-log.model';
+import { UserSettingsService } from '../../core/services/data/user-settings.service';
+import type { WorkoutSettings } from '../../core/services/data/user-settings.service';
 import type { Result } from '../../core/types/result';
 import { DialogService } from '../../shared/services/dialog.service';
 import { DialogType } from '../../shared/enums/dialog-type.enum';
+import { WeightUnit } from '../../shared/enums/weight-unit.enum';
 import type { LogEntryFormData } from '../../shared/components/log-entry-dialog/log-entry-dialog.component';
 
 @Service({ autoProvided: false })
@@ -25,6 +28,7 @@ export class DailyLogFacade {
   private readonly dailyLogsService: DailyLogsService = inject(DailyLogsService);
   private readonly dialogService: DialogService = inject(DialogService);
   private readonly translateService: TranslateService = inject(TranslateService);
+  private readonly userSettingsService: UserSettingsService = inject(UserSettingsService);
 
   readonly translation: Signal<Record<string, string>> = toSignal(
     this.translateService.stream('DAILY_LOG'),
@@ -35,6 +39,16 @@ export class DailyLogFacade {
     params: () => ({ userId: this.authService.userId() }),
     loader: ({ params }) =>
       this.dailyLogsService.getRecentDailyLogs(params.userId, DailyLogFacade.RECENT_ENTRIES_LIMIT),
+  });
+
+  private readonly _userSettingsResource: ResourceRef<Result<WorkoutSettings> | undefined> = resource({
+    params: () => ({ userId: this.authService.userId() }),
+    loader: ({ params }) => this.userSettingsService.getWorkoutSettings(params.userId),
+  });
+
+  readonly weightUnit: Signal<WeightUnit> = computed(() => {
+    const result = this._userSettingsResource.value();
+    return result?.success ? result.data.weightUnit : WeightUnit.Kg;
   });
 
   readonly isLoading: Signal<boolean> = computed(() => this._recentEntriesResource.isLoading());
@@ -59,7 +73,7 @@ export class DailyLogFacade {
   async openLogDialog(loggedDate: string, existingEntry?: DailyLog): Promise<void> {
     const formData: LogEntryFormData | undefined = await this.dialogService.open(
       DialogType.LogEntry,
-      { date: loggedDate, existingEntry },
+      { date: loggedDate, existingEntry, weightUnit: this.weightUnit() },
     );
     if (!formData) {
       return;

@@ -28,6 +28,7 @@
           <app-log-card
             [entry]="entry"
             [translation]="facade.translation()"
+            [weightUnit]="facade.weightUnit()"
             (editClicked)="onEditEntry($event)" />
         </li>
       }

@@ -4,3 +4,16 @@
   width: calc(100vw - #{variables.$spacing-lg * 2});
   max-width: variables.$dialog-max-width;
 }
+
+// Global (not component-scoped) on purpose: each dialog's [slot=actions] div
+// is declared in that dialog's own template, so it's a child of ui-modal's
+// projected content, not ui-modal's own template — a scoped style in
+// ui-modal.component.scss can't reach it without ::ng-deep, which the
+// project's style rules forbid. A plain global class sidesteps that.
+.dialog-actions-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: variables.$spacing-sm;
+}

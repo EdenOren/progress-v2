@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
 import type { Field } from '@angular/forms/signals';
+import { MatIconModule } from '@angular/material/icon';
 import { InputType } from '../../enums/input-type.enum';
 import { AppIcon } from '../../enums/app-icon.enum';
 import { UiIconComponent } from '../ui-icon/ui-icon.component';
@@ -21,10 +22,11 @@ import { UiIconComponent } from '../ui-icon/ui-icon.component';
   templateUrl: './ui-input.component.html',
   styleUrl: './ui-input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormField, UiIconComponent],
+  imports: [FormField, UiIconComponent, MatIconModule],
   host: {
     '[class.ui-input--number]': 'isNumber()',
     '[class.ui-input--compact]': 'compact()',
+    '[class.ui-input--tile]': 'tile()',
   },
 })
 export class UiInputComponent {
@@ -45,6 +47,9 @@ export class UiInputComponent {
   readonly step: InputSignal<number> = input<number>(1);
   readonly disabled: InputSignal<boolean> = input<boolean>(false);
   readonly compact: InputSignal<boolean> = input<boolean>(false);
+  readonly icon: InputSignal<string> = input<string>('');
+  readonly unit: InputSignal<string> = input<string>('');
+  readonly tile: InputSignal<boolean> = input<boolean>(false);
 
   readonly valueChange: OutputEmitterRef<number | null> = output<number | null>();
 

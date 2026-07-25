@@ -31,7 +31,15 @@
   &__metric {
     display: flex;
     gap: 4px;
-    align-items: baseline;
+    align-items: center;
+  }
+
+  &__metric-icon {
+    flex-shrink: 0;
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: var(--color-text-muted);
   }
 
   &__metric-label {

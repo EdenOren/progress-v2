@@ -8,6 +8,25 @@
   &.ui-input--number {
     display: inline-block;
   }
+
+  &.ui-input--tile {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xs;
+    width: 100%;
+    min-width: 0;
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: variables.$radius-md;
+    padding: variables.$spacing-sm;
+    cursor: text;
+    transition: border-color variables.$transition-fast, box-shadow variables.$transition-fast;
+
+    &:focus-within {
+      border-color: var(--color-secondary);
+      box-shadow: 0 0 0 3px var(--color-primary-focus-ring);
+    }
+  }
 }
 
 .ui-input {
@@ -15,6 +34,65 @@
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-text-primary);
+  }
+
+  &__tile-head {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-xs;
+    min-width: 0;
+    color: var(--color-text-muted);
+  }
+
+  &__tile-icon {
+    flex-shrink: 0;
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
+
+  &__tile-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: text;
+  }
+
+  &__tile-row {
+    display: flex;
+    align-items: baseline;
+    gap: variables.$spacing-xs;
+    min-width: 0;
+  }
+
+  &__tile-input {
+    width: 100%;
+    min-width: 0;
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 5vw, 1.5rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    padding: 0;
+    outline: none;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      appearance: none;
+    }
+  }
+
+  &__tile-unit {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
   }
 
   &__number {
@@ -115,6 +193,8 @@
   }
 
   &__error {
+    display: block;
+    min-height: 1rem;
     font-size: 0.75rem;
     color: var(--color-error);
   }
