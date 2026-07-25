@@ -5,7 +5,62 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  position: relative;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: variables.$spacing-md variables.$spacing-md variables.$spacing-sm;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+
+    @include mixins.respond-to(lg) {
+      padding: variables.$spacing-lg variables.$spacing-lg variables.$spacing-md;
+    }
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+
+    @include mixins.respond-to(lg) {
+      font-size: var(--text-3xl);
+    }
+  }
+
+  &__add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include mixins.touch-target;
+    border: none;
+    border-radius: variables.$radius-full;
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    cursor: pointer;
+    transition: background-color variables.$transition-fast;
+
+    @include mixins.respond-to(lg) {
+      width: 52px;
+      height: 52px;
+
+      mat-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    &:active {
+      background-color: var(--color-primary-dark);
+    }
+  }
 
   &__list {
     list-style: none;
@@ -46,13 +101,5 @@
     color: var(--color-text-secondary);
     text-align: center;
     max-width: 240px;
-  }
-
-  &__fab {
-    position: absolute;
-    right: variables.$spacing-md;
-    bottom: max(variables.$spacing-lg, env(safe-area-inset-bottom, 0px) + variables.$spacing-sm);
-    width: auto;
-    box-shadow: variables.$shadow-lg;
   }
 }

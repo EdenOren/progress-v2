@@ -1,18 +1,24 @@
 <div class="menu">
-  <app-ui-button
-    [label]="profileLabel()"
-    [variant]="buttonVariant.Ghost"
-    (click)="onNavigateToProfile()"
-  />
-  <app-ui-button
-    [label]="settingsLabel()"
-    [variant]="buttonVariant.Ghost"
-    (click)="onNavigateToSettings()"
-  />
-  <app-ui-button
-    [label]="logoutLabel()"
-    [variant]="buttonVariant.Ghost"
-    [isLoading]="isLoggingOut()"
-    (click)="onLogout()"
-  />
+  <header class="menu__header">
+    <h1 class="menu__title">{{ titleLabel() }}</h1>
+  </header>
+
+  <div class="menu__content">
+    <app-ui-button
+      [label]="profileLabel()"
+      [variant]="buttonVariant.Ghost"
+      (click)="onNavigateToProfile()"
+    />
+    <app-ui-button
+      [label]="settingsLabel()"
+      [variant]="buttonVariant.Ghost"
+      (click)="onNavigateToSettings()"
+    />
+    <app-ui-button
+      [label]="logoutLabel()"
+      [variant]="buttonVariant.Ghost"
+      [isLoading]="isLoggingOut()"
+      (click)="onLogout()"
+    />
+  </div>
 </div>

@@ -1,4 +1,38 @@
+@use '@angular/material' as mat;
 @use 'base/reset';
 @use 'base/typography';
 @use 'base/animations';
 @use 'dialog';
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: mat.$violet-palette,
+      ),
+      typography: (
+        plain-family: (-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif),
+      ),
+    ),
+    (
+      background: #17181c,
+      on-background: #ecebe3,
+      surface: #1f2126,
+      surface-container: #17181c,
+      surface-container-low: #17181c,
+      surface-container-high: #272a31,
+      surface-container-highest: #2c2e35,
+      on-surface: #ecebe3,
+      on-surface-variant: #96948b,
+      outline: #2c2e35,
+      outline-variant: #2c2e35,
+      primary: #ecebe3,
+      on-primary: #17181c,
+      secondary: #7ea4d6,
+      on-secondary: #17181c,
+      error: #d2504b,
+      on-error: #17181c,
+    )
+  );
+}

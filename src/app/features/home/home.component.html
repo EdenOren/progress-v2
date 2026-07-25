@@ -1,6 +1,6 @@
 <div class="home">
   <nav class="home__sidebar" aria-label="Main navigation">
-    @for (tab of facade.tabs(); track tab.route) {
+    @for (tab of facade.sidebarTabs(); track tab.route) {
       <button
         class="home__sidebar-tab"
         [class.home__sidebar-tab--active]="tab.isActive"
@@ -11,6 +11,30 @@
         <span class="home__sidebar-tab-label">{{ tab.label }}</span>
       </button>
     }
+    <button
+      class="home__sidebar-user"
+      [type]="buttonType.Button"
+      [matMenuTriggerFor]="userMenu"
+      [attr.aria-label]="facade.userEmail()">
+      <span class="home__sidebar-user-avatar">{{ facade.userInitial() }}</span>
+      <span class="home__sidebar-user-label">{{ facade.userEmail() }}</span>
+      <mat-icon class="home__sidebar-user-caret" aria-hidden="true">expand_more</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item [type]="buttonType.Button" (click)="navigateToProfile()">
+        {{ facade.profileLabel() }}
+      </button>
+      <button mat-menu-item [type]="buttonType.Button" (click)="navigateToSettings()">
+        {{ facade.settingsLabel() }}
+      </button>
+      <button
+        mat-menu-item
+        [type]="buttonType.Button"
+        [disabled]="facade.isLoggingOut()"
+        (click)="logout()">
+        {{ facade.logoutLabel() }}
+      </button>
+    </mat-menu>
   </nav>
   <main class="home__content">
     @if (facade.isNewDevice()) {

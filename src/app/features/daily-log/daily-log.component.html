@@ -1,4 +1,15 @@
 <div class="daily-log">
+  <header class="daily-log__header">
+    <h1 class="daily-log__title">{{ facade.translation()['TITLE'] }}</h1>
+    <button
+      class="daily-log__add-btn"
+      [type]="ButtonType.Button"
+      (click)="onLogToday()"
+      [attr.aria-label]="facade.translation()['LOG_TODAY']">
+      <mat-icon aria-hidden="true">add</mat-icon>
+    </button>
+  </header>
+
   @if (facade.saveError()) {
     <p class="daily-log__status daily-log__status--error">{{ facade.translation()['SAVE_ERROR'] }}</p>
   }
@@ -22,9 +33,4 @@
       }
     </ul>
   }
-
-  <app-ui-button
-    class="daily-log__fab"
-    [label]="facade.translation()['LOG_TODAY']"
-    (click)="onLogToday()" />
 </div>

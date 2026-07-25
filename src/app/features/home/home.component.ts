@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 import { HomeFacade } from './home.facade';
 import { UiIconComponent } from '../../shared/components/ui-icon/ui-icon.component';
 import { UiButtonComponent } from '../../shared/components/ui-button/ui-button.component';
@@ -14,7 +16,7 @@ import { AppRoute } from '../../core/enums/app-route.enum';
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [HomeFacade],
-  imports: [RouterOutlet, UiIconComponent, UiButtonComponent],
+  imports: [RouterOutlet, UiIconComponent, UiButtonComponent, MatMenuModule, MatIconModule],
 })
 export class HomeComponent {
   protected readonly facade: HomeFacade = inject(HomeFacade);
@@ -28,5 +30,17 @@ export class HomeComponent {
 
   protected dismissDeviceAlert(): void {
     this.facade.dismissNewDeviceAlert();
+  }
+
+  protected navigateToProfile(): void {
+    this.facade.navigateToProfile();
+  }
+
+  protected navigateToSettings(): void {
+    this.facade.navigateToSettings();
+  }
+
+  protected logout(): void {
+    this.facade.logout();
   }
 }

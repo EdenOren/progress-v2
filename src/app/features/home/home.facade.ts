@@ -1,9 +1,10 @@
-import { computed, inject, Service, Signal } from '@angular/core';
+import { computed, inject, Service, signal, Signal, WritableSignal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, map } from 'rxjs';
 import { AppRoute } from '../../core/enums/app-route.enum';
+import { AuthRoute } from '../../core/enums/auth-route.enum';
 import { AppIcon } from '../../shared/enums/app-icon.enum';
 import { AuthService } from '../../core/services/platform/auth.service';
 
@@ -43,6 +44,27 @@ export class HomeFacade {
     { initialValue: {} as Record<string, string> },
   );
 
+  readonly menuTranslation: Signal<Record<string, string>> = toSignal(
+    this.translateService.stream('MENU'),
+    { initialValue: {} as Record<string, string> },
+  );
+
+  readonly profileLabel: Signal<string> = computed(() => this.menuTranslation()['PROFILE'] ?? '');
+  readonly settingsLabel: Signal<string> = computed(
+    () => this.menuTranslation()['SETTINGS'] ?? '',
+  );
+  readonly logoutLabel: Signal<string> = computed(() => this.menuTranslation()['LOGOUT'] ?? '');
+
+  private readonly _isLoggingOut: WritableSignal<boolean> = signal(false);
+  readonly isLoggingOut: Signal<boolean> = this._isLoggingOut;
+
+  readonly userEmail: Signal<string> = computed(() => this.authService.session()?.user.email ?? '');
+
+  readonly userInitial: Signal<string> = computed(() => {
+    const [firstCharacter] = this.userEmail();
+    return firstCharacter ? firstCharacter.toUpperCase() : '';
+  });
+
   readonly isNewDevice: Signal<boolean> = computed(() => this.authService.isNewDevice());
 
   readonly newDeviceAlertMessage: Signal<string> = computed(
@@ -72,12 +94,35 @@ export class HomeFacade {
     }));
   });
 
+  readonly sidebarTabs: Signal<NavTab[]> = computed(() =>
+    this.tabs().filter((tab) => tab.route !== AppRoute.Menu),
+  );
+
   navigateTo(route: AppRoute): void {
     void this.router.navigate([route]);
   }
 
+  navigateToProfile(): void {
+    void this.router.navigate([AppRoute.Profile]);
+  }
+
+  navigateToSettings(): void {
+    void this.router.navigate([AppRoute.Settings]);
+  }
+
+  logout(): void {
+    void this.performLogout();
+  }
+
   dismissNewDeviceAlert(): void {
     this.authService.acknowledgeNewDevice();
+  }
+
+  private async performLogout(): Promise<void> {
+    this._isLoggingOut.set(true);
+    await this.authService.signOut();
+    await this.router.navigate([AppRoute.Auth, AuthRoute.Login]);
+    this._isLoggingOut.set(false);
   }
 
   private resolveActiveRoute(): AppRoute {

@@ -27,6 +27,7 @@ export class MenuComponent {
     { initialValue: {} as Record<string, string> },
   );
 
+  readonly titleLabel: Signal<string> = computed(() => this.translation()['TITLE'] ?? '');
   readonly profileLabel: Signal<string> = computed(() => this.translation()['PROFILE'] ?? '');
   readonly settingsLabel: Signal<string> = computed(() => this.translation()['SETTINGS'] ?? '');
   readonly logoutLabel: Signal<string> = computed(() => this.translation()['LOGOUT'] ?? '');
