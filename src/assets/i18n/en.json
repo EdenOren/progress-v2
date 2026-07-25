@@ -147,14 +147,17 @@
     }
   },
   "MENU": {
+    "TITLE": "Menu",
     "PROFILE": "Profile",
     "SETTINGS": "Settings",
     "LOGOUT": "Log out"
   },
   "KPI": {
+    "TITLE": "KPI",
     "COMING_SOON": "Your KPIs will show up here once you start logging."
   },
   "SETTINGS": {
+    "TITLE": "Settings",
     "LOADING": "Loading settings…",
     "LOAD_ERROR": "Failed to load settings",
     "WEIGHT_UNIT_LABEL": "Weight unit",
@@ -167,6 +170,7 @@
     "SAVE_ERROR": "Failed to save settings"
   },
   "PROFILE": {
+    "TITLE": "Profile",
     "LOADING": "Loading profile…",
     "LOAD_ERROR": "Failed to load profile",
     "DISPLAY_NAME": "Display name",

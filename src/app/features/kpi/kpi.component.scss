@@ -6,6 +6,28 @@
   flex-direction: column;
   height: 100%;
 
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: variables.$spacing-md variables.$spacing-md variables.$spacing-sm;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+
+    @include mixins.respond-to(lg) {
+      padding: variables.$spacing-lg variables.$spacing-lg variables.$spacing-md;
+    }
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+
+    @include mixins.respond-to(lg) {
+      font-size: var(--text-3xl);
+    }
+  }
+
   &__empty {
     display: flex;
     flex-direction: column;

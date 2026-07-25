@@ -15,7 +15,7 @@
   transition: background-color variables.$transition-fast;
 
   &:hover {
-    background-color: var(--color-surface-alt);
+    background-color: var(--color-surface-raised);
   }
 
   &:focus-visible {
@@ -24,7 +24,7 @@
   }
 
   &:active {
-    background-color: var(--color-surface-alt);
+    background-color: var(--color-surface-raised);
   }
 
   &__body {

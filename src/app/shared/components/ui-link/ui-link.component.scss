@@ -1,13 +1,13 @@
 @use 'abstract/variables' as variables;
 
 .ui-link {
-  color: var(--color-primary);
+  color: var(--color-secondary);
   font-weight: 500;
   text-decoration: none;
   transition: color variables.$transition-fast;
 
   &:hover {
-    color: var(--color-primary-dark);
+    color: var(--color-secondary-light);
     text-decoration: underline;
   }
 

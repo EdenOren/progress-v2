@@ -42,7 +42,7 @@
 
     &:hover {
       color: var(--color-error);
-      background-color: rgb(220 38 38 / 0.08);
+      background-color: color-mix(in srgb, var(--color-error) 8%, transparent);
     }
 
     &:focus-visible {
@@ -55,7 +55,7 @@
     display: flex;
     align-items: flex-start;
     gap: variables.$spacing-xs;
-    background: rgb(37 99 235 / 0.07);
+    background: color-mix(in srgb, var(--color-secondary) 7%, transparent);
     border-left: 3px solid var(--color-secondary);
     border-radius: 0 variables.$radius-sm variables.$radius-sm 0;
     padding: variables.$spacing-xs variables.$spacing-sm;

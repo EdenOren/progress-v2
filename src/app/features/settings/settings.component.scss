@@ -1,11 +1,48 @@
 @use 'abstract/colors' as colors;
 @use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
 
 .settings {
   display: flex;
   flex-direction: column;
-  gap: variables.$spacing-md;
-  padding: variables.$spacing-md;
+  height: 100%;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: variables.$spacing-md variables.$spacing-md variables.$spacing-sm;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+
+    @include mixins.respond-to(lg) {
+      padding: variables.$spacing-lg variables.$spacing-lg variables.$spacing-md;
+    }
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+
+    @include mixins.respond-to(lg) {
+      font-size: var(--text-3xl);
+    }
+  }
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-md;
+    padding: variables.$spacing-md;
+
+    @include mixins.respond-to(lg) {
+      max-width: 560px;
+      gap: variables.$spacing-lg;
+      padding: variables.$spacing-lg;
+    }
+  }
 
   &__loading,
   &__error {
@@ -22,6 +59,10 @@
   &__label {
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
+
+    @include mixins.respond-to(lg) {
+      font-size: var(--text-base);
+    }
   }
 
   &__buttons {
@@ -35,12 +76,17 @@
     padding: variables.$spacing-xs variables.$spacing-sm;
     border-radius: variables.$radius-full;
     border: 1px solid var(--color-border);
-    background: var(--color-surface-alt);
+    background: var(--color-surface-raised);
     cursor: pointer;
     font-size: var(--text-sm);
     font-weight: 500;
     color: var(--color-text-secondary);
     transition: all variables.$transition-fast;
+
+    @include mixins.respond-to(lg) {
+      font-size: var(--text-base);
+      min-height: 52px;
+    }
 
     &:focus-visible {
       outline: 2px solid var(--color-primary);
@@ -54,7 +100,7 @@
 
     &:hover,
     &--active {
-      background: rgb(37 99 235 / 0.1);
+      background: color-mix(in srgb, var(--color-primary) 10%, transparent);
       border-color: var(--color-primary);
       color: var(--color-primary);
     }

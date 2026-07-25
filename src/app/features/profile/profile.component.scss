@@ -1,18 +1,60 @@
 @use 'abstract/colors' as colors;
 @use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
 
 .profile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: variables.$spacing-md variables.$spacing-md variables.$spacing-sm;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+
+    @include mixins.respond-to(lg) {
+      padding: variables.$spacing-lg variables.$spacing-lg variables.$spacing-md;
+    }
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+
+    @include mixins.respond-to(lg) {
+      font-size: var(--text-3xl);
+    }
+  }
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+  }
+
   &__form {
     display: flex;
     flex-direction: column;
     gap: variables.$spacing-md;
     padding: variables.$spacing-md;
+
+    @include mixins.respond-to(lg) {
+      max-width: 560px;
+      gap: variables.$spacing-lg;
+      padding: variables.$spacing-lg;
+    }
   }
 
   &__loading,
   &__error {
     padding: variables.$spacing-md;
     text-align: center;
+
+    @include mixins.respond-to(lg) {
+      padding: variables.$spacing-lg;
+    }
   }
 
   &__feedback {
