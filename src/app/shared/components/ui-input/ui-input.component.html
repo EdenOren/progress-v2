@@ -1,22 +1,49 @@
-@if (label()) {
+@if (label() && !(isNumber() && tile())) {
   <label class="ui-input__label" [for]="inputId()">{{ label() }}</label>
 }
 
 @if (isNumber()) {
-  <input
-    class="ui-input__number"
-    [class.ui-input__number--compact]="compact()"
-    type="number"
-    [id]="inputId()"
-    [attr.aria-label]="ariaLabel()"
-    [value]="value()"
-    [min]="min()"
-    [max]="max() ?? ''"
-    [step]="step()"
-    [disabled]="disabled()"
-    [placeholder]="placeholder()"
-    (blur)="onBlur($event)"
-  />
+  @if (tile()) {
+    <div class="ui-input__tile-head">
+      @if (icon()) {
+        <mat-icon class="ui-input__tile-icon" aria-hidden="true">{{ icon() }}</mat-icon>
+      }
+      <label class="ui-input__tile-label" [for]="inputId()">{{ label() }}</label>
+    </div>
+    <div class="ui-input__tile-row">
+      <input
+        class="ui-input__tile-input"
+        type="number"
+        [id]="inputId()"
+        [attr.aria-label]="ariaLabel()"
+        [value]="value()"
+        [min]="min()"
+        [max]="max() ?? ''"
+        [step]="step()"
+        [disabled]="disabled()"
+        [placeholder]="placeholder()"
+        (blur)="onBlur($event)"
+      />
+      @if (unit()) {
+        <span class="ui-input__tile-unit">{{ unit() }}</span>
+      }
+    </div>
+  } @else {
+    <input
+      class="ui-input__number"
+      [class.ui-input__number--compact]="compact()"
+      type="number"
+      [id]="inputId()"
+      [attr.aria-label]="ariaLabel()"
+      [value]="value()"
+      [min]="min()"
+      [max]="max() ?? ''"
+      [step]="step()"
+      [disabled]="disabled()"
+      [placeholder]="placeholder()"
+      (blur)="onBlur($event)"
+    />
+  }
 } @else {
   <div class="ui-input__wrapper">
     <input

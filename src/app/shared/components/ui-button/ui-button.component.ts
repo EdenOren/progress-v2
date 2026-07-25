@@ -21,6 +21,7 @@ export class UiButtonComponent {
   readonly size: InputSignal<ButtonSize> = input<ButtonSize>(ButtonSize.Md);
   readonly icon: InputSignal<string> = input<string>('');
   readonly color: InputSignal<string> = input<string>('');
+  readonly iconOnly: InputSignal<boolean> = input<boolean>(false);
 
   protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
   protected readonly buttonSize: typeof ButtonSize = ButtonSize;

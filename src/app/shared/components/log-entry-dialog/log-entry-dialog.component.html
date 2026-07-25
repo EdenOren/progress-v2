@@ -3,48 +3,62 @@
 <app-ui-modal>
   <span slot="title">{{ title() }}</span>
   <div slot="content" class="log-entry-dialog">
-    <app-ui-input
-      [inputId]="'sleep-hours-input'"
-      [label]="t['SLEEP_LABEL']"
-      [type]="inputType.Number"
-      [value]="sleepHours()"
-      [min]="0"
-      [max]="24"
-      [step]="0.5"
-      [ariaLabel]="t['SLEEP_LABEL']"
-      (valueChange)="onSleepHoursChange($event)" />
+    <div class="log-entry-dialog__tiles">
+      <app-ui-input
+        [inputId]="'sleep-hours-input'"
+        [label]="t['SLEEP_LABEL']"
+        [type]="inputType.Number"
+        [tile]="true"
+        [icon]="'bedtime'"
+        [unit]="t['SLEEP_UNIT']"
+        [value]="sleepHours()"
+        [min]="0"
+        [max]="24"
+        [step]="0.5"
+        [ariaLabel]="t['SLEEP_LABEL']"
+        (valueChange)="onSleepHoursChange($event)" />
 
-    <app-ui-input
-      [inputId]="'weight-kg-input'"
-      [label]="t['WEIGHT_LABEL']"
-      [type]="inputType.Number"
-      [value]="weightKg()"
-      [min]="0"
-      [step]="0.1"
-      [ariaLabel]="t['WEIGHT_LABEL']"
-      (valueChange)="onWeightKgChange($event)" />
+      <app-ui-input
+        [inputId]="'weight-input'"
+        [label]="t['WEIGHT_LABEL']"
+        [type]="inputType.Number"
+        [tile]="true"
+        [icon]="'monitor_weight'"
+        [unit]="weightUnitLabel"
+        [value]="weightDisplay()"
+        [min]="0"
+        [step]="0.1"
+        [ariaLabel]="t['WEIGHT_LABEL']"
+        (valueChange)="onWeightChange($event)" />
 
-    <app-ui-input
-      [inputId]="'water-liters-input'"
-      [label]="t['WATER_LABEL']"
-      [type]="inputType.Number"
-      [value]="waterLiters()"
-      [min]="0"
-      [step]="0.1"
-      [ariaLabel]="t['WATER_LABEL']"
-      (valueChange)="onWaterLitersChange($event)" />
+      <app-ui-input
+        [inputId]="'water-liters-input'"
+        [label]="t['WATER_LABEL']"
+        [type]="inputType.Number"
+        [tile]="true"
+        [icon]="'water_drop'"
+        [unit]="t['WATER_UNIT']"
+        [value]="waterLiters()"
+        [min]="0"
+        [step]="0.1"
+        [ariaLabel]="t['WATER_LABEL']"
+        (valueChange)="onWaterLitersChange($event)" />
 
-    <app-ui-input
-      [inputId]="'waist-cm-input'"
-      [label]="t['WAIST_LABEL']"
-      [type]="inputType.Number"
-      [value]="waistCm()"
-      [min]="0"
-      [step]="0.5"
-      [ariaLabel]="t['WAIST_LABEL']"
-      (valueChange)="onWaistCmChange($event)" />
+      <app-ui-input
+        [inputId]="'waist-input'"
+        [label]="t['WAIST_LABEL']"
+        [type]="inputType.Number"
+        [tile]="true"
+        [icon]="'straighten'"
+        [unit]="waistUnitLabel"
+        [value]="waistDisplay()"
+        [min]="0"
+        [step]="0.5"
+        [ariaLabel]="t['WAIST_LABEL']"
+        (valueChange)="onWaistChange($event)" />
+    </div>
   </div>
-  <div slot="actions">
+  <div slot="actions" class="dialog-actions-row">
     <app-ui-button
       [label]="t['CANCEL']"
       [variant]="buttonVariant.Ghost"

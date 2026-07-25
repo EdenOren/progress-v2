@@ -1,15 +1,28 @@
 @switch (variant()) {
   @case (buttonVariant.Ghost) {
-    <button
-      mat-button
-      [color]="color()"
-      [type]="type()"
-      [disabled]="disabled() || isLoading()">
-      @if (icon()) {
-        <mat-icon aria-hidden="true">{{ icon() }}</mat-icon>
-      }
-      {{ label() }}
-    </button>
+    @if (iconOnly()) {
+      <button
+        mat-icon-button
+        [color]="color()"
+        [type]="type()"
+        [disabled]="disabled() || isLoading()"
+        [attr.aria-label]="label()">
+        @if (icon()) {
+          <mat-icon aria-hidden="true">{{ icon() }}</mat-icon>
+        }
+      </button>
+    } @else {
+      <button
+        mat-button
+        [color]="color()"
+        [type]="type()"
+        [disabled]="disabled() || isLoading()">
+        @if (icon()) {
+          <mat-icon aria-hidden="true">{{ icon() }}</mat-icon>
+        }
+        {{ label() }}
+      </button>
+    }
   }
   @default {
     <button
