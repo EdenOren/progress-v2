@@ -17,11 +17,22 @@ import { UiInputComponent } from '../ui-input/ui-input.component';
 import { UiModalComponent } from '../ui-modal/ui-modal.component';
 import { ButtonVariant } from '../../enums/button-variant.enum';
 import { InputType } from '../../enums/input-type.enum';
+import { WeightUnit } from '../../enums/weight-unit.enum';
+import {
+  cmToIn,
+  inToCm,
+  kgToLb,
+  lbToKg,
+  roundToOneDecimal,
+  WAIST_UNIT_LABELS,
+  WEIGHT_UNIT_LABELS,
+} from '../../utils/unit-conversion';
 import type { DailyLog } from '../../../core/services/data/daily-log/daily-log.model';
 
 export interface LogEntryDialogData {
   date: string;
   existingEntry?: DailyLog;
+  weightUnit: WeightUnit;
 }
 
 export interface LogEntryFormData {
@@ -45,6 +56,9 @@ export class LogEntryDialogComponent {
 
   protected readonly inputType: typeof InputType = InputType;
   protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
+  protected readonly weightUnit: WeightUnit = this.data.weightUnit;
+  protected readonly weightUnitLabel: string = WEIGHT_UNIT_LABELS[this.weightUnit];
+  protected readonly waistUnitLabel: string = WAIST_UNIT_LABELS[this.weightUnit];
 
   readonly submitted: OutputEmitterRef<LogEntryFormData> = output<LogEntryFormData>();
   readonly closed: OutputEmitterRef<void> = output<void>();
@@ -73,24 +87,42 @@ export class LogEntryDialogComponent {
   );
 
   protected readonly sleepHours: Signal<number | null> = this._sleepHours;
-  protected readonly weightKg: Signal<number | null> = this._weightKg;
   protected readonly waterLiters: Signal<number | null> = this._waterLiters;
-  protected readonly waistCm: Signal<number | null> = this._waistCm;
+
+  protected readonly weightDisplay: Signal<number | null> = computed(() => {
+    const kg = this._weightKg();
+    if (kg === null) {
+      return null;
+    }
+    return this.weightUnit === WeightUnit.Lb ? roundToOneDecimal(kgToLb(kg)) : kg;
+  });
+
+  protected readonly waistDisplay: Signal<number | null> = computed(() => {
+    const cm = this._waistCm();
+    if (cm === null) {
+      return null;
+    }
+    return this.weightUnit === WeightUnit.Lb ? roundToOneDecimal(cmToIn(cm)) : cm;
+  });
 
   protected onSleepHoursChange(value: number | null): void {
     this._sleepHours.set(value);
   }
 
-  protected onWeightKgChange(value: number | null): void {
-    this._weightKg.set(value);
+  protected onWeightChange(value: number | null): void {
+    this._weightKg.set(
+      value === null ? null : this.weightUnit === WeightUnit.Lb ? lbToKg(value) : value,
+    );
   }
 
   protected onWaterLitersChange(value: number | null): void {
     this._waterLiters.set(value);
   }
 
-  protected onWaistCmChange(value: number | null): void {
-    this._waistCm.set(value);
+  protected onWaistChange(value: number | null): void {
+    this._waistCm.set(
+      value === null ? null : this.weightUnit === WeightUnit.Lb ? inToCm(value) : value,
+    );
   }
 
   protected onSubmit(): void {
