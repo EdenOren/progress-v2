@@ -72,9 +72,9 @@
     }
   </div>
 
-  @if (touched() && error()) {
-    <span class="ui-input__error" [id]="inputId() + '-error'" aria-live="polite">
+  <span class="ui-input__error" [id]="inputId() + '-error'" aria-live="polite">
+    @if (touched() && error()) {
       {{ error() }}
-    </span>
-  }
+    }
+  </span>
 }

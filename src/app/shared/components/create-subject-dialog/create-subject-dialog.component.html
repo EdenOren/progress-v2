@@ -1,7 +1,7 @@
 @let t = translation();
 <app-ui-modal>
-  <span slot="title">{{ t['TITLE'] }}</span>
-  <div slot="content">
+  <span slot="title" class="create-subject-dialog__title">{{ t['TITLE'] }}</span>
+  <div slot="content" class="create-subject-dialog__content">
     <form [formRoot]="createSubjectForm">
       <app-ui-input
         [inputId]="'subject-name'"
@@ -17,7 +17,7 @@
         [field]="createSubjectForm.description" />
     </form>
   </div>
-  <div slot="actions">
+  <div slot="actions" class="create-subject-dialog__actions dialog-actions-row">
     <app-ui-button
       [label]="t['CANCEL']"
       [variant]="buttonVariant.Ghost"

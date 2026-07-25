@@ -193,6 +193,8 @@
   }
 
   &__error {
+    display: block;
+    min-height: 1rem;
     font-size: 0.75rem;
     color: var(--color-error);
   }
