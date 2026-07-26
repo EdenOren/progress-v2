@@ -1,8 +1,7 @@
+import { ButtonType, UiIconComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, computed, input, InputSignal, output, OutputEmitterRef, Signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { UiIconComponent } from '../../../../shared/components/ui-icon/ui-icon.component';
 import { AppIcon } from '../../../../shared/enums/app-icon.enum';
-import { ButtonType } from '../../../../shared/enums/button-type.enum';
 import type { Entry } from '../../../../core/services/data/entries.service';
 
 @Component({

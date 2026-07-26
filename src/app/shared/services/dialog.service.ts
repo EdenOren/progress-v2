@@ -1,6 +1,5 @@
-import { inject, OutputEmitterRef, Service, Type } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { firstValueFrom } from 'rxjs';
+import { inject, Service } from '@angular/core';
+import { ConfirmationDialogData, UiDialogService } from '@edenoren/ui-kit';
 import { DialogType } from '../enums/dialog-type.enum';
 import {
   CreateSubjectDialogComponent,
@@ -13,27 +12,18 @@ import {
   CompleteSessionResult,
 } from '../components/complete-session-dialog/complete-session-dialog.component';
 import {
-  ConfirmationDialogComponent,
-  ConfirmationDialogData,
-} from '../components/confirmation-dialog/confirmation-dialog.component';
-import {
   LogEntryDialogComponent,
   LogEntryDialogData,
   LogEntryFormData,
 } from '../components/log-entry-dialog/log-entry-dialog.component';
 
-interface DialogCloseable<T> {
-  submitted: OutputEmitterRef<T>;
-  closed: OutputEmitterRef<void>;
-}
-
-const DEFAULT_DIALOG_CONFIG: MatDialogConfig = {
-  panelClass: 'app-dialog-panel',
-};
-
+/**
+ * Maps this app's dialogs to the shared open/close mechanism. DialogType stays here rather
+ * than in ui-kit so adding a dialog is an app change, not a library release.
+ */
 @Service()
 export class DialogService {
-  private readonly matDialog: MatDialog = inject(MatDialog);
+  private readonly uiDialogService: UiDialogService = inject(UiDialogService);
 
   open(type: DialogType.CreateSubject): Promise<CreateSubjectFormData | undefined>;
   open(type: DialogType.AddItem): Promise<string | undefined>;
@@ -43,33 +33,15 @@ export class DialogService {
   open(type: DialogType, data?: unknown): Promise<unknown> {
     switch (type) {
       case DialogType.CreateSubject:
-        return this.openDialog<CreateSubjectFormData>(CreateSubjectDialogComponent);
+        return this.uiDialogService.openComponent<CreateSubjectFormData>(CreateSubjectDialogComponent);
       case DialogType.AddItem:
-        return this.openDialog<string>(AddItemDialogComponent);
+        return this.uiDialogService.openComponent<string>(AddItemDialogComponent);
       case DialogType.CompleteSession:
-        return this.openDialog<CompleteSessionResult>(CompleteSessionDialogComponent, { data });
+        return this.uiDialogService.openComponent<CompleteSessionResult>(CompleteSessionDialogComponent, { data });
       case DialogType.LogEntry:
-        return this.openDialog<LogEntryFormData>(LogEntryDialogComponent, { data });
-      case DialogType.Confirmation: {
-        const ref = this.matDialog.open<ConfirmationDialogComponent, ConfirmationDialogData, boolean>(
-          ConfirmationDialogComponent,
-          { ...DEFAULT_DIALOG_CONFIG, data: data as ConfirmationDialogData },
-        );
-        ref.componentInstance.submitted.subscribe(() => ref.close(true));
-        ref.componentInstance.closed.subscribe(() => ref.close(false));
-        return firstValueFrom(ref.afterClosed()).then(result => result ?? false);
-      }
+        return this.uiDialogService.openComponent<LogEntryFormData>(LogEntryDialogComponent, { data });
+      case DialogType.Confirmation:
+        return this.uiDialogService.confirm(data as ConfirmationDialogData);
     }
-  }
-
-  private async openDialog<T>(
-    component: Type<DialogCloseable<T>>,
-    config: MatDialogConfig = {},
-  ): Promise<T | undefined> {
-    const ref = this.matDialog.open(component, { ...DEFAULT_DIALOG_CONFIG, ...config });
-    const instance = ref.componentInstance;
-    instance.submitted.subscribe((value: T) => ref.close(value));
-    instance.closed.subscribe(() => ref.close(undefined));
-    return firstValueFrom(ref.afterClosed());
   }
 }

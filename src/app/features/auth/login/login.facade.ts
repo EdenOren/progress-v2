@@ -1,3 +1,4 @@
+import { ValidationTranslationService } from '@edenoren/ui-kit';
 import { computed, inject, Service, Signal, signal, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
@@ -6,7 +7,6 @@ import { AuthService } from '../../../core/services/platform/auth.service';
 import { AppRoute } from '../../../core/enums/app-route.enum';
 import { AuthRoute } from '../../../core/enums/auth-route.enum';
 import { LoginStatus } from '../../../core/enums/login-status.enum';
-import { ValidationTranslationService } from '../../../shared/services/validation-translation.service';
 
 @Service({ autoProvided: false })
 export class LoginFacade {

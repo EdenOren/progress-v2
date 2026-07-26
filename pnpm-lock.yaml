@@ -32,6 +32,9 @@ importers:
       '@angular/router':
         specifier: ^22.0.0
         version: 22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(@angular/platform-browser@22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2)))(rxjs@7.8.2)
+      '@edenoren/ui-kit':
+        specifier: ^0.1.0
+        version: 0.1.0(2c4e62f0c18bd1dcb542ad9373f2a175)
       '@ngx-translate/core':
         specifier: ^18.0.0
         version: 18.0.0(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2)
@@ -420,6 +423,19 @@ packages:
   '@csstools/css-tokenizer@4.0.0':
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
+
+  '@edenoren/ui-kit@0.1.0':
+    resolution: {integrity: sha512-+I5SpaRnVZ8MiVBgLUJ4UXk7+WGjizDQf3k0U88Jc16kJU3JbgLY7VPI3C4D7QQv9LI0eq1uHsbyrTmeJ9JHUQ==, tarball: https://npm.pkg.github.com/download/@edenoren/ui-kit/0.1.0/85cd5e193417656eaca18b41ae84c1228d28e74a}
+    peerDependencies:
+      '@angular/cdk': ^22.0.1
+      '@angular/common': ^22.0.0
+      '@angular/core': ^22.0.0
+      '@angular/forms': ^22.0.0
+      '@angular/material': ^22.0.1
+      '@angular/platform-browser': ^22.0.0
+      '@angular/router': ^22.0.0
+      '@ngx-translate/core': ^18.0.0
+      rxjs: ~7.8.0
 
   '@esbuild/aix-ppc64@0.27.7':
     resolution: {integrity: sha512-EKX3Qwmhz1eMdEJokhALr0YiD0lhQNwDqkPYyPhiSwKrh7/4KRjQc04sZ8db+5DVVnZ1LmbNDI1uAMPEUBnQPg==}
@@ -3236,6 +3252,19 @@ snapshots:
       css-tree: 3.2.1
 
   '@csstools/css-tokenizer@4.0.0': {}
+
+  '@edenoren/ui-kit@0.1.0(2c4e62f0c18bd1dcb542ad9373f2a175)':
+    dependencies:
+      '@angular/cdk': 22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(@angular/platform-browser@22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2)))(rxjs@7.8.2)
+      '@angular/common': 22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/core': 22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2)
+      '@angular/forms': 22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(@angular/platform-browser@22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2)))(rxjs@7.8.2)
+      '@angular/material': 22.0.1(d53356997a6c02d6c05574b28538fad5)
+      '@angular/platform-browser': 22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))
+      '@angular/router': 22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(@angular/platform-browser@22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2)))(rxjs@7.8.2)
+      '@ngx-translate/core': 18.0.0(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2)
+      rxjs: 7.8.2
+      tslib: 2.8.1
 
   '@esbuild/aix-ppc64@0.27.7':
     optional: true

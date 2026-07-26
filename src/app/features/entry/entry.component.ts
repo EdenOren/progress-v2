@@ -1,8 +1,8 @@
+import { ButtonType } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { EntryFacade } from './entry.facade';
-import { ButtonType } from '../../shared/enums/button-type.enum';
 import { SessionItemComponent } from './components/session-item/session-item.component';
 import type { ItemSet } from '../../core/services/data/items.service';
 import type {

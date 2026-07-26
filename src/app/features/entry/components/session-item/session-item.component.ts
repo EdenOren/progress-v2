@@ -1,3 +1,4 @@
+import { ButtonType } from '@edenoren/ui-kit';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,7 +15,6 @@ import { SetRowComponent } from '../set-row/set-row.component';
 import { SessionItemFeedbackComponent } from '../session-item-feedback/session-item-feedback.component';
 import { SessionItemNoteComponent } from '../session-item-note/session-item-note.component';
 import { FeedbackRating } from '../../../../shared/enums/feedback-rating.enum';
-import { ButtonType } from '../../../../shared/enums/button-type.enum';
 import { TrackingType } from '../../../../shared/enums/tracking-type.enum';
 import { DistanceUnit } from '../../../../shared/enums/distance-unit.enum';
 import { metersToKm, metersToMiles, metersToYards } from '../../../../shared/utils/unit-conversion';

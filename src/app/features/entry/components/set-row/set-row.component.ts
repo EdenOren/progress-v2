@@ -1,3 +1,4 @@
+import { ButtonType, InputType, UiInputComponent } from '@edenoren/ui-kit';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,10 +12,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { UiInputComponent } from '../../../../shared/components/ui-input/ui-input.component';
 import { TrackingType } from '../../../../shared/enums/tracking-type.enum';
-import { InputType } from '../../../../shared/enums/input-type.enum';
-import { ButtonType } from '../../../../shared/enums/button-type.enum';
 import { DistanceUnit } from '../../../../shared/enums/distance-unit.enum';
 import {
   metersToKm,

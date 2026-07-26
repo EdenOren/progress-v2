@@ -32,13 +32,21 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@edenoren/ui-kit/assets",
+                "output": "assets/ui-kit"
               }
             ],
             "styles": [
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/styles"]
+              "includePaths": [
+                "node_modules/@edenoren/ui-kit/styles",
+                "src/styles"
+              ]
             }
           },
           "configurations": {

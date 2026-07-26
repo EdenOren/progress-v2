@@ -1,8 +1,8 @@
+import { ButtonType } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SettingsFacade } from './settings.facade';
 import { WeightUnit } from '../../shared/enums/weight-unit.enum';
 import { DistanceUnit } from '../../shared/enums/distance-unit.enum';
-import { ButtonType } from '../../shared/enums/button-type.enum';
 
 @Component({
   selector: 'app-settings',

@@ -1,3 +1,4 @@
+import { ButtonVariant, InputType, UiButtonComponent, UiInputComponent, UiModalComponent } from '@edenoren/ui-kit';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,11 +13,6 @@ import {
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { UiButtonComponent } from '../ui-button/ui-button.component';
-import { UiInputComponent } from '../ui-input/ui-input.component';
-import { UiModalComponent } from '../ui-modal/ui-modal.component';
-import { ButtonVariant } from '../../enums/button-variant.enum';
-import { InputType } from '../../enums/input-type.enum';
 import { WeightUnit } from '../../enums/weight-unit.enum';
 import {
   cmToIn,

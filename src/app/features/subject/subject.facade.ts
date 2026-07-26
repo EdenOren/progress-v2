@@ -1,3 +1,4 @@
+import type { ConfirmationDialogData } from '@edenoren/ui-kit';
 import {
   computed,
   inject,
@@ -22,7 +23,6 @@ import { AppRoute } from '../../core/enums/app-route.enum';
 import { ProgressRoute } from '../../core/enums/progress-route.enum';
 import { DialogService } from '../../shared/services/dialog.service';
 import { DialogType } from '../../shared/enums/dialog-type.enum';
-import type { ConfirmationDialogData } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Service({ autoProvided: false })
 export class SubjectFacade {

@@ -1,8 +1,8 @@
+import { ButtonType } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ProgressFacade } from './progress.facade';
 import { SubjectCardComponent } from './components/subject-card/subject-card.component';
-import { ButtonType } from '../../shared/enums/button-type.enum';
 
 @Component({
   selector: 'app-progress',

@@ -1,7 +1,6 @@
+import { ButtonType, UiIconComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
-import { UiIconComponent } from '../../../../shared/components/ui-icon/ui-icon.component';
 import { AppIcon } from '../../../../shared/enums/app-icon.enum';
-import { ButtonType } from '../../../../shared/enums/button-type.enum';
 import type { Subject } from '../../../../core/services/data/subjects.service';
 
 @Component({
