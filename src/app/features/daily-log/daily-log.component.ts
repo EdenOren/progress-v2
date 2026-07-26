@@ -1,8 +1,8 @@
+import { ButtonType } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { DailyLogFacade } from './daily-log.facade';
 import { LogCardComponent } from './components/log-card/log-card.component';
-import { ButtonType } from '../../shared/enums/button-type.enum';
 import type { DailyLog } from '../../core/services/data/daily-log/daily-log.model';
 
 @Component({

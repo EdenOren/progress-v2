@@ -1,3 +1,4 @@
+import { ButtonType } from '@edenoren/ui-kit';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,7 +10,6 @@ import {
   Signal,
 } from '@angular/core';
 import { FeedbackRating } from '../../../../shared/enums/feedback-rating.enum';
-import { ButtonType } from '../../../../shared/enums/button-type.enum';
 import type { ItemFeedback } from '../../../../core/services/data/items.service';
 
 @Component({

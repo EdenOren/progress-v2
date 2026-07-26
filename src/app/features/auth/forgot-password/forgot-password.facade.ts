@@ -1,8 +1,8 @@
+import { ValidationTranslationService } from '@edenoren/ui-kit';
 import { computed, inject, Service, Signal, signal, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/platform/auth.service';
-import { ValidationTranslationService } from '../../../shared/services/validation-translation.service';
 
 @Service({ autoProvided: false })
 export class ForgotPasswordFacade {

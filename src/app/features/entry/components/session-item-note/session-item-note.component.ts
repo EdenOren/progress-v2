@@ -1,3 +1,4 @@
+import { ButtonType, UiTextareaComponent } from '@edenoren/ui-kit';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,8 +11,6 @@ import {
   Signal,
   WritableSignal,
 } from '@angular/core';
-import { UiTextareaComponent } from '../../../../shared/components/ui-textarea/ui-textarea.component';
-import { ButtonType } from '../../../../shared/enums/button-type.enum';
 
 @Component({
   selector: 'app-session-item-note',

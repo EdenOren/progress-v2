@@ -1,3 +1,4 @@
+import { ButtonType, InputType, UiButtonComponent, UiInputComponent, UiLinkComponent, ValidationKind } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
 import {
   email,
@@ -9,12 +10,6 @@ import {
 } from '@angular/forms/signals';
 import { SignupFacade } from './signup.facade';
 import { AuthRoute } from '../../../core/enums/auth-route.enum';
-import { ButtonType } from '../../../shared/enums/button-type.enum';
-import { InputType } from '../../../shared/enums/input-type.enum';
-import { ValidationKind } from '../../../shared/enums/validation-kind.enum';
-import { UiButtonComponent } from '../../../shared/components/ui-button/ui-button.component';
-import { UiInputComponent } from '../../../shared/components/ui-input/ui-input.component';
-import { UiLinkComponent } from '../../../shared/components/ui-link/ui-link.component';
 
 interface SignupFormModel {
   displayName: string;

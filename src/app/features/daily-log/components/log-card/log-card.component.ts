@@ -1,3 +1,4 @@
+import { ButtonVariant, UiButtonComponent } from '@edenoren/ui-kit';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,8 +11,6 @@ import {
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { UiButtonComponent } from '../../../../shared/components/ui-button/ui-button.component';
-import { ButtonVariant } from '../../../../shared/enums/button-variant.enum';
 import { WeightUnit } from '../../../../shared/enums/weight-unit.enum';
 import {
   cmToIn,

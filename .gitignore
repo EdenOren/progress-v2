@@ -49,3 +49,6 @@ Thumbs.db
 
 # Supabase CLI local metadata
 /supabase/.temp
+
+# Registry auth for @edenoren/ui-kit — never commit
+.npmrc

@@ -1,3 +1,4 @@
+import { ButtonVariant, InputType, UiButtonComponent, UiInputComponent, ValidationKind } from '@edenoren/ui-kit';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,11 +12,6 @@ import {
 import { FieldTree, form, FormRoot, required } from '@angular/forms/signals';
 import { ProfileFacade } from './profile.facade';
 import type { Profile, UpdateProfileInput } from '../../core/services/data/profile/profile.model';
-import { ValidationKind } from '../../shared/enums/validation-kind.enum';
-import { ButtonVariant } from '../../shared/enums/button-variant.enum';
-import { InputType } from '../../shared/enums/input-type.enum';
-import { UiButtonComponent } from '../../shared/components/ui-button/ui-button.component';
-import { UiInputComponent } from '../../shared/components/ui-input/ui-input.component';
 
 interface ProfileFormModel {
   displayName: string;

@@ -1,9 +1,9 @@
+import { ButtonType } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SubjectFacade } from './subject.facade';
 import { EntryCardComponent } from './components/entry-card/entry-card.component';
-import { ButtonType } from '../../shared/enums/button-type.enum';
 
 @Component({
   selector: 'app-subject',

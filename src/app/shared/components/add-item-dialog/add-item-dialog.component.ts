@@ -1,3 +1,4 @@
+import { ButtonVariant, InputType, UiButtonComponent, UiInputComponent, UiModalComponent, ValidationKind } from '@edenoren/ui-kit';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,12 +13,6 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FieldTree, form, FormRoot, required } from '@angular/forms/signals';
-import { UiButtonComponent } from '../ui-button/ui-button.component';
-import { UiInputComponent } from '../ui-input/ui-input.component';
-import { UiModalComponent } from '../ui-modal/ui-modal.component';
-import { ButtonVariant } from '../../enums/button-variant.enum';
-import { InputType } from '../../enums/input-type.enum';
-import { ValidationKind } from '../../enums/validation-kind.enum';
 
 interface AddItemModel {
   name: string;
