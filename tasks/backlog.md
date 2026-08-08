@@ -202,6 +202,17 @@
 - [ ] Requires (manual, outside repo): deploy notify-password-changed + redeploy ALL four existing functions (record-device-session, login-with-device-check, verify-device-otp, resend-device-otp — all import refactored _shared/ modules), no new secrets
 - See `plans/phase-11b-security-account-change-alerts.md`
 
+## Phase RX — Responsive & Comfort Overhaul (approved 2026-08-08 — see `plans/refactor-responsive-ux-overhaul.md`)
+- [ ] RX-0 — Viewport & shell correctness (branch: refactor/rx-0-viewport-shell) — viewport meta, document scroll, sticky nav, safe areas, reduced motion, hover guards
+- [ ] RX-1 — ui-kit v0.2.0 responsive foundation (ui-kit repo) — fluid type, touch tokens, mixins, bottom-sheet dialog, UiPage/UiSkeleton/UiStatTile; recipebox checked but non-blocking
+- [ ] RX-2 — Adopt `<ui-page>` across all 8 screens (branch: refactor/rx-2-page-primitives)
+- [ ] RX-3 — Entry/session: same-row set inputs kept, exercise accordion (active sticky top, others collapsed, rated sink to bottom), rating-colored border kept collapsed + expanded with the rating button visibly pressed, active-exercise state persisted to localStorage via new SessionUiStateService, Finish thumb bar on phone / header flex-end on web (branch: refactor/rx-3-entry-session)
+- [ ] RX-4 — Progress & Subject (branch: refactor/rx-4-progress-subject)
+- [ ] RX-5 — Daily Log stat tiles + KPI on new primitives (branch: refactor/rx-5-daily-log-kpi)
+- [ ] RX-6 — Dialogs → bottom sheets below sm (branch: refactor/rx-6-dialogs)
+- [ ] RX-7 — Auth, Menu, Profile, Settings (branch: refactor/rx-7-auth-account)
+- [ ] RX-8 — Polish & performance: skeletons, icon consolidation, bundle budget (branch: refactor/rx-8-polish)
+
 ## Phase 11c — Security: Block New-Device Login Behind Email OTP ✓ (complete — merged via PR #25)
 - [x] 017_login_otp_challenges.sql — short-lived OTP challenge table, zero RLS policies (service-role only)
 - [x] supabase/functions/_shared/{crypto,device,brevo,otp}.ts — shared fingerprint/hash/email helpers, record-device-session refactored to use them
