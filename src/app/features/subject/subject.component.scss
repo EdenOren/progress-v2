@@ -4,7 +4,6 @@
 .subject {
   display: flex;
   flex-direction: column;
-  height: 100%;
 
   &__header {
     display: flex;
@@ -85,7 +84,6 @@
     padding: 0;
     margin: 0;
     flex: 1;
-    overflow-y: auto;
   }
 
   &__list-item {

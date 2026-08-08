@@ -5,7 +5,6 @@
 .settings {
   display: flex;
   flex-direction: column;
-  height: 100%;
 
   &__header {
     display: flex;
@@ -31,7 +30,6 @@
 
   &__content {
     flex: 1;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: variables.$spacing-md;
@@ -98,11 +96,22 @@
       opacity: 0.6;
     }
 
-    &:hover,
+    // Selected is filled, hover is only a tint. Previously both shared one rule,
+    // so on a touch device the lingering hover made an unselected unit look
+    // chosen — including after an optimistic update had rolled back.
     &--active {
-      background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+      background: var(--color-primary);
       border-color: var(--color-primary);
-      color: var(--color-primary);
+      color: var(--color-text-inverse);
+      font-weight: 600;
+    }
+
+    @media (hover: hover) {
+      &:hover:not(:disabled):not(.settings__btn--active) {
+        background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+      }
     }
   }
 
