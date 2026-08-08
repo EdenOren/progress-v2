@@ -33,8 +33,8 @@ importers:
         specifier: ^22.0.0
         version: 22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(@angular/platform-browser@22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2)))(rxjs@7.8.2)
       '@edenoren/ui-kit':
-        specifier: ^0.1.0
-        version: 0.1.0(2c4e62f0c18bd1dcb542ad9373f2a175)
+        specifier: ^0.2.0
+        version: 0.2.0(2c4e62f0c18bd1dcb542ad9373f2a175)
       '@ngx-translate/core':
         specifier: ^18.0.0
         version: 18.0.0(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2)
@@ -424,8 +424,8 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@edenoren/ui-kit@0.1.0':
-    resolution: {integrity: sha512-+I5SpaRnVZ8MiVBgLUJ4UXk7+WGjizDQf3k0U88Jc16kJU3JbgLY7VPI3C4D7QQv9LI0eq1uHsbyrTmeJ9JHUQ==, tarball: https://npm.pkg.github.com/download/@edenoren/ui-kit/0.1.0/85cd5e193417656eaca18b41ae84c1228d28e74a}
+  '@edenoren/ui-kit@0.2.0':
+    resolution: {integrity: sha512-0jOjd9Seq2WRYtIigzvyQ5eOthMvOGOSvNyss0HFzhnSub6/zS5DBP/KeP1WtPvyALXxiAXRgPol+dJwrOB0pA==, tarball: https://npm.pkg.github.com/download/@edenoren/ui-kit/0.2.0/5555bb2c30c5947884fd49cdbb7289bb01861528}
     peerDependencies:
       '@angular/cdk': ^22.0.1
       '@angular/common': ^22.0.0
@@ -3253,7 +3253,7 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@edenoren/ui-kit@0.1.0(2c4e62f0c18bd1dcb542ad9373f2a175)':
+  '@edenoren/ui-kit@0.2.0(2c4e62f0c18bd1dcb542ad9373f2a175)':
     dependencies:
       '@angular/cdk': 22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(@angular/platform-browser@22.0.1(@angular/common@22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2)))(rxjs@7.8.2)
       '@angular/common': 22.0.1(@angular/core@22.0.1(@angular/compiler@22.0.1)(rxjs@7.8.2))(rxjs@7.8.2)
