@@ -1,4 +1,4 @@
-import { ButtonType } from '@edenoren/ui-kit';
+import { ButtonType, UiPageComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +18,7 @@ import type {
   styleUrl: './entry.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [EntryFacade],
-  imports: [MatIconModule, MatButtonModule, SessionItemComponent],
+  imports: [MatIconModule, MatButtonModule, SessionItemComponent, UiPageComponent],
 })
 export class EntryComponent {
   protected readonly facade: EntryFacade = inject(EntryFacade);

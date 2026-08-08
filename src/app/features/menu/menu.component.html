@@ -1,8 +1,4 @@
-<div class="menu">
-  <header class="menu__header">
-    <h1 class="menu__title">{{ titleLabel() }}</h1>
-  </header>
-
+<app-ui-page [title]="titleLabel()" [narrow]="true">
   <div class="menu__content">
     <app-ui-button
       [label]="profileLabel()"
@@ -21,4 +17,4 @@
       (click)="onLogout()"
     />
   </div>
-</div>
+</app-ui-page>

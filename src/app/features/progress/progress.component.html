@@ -1,14 +1,12 @@
-<div class="progress">
-  <header class="progress__header">
-    <h1 class="progress__title">{{ facade.translation()['TITLE'] }}</h1>
-    <button
-      class="progress__add-btn"
-      [type]="ButtonType.Button"
-      (click)="addSubject()"
-      [attr.aria-label]="facade.translation()['ADD_SUBJECT']">
-      <mat-icon aria-hidden="true">add</mat-icon>
-    </button>
-  </header>
+<app-ui-page [title]="facade.translation()['TITLE']">
+  <button
+    slot="actions"
+    class="progress__add-btn"
+    [type]="ButtonType.Button"
+    (click)="addSubject()"
+    [attr.aria-label]="facade.translation()['ADD_SUBJECT']">
+    <mat-icon aria-hidden="true">add</mat-icon>
+  </button>
 
   @if (facade.isLoading()) {
     <p class="progress__status">{{ facade.translation()['LOADING'] }}</p>
@@ -32,4 +30,4 @@
   @if (facade.errorMessage()) {
     <p class="progress__form-error">{{ facade.errorMessage() }}</p>
   }
-</div>
+</app-ui-page>

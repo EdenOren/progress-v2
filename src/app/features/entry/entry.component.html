@@ -1,26 +1,26 @@
 @let t = facade.translation();
 
-<div class="entry">
-  <header class="entry__header">
+<app-ui-page>
+  <button
+    slot="leading"
+    class="entry__back-btn"
+    [type]="ButtonType.Button"
+    (click)="navigateBack()"
+    [attr.aria-label]="t['BACK']">
+    <mat-icon aria-hidden="true">arrow_back</mat-icon>
+  </button>
+
+  <span slot="heading" class="entry__timer" aria-live="off">{{ facade.formattedTime() }}</span>
+
+  @if (!facade.isCompleted()) {
     <button
-      class="entry__back-btn"
+      slot="actions"
+      class="entry__finish-btn"
       [type]="ButtonType.Button"
-      (click)="navigateBack()"
-      [attr.aria-label]="t['BACK']">
-      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      (click)="openCompleteDialog()">
+      {{ t['FINISH'] }}
     </button>
-
-    <span class="entry__timer" aria-live="off">{{ facade.formattedTime() }}</span>
-
-    @if (!facade.isCompleted()) {
-      <button
-        class="entry__finish-btn"
-        [type]="ButtonType.Button"
-        (click)="openCompleteDialog()">
-        {{ t['FINISH'] }}
-      </button>
-    }
-  </header>
+  }
 
   <div class="entry__body">
     @if (facade.isLoading()) {
@@ -58,4 +58,4 @@
       <p class="entry__error">{{ facade.errorMessage() }}</p>
     }
   </div>
-</div>
+</app-ui-page>

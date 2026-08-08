@@ -1,4 +1,4 @@
-import { ButtonVariant, UiButtonComponent } from '@edenoren/ui-kit';
+import { ButtonVariant, UiButtonComponent, UiPageComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, computed, inject, signal, Signal, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -12,7 +12,7 @@ import { AuthService } from '../../core/services/platform/auth.service';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [UiButtonComponent],
+  imports: [UiButtonComponent, UiPageComponent],
 })
 export class MenuComponent {
   private readonly router: Router = inject(Router);

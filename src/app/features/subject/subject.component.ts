@@ -1,4 +1,4 @@
-import { ButtonType } from '@edenoren/ui-kit';
+import { ButtonType, UiPageComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +11,7 @@ import { EntryCardComponent } from './components/entry-card/entry-card.component
   styleUrl: './subject.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SubjectFacade],
-  imports: [MatIconModule, MatButtonModule, EntryCardComponent],
+  imports: [MatIconModule, MatButtonModule, EntryCardComponent, UiPageComponent],
 })
 export class SubjectComponent {
   protected readonly facade: SubjectFacade = inject(SubjectFacade);

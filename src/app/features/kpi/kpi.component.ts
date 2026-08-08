@@ -1,3 +1,4 @@
+import { UiPageComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -8,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './kpi.component.html',
   styleUrl: './kpi.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule],
+  imports: [MatIconModule, UiPageComponent],
 })
 export class KpiComponent {
   private readonly translateService: TranslateService = inject(TranslateService);

@@ -1,33 +1,34 @@
-<div class="subject">
-  <header class="subject__header">
-    <button
-      class="subject__back-btn"
-      [type]="ButtonType.Button"
-      (click)="navigateBack()"
-      [attr.aria-label]="facade.translation()['BACK']">
-      <mat-icon aria-hidden="true">arrow_back</mat-icon>
-    </button>
-    <h1 class="subject__title">{{ facade.subject()?.name ?? '' }}</h1>
-    <button
-      class="subject__start-btn"
-      [type]="ButtonType.Button"
-      (click)="startWorkout()"
-      [disabled]="facade.isStartingWorkout()"
-      [attr.aria-label]="facade.translation()['START_WORKOUT']">
-      @if (facade.isStartingWorkout()) {
-        <mat-icon aria-hidden="true">hourglass_empty</mat-icon>
-      } @else {
-        <mat-icon aria-hidden="true">play_arrow</mat-icon>
-      }
-    </button>
-    <button
-      class="subject__delete-btn"
-      [type]="ButtonType.Button"
-      (click)="deleteSubject()"
-      [attr.aria-label]="facade.translation()['DELETE_TITLE']">
-      <mat-icon aria-hidden="true">delete</mat-icon>
-    </button>
-  </header>
+<app-ui-page [title]="facade.subject()?.name ?? ''">
+  <button
+    slot="leading"
+    class="subject__icon-btn"
+    [type]="ButtonType.Button"
+    (click)="navigateBack()"
+    [attr.aria-label]="facade.translation()['BACK']">
+    <mat-icon aria-hidden="true">arrow_back</mat-icon>
+  </button>
+
+  <button
+    slot="actions"
+    class="subject__icon-btn subject__icon-btn--start"
+    [type]="ButtonType.Button"
+    (click)="startWorkout()"
+    [disabled]="facade.isStartingWorkout()"
+    [attr.aria-label]="facade.translation()['START_WORKOUT']">
+    @if (facade.isStartingWorkout()) {
+      <mat-icon aria-hidden="true">hourglass_empty</mat-icon>
+    } @else {
+      <mat-icon aria-hidden="true">play_arrow</mat-icon>
+    }
+  </button>
+  <button
+    slot="actions"
+    class="subject__icon-btn subject__icon-btn--delete"
+    [type]="ButtonType.Button"
+    (click)="deleteSubject()"
+    [attr.aria-label]="facade.translation()['DELETE_TITLE']">
+    <mat-icon aria-hidden="true">delete</mat-icon>
+  </button>
 
   @if (facade.isLoading()) {
     <p class="subject__status">{{ facade.translation()['LOADING'] }}</p>
@@ -48,4 +49,4 @@
   @if (facade.errorMessage()) {
     <p class="subject__form-error">{{ facade.errorMessage() }}</p>
   }
-</div>
+</app-ui-page>
