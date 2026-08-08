@@ -1,5 +1,22 @@
 @use 'abstract/variables' as variables;
 
+@mixin rating-appearance($rating-color) {
+  &.session-item-feedback__btn--active {
+    background: $rating-color;
+    border-color: $rating-color;
+    color: var(--color-text-inverse);
+    font-weight: 600;
+  }
+
+  @media (hover: hover) {
+    &:hover:not(.session-item-feedback__btn--active) {
+      background: color-mix(in srgb, #{$rating-color} 10%, transparent);
+      border-color: $rating-color;
+      color: $rating-color;
+    }
+  }
+}
+
 :host {
   display: block;
   margin-top: variables.$spacing-md;
@@ -38,31 +55,20 @@
       outline-offset: 2px;
     }
 
+    // A given rating has to stay unmistakable — it is the app's only signal that
+    // an exercise is finished. Selected fills with the rating colour; hover is a
+    // tint, and only on devices that actually hover, so a tap never leaves a
+    // rating looking chosen when it isn't.
     &--success {
-      &:hover,
-      &.session-item-feedback__btn--active {
-        background: color-mix(in srgb, var(--color-accent) 10%, transparent);
-        border-color: var(--color-accent);
-        color: var(--color-accent);
-      }
+      @include rating-appearance(var(--color-accent));
     }
 
     &--hard {
-      &:hover,
-      &.session-item-feedback__btn--active {
-        background: color-mix(in srgb, var(--color-warning) 10%, transparent);
-        border-color: var(--color-warning);
-        color: var(--color-warning);
-      }
+      @include rating-appearance(var(--color-warning));
     }
 
     &--fail {
-      &:hover,
-      &.session-item-feedback__btn--active {
-        background: color-mix(in srgb, var(--color-error) 10%, transparent);
-        border-color: var(--color-error);
-        color: var(--color-error);
-      }
+      @include rating-appearance(var(--color-error));
     }
   }
 }

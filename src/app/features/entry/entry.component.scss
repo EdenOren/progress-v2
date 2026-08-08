@@ -4,7 +4,6 @@
 .entry {
   display: flex;
   flex-direction: column;
-  height: 100%;
 
   &__header {
     display: flex;
@@ -75,7 +74,6 @@
 
   &__body {
     flex: 1;
-    overflow-y: auto;
     padding: variables.$spacing-md;
     display: flex;
     flex-direction: column;

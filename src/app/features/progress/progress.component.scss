@@ -4,7 +4,6 @@
 .progress {
   display: flex;
   flex-direction: column;
-  height: 100%;
 
   &__header {
     display: flex;
@@ -70,7 +69,6 @@
     padding: variables.$spacing-md;
     margin: 0;
     flex: 1;
-    overflow-y: auto;
 
     @include mixins.respond-to(md) {
       grid-template-columns: repeat(auto-fill, minmax(variables.$card-grid-min, 1fr));
