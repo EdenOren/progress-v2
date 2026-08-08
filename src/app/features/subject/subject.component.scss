@@ -2,26 +2,11 @@
 @use 'abstract/mixins' as mixins;
 
 .subject {
-  display: flex;
-  flex-direction: column;
-
-  &__header {
-    display: flex;
-    align-items: center;
-    padding: variables.$spacing-sm variables.$spacing-md;
-    border-bottom: 1px solid var(--color-border);
-    gap: variables.$spacing-sm;
-    flex-shrink: 0;
-    min-height: 56px;
-  }
-
-  &__back-btn,
-  &__start-btn,
-  &__delete-btn {
+  &__icon-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    @include mixins.touch-target;
+    @include mixins.touch-target-comfortable;
     border: none;
     border-radius: variables.$radius-full;
     background: transparent;
@@ -30,8 +15,10 @@
     flex-shrink: 0;
     transition: background-color variables.$transition-fast;
 
-    &:hover {
-      background-color: var(--color-surface-raised);
+    @include mixins.hoverable {
+      &:hover {
+        background-color: var(--color-surface-raised);
+      }
     }
 
     &:focus-visible {
@@ -42,48 +29,27 @@
     &:active {
       background-color: var(--color-surface-raised);
     }
-  }
 
-  &__start-btn {
-    color: var(--color-accent);
+    &--start {
+      color: var(--color-accent);
 
-    &:active {
-      background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+      &:active {
+        background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
     }
 
-    &:disabled {
-      opacity: 0.5;
-      cursor: default;
+    &--delete {
+      color: var(--color-error);
+
+      &:active {
+        background-color: color-mix(in srgb, var(--color-error) 8%, transparent);
+      }
     }
-  }
-
-  &__delete-btn {
-    color: var(--color-error);
-
-    &:active {
-      background-color: color-mix(in srgb, var(--color-error) 8%, transparent);
-    }
-  }
-
-  &__title {
-    flex: 1;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    @include mixins.respond-to(sm) {
-      font-size: 18px;
-    }
-  }
-
-  &__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex: 1;
   }
 
   &__list-item {
@@ -91,10 +57,10 @@
   }
 
   &__status {
-    padding: variables.$spacing-xl variables.$spacing-md;
+    padding-block: variables.$spacing-xl;
     text-align: center;
     color: var(--color-text-secondary);
-    font-size: 14px;
+    font-size: var(--text-sm);
 
     &--error {
       color: var(--color-error);
@@ -102,9 +68,9 @@
   }
 
   &__form-error {
-    padding: variables.$spacing-sm variables.$spacing-md;
+    padding-block: variables.$spacing-sm;
     color: var(--color-error);
-    font-size: 13px;
+    font-size: var(--text-sm);
     text-align: center;
   }
 }

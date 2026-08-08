@@ -2,41 +2,13 @@
 @use 'abstract/mixins' as mixins;
 
 .menu {
-  display: flex;
-  flex-direction: column;
-
-  &__header {
-    display: flex;
-    align-items: center;
-    padding: variables.$spacing-md variables.$spacing-md variables.$spacing-sm;
-    border-bottom: 1px solid var(--color-border);
-    flex-shrink: 0;
-
-    @include mixins.respond-to(lg) {
-      padding: variables.$spacing-lg variables.$spacing-lg variables.$spacing-md;
-    }
-  }
-
-  &__title {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--color-text-primary);
-
-    @include mixins.respond-to(lg) {
-      font-size: var(--text-3xl);
-    }
-  }
-
   &__content {
     display: flex;
     flex-direction: column;
     gap: variables.$spacing-sm;
-    padding: variables.$spacing-md;
 
     @include mixins.respond-to(lg) {
-      max-width: 560px;
       gap: variables.$spacing-md;
-      padding: variables.$spacing-lg;
     }
   }
 }

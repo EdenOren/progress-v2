@@ -2,54 +2,17 @@
 @use 'abstract/mixins' as mixins;
 
 .progress {
-  display: flex;
-  flex-direction: column;
-
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: variables.$spacing-md variables.$spacing-md variables.$spacing-sm;
-    border-bottom: 1px solid var(--color-border);
-    flex-shrink: 0;
-
-    @include mixins.respond-to(lg) {
-      padding: variables.$spacing-lg variables.$spacing-lg variables.$spacing-md;
-    }
-  }
-
-  &__title {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--color-text-primary);
-
-    @include mixins.respond-to(lg) {
-      font-size: var(--text-3xl);
-    }
-  }
-
   &__add-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    @include mixins.touch-target;
+    @include mixins.touch-target-comfortable;
     border: none;
     border-radius: variables.$radius-full;
     background-color: var(--color-primary);
     color: var(--color-text-inverse);
     cursor: pointer;
     transition: background-color variables.$transition-fast;
-
-    @include mixins.respond-to(lg) {
-      width: 52px;
-      height: 52px;
-
-      mat-icon {
-        font-size: 28px;
-        width: 28px;
-        height: 28px;
-      }
-    }
 
     &:focus-visible {
       outline: 2px solid var(--color-primary);
@@ -62,13 +25,9 @@
   }
 
   &__list {
-    list-style: none;
     display: grid;
     grid-template-columns: 1fr;
     gap: variables.$spacing-md;
-    padding: variables.$spacing-md;
-    margin: 0;
-    flex: 1;
 
     @include mixins.respond-to(md) {
       grid-template-columns: repeat(auto-fill, minmax(variables.$card-grid-min, 1fr));
@@ -76,7 +35,6 @@
 
     @include mixins.respond-to(lg) {
       gap: variables.$spacing-lg;
-      padding: variables.$spacing-lg;
     }
   }
 
@@ -85,10 +43,10 @@
   }
 
   &__status {
-    padding: variables.$spacing-xl variables.$spacing-md;
+    padding-block: variables.$spacing-xl;
     text-align: center;
     color: var(--color-text-secondary);
-    font-size: 14px;
+    font-size: var(--text-sm);
 
     &--error {
       color: var(--color-error);
@@ -101,8 +59,7 @@
     align-items: center;
     justify-content: center;
     gap: variables.$spacing-md;
-    padding: variables.$spacing-2xl variables.$spacing-md;
-    flex: 1;
+    padding-block: variables.$spacing-2xl;
   }
 
   &__empty-icon {
@@ -119,16 +76,16 @@
   }
 
   &__empty-text {
-    font-size: 15px;
+    font-size: var(--text-base);
     color: var(--color-text-secondary);
     text-align: center;
     max-width: 240px;
   }
 
   &__form-error {
-    padding: variables.$spacing-sm variables.$spacing-md;
+    padding-block: variables.$spacing-sm;
     color: var(--color-error);
-    font-size: 13px;
+    font-size: var(--text-sm);
     text-align: center;
   }
 }

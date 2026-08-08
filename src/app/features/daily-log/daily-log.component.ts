@@ -1,4 +1,4 @@
-import { ButtonType } from '@edenoren/ui-kit';
+import { ButtonType, UiPageComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { DailyLogFacade } from './daily-log.facade';
@@ -11,7 +11,7 @@ import type { DailyLog } from '../../core/services/data/daily-log/daily-log.mode
   styleUrl: './daily-log.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DailyLogFacade],
-  imports: [MatIconModule, LogCardComponent],
+  imports: [MatIconModule, LogCardComponent, UiPageComponent],
 })
 export class DailyLogComponent {
   protected readonly facade: DailyLogFacade = inject(DailyLogFacade);

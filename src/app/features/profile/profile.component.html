@@ -1,8 +1,4 @@
-<div class="profile">
-  <header class="profile__header">
-    <h1 class="profile__title">{{ facade.translation()['TITLE'] }}</h1>
-  </header>
-
+<app-ui-page [title]="facade.translation()['TITLE']" [narrow]="true">
   <div class="profile__content">
     @if (facade.isLoading()) {
       <p class="profile__loading">{{ facade.translation()['LOADING'] }}</p>
@@ -56,4 +52,4 @@
       </form>
     }
   </div>
-</div>
+</app-ui-page>

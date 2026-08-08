@@ -1,4 +1,11 @@
-import { ButtonVariant, InputType, UiButtonComponent, UiInputComponent, ValidationKind } from '@edenoren/ui-kit';
+import {
+  ButtonVariant,
+  InputType,
+  UiButtonComponent,
+  UiInputComponent,
+  UiPageComponent,
+  ValidationKind,
+} from '@edenoren/ui-kit';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,7 +31,7 @@ interface ProfileFormModel {
   styleUrl: './profile.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ProfileFacade],
-  imports: [FormRoot, UiInputComponent, UiButtonComponent],
+  imports: [FormRoot, UiInputComponent, UiButtonComponent, UiPageComponent],
 })
 export class ProfileComponent {
   protected readonly facade: ProfileFacade = inject(ProfileFacade);

@@ -1,10 +1,6 @@
 @let t = facade.translation();
 
-<div class="settings">
-  <header class="settings__header">
-    <h1 class="settings__title">{{ t['TITLE'] }}</h1>
-  </header>
-
+<app-ui-page [title]="t['TITLE']" [narrow]="true">
   <div class="settings__content">
     @if (facade.isLoading()) {
       <p class="settings__loading">{{ t['LOADING'] }}</p>
@@ -63,4 +59,4 @@
       }
     }
   </div>
-</div>
+</app-ui-page>
