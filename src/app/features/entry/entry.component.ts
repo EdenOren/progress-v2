@@ -52,6 +52,10 @@ export class EntryComponent {
     void this.facade.deleteItem(itemId);
   }
 
+  protected onItemActivated(itemId: string): void {
+    this.facade.setActiveItem(itemId);
+  }
+
   protected openAddItemDialog(): void {
     void this.facade.openAddItemDialog();
   }

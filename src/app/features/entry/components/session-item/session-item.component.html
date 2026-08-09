@@ -1,67 +1,90 @@
 @let t = translation();
 @let currentItem = item();
 
-<div class="session-item">
-  <div class="session-item__header">
-    <h3 class="session-item__name">{{ currentItem.name }}</h3>
+<div
+  class="session-item"
+  [class.session-item--collapsed]="!isActive()"
+  [class.session-item--success]="isSuccessRated()"
+  [class.session-item--hard]="isHardRated()"
+  [class.session-item--fail]="isFailRated()">
+  @if (!isActive()) {
+    <button
+      class="session-item__summary"
+      [type]="ButtonType.Button"
+      (click)="onActivated()"
+      [attr.aria-expanded]="false">
+      @if (isFinished()) {
+        <mat-icon class="session-item__check" aria-hidden="true">check_circle</mat-icon>
+      }
+      <span class="session-item__name">{{ currentItem.name }}</span>
+      <span class="session-item__set-count">{{ setSummary() }}</span>
+      <mat-icon class="session-item__chevron" aria-hidden="true">expand_more</mat-icon>
+    </button>
+  } @else {
+    <div class="session-item__header">
+      <h3 class="session-item__name">{{ currentItem.name }}</h3>
+      @if (isFinished()) {
+        <mat-icon class="session-item__check" aria-hidden="true">check_circle</mat-icon>
+      }
+      @if (!isReadOnly()) {
+        <button
+          class="session-item__delete-btn"
+          [type]="ButtonType.Button"
+          (click)="onDeleteRequested()"
+          [attr.aria-label]="t['DELETE_EXERCISE']">
+          <mat-icon aria-hidden="true">delete_outline</mat-icon>
+        </button>
+      }
+    </div>
+
+    @if (currentItem.note) {
+      <div class="session-item__prev-note">
+        <mat-icon class="session-item__prev-note-icon" aria-hidden="true">chat_bubble_outline</mat-icon>
+        <span>{{ currentItem.note }}</span>
+      </div>
+    }
+
+    @if (formattedPreviousSets()) {
+      <p class="session-item__prev-sets">
+        {{ t['PREVIOUS_LABEL'] }}: {{ formattedPreviousSets() }}
+      </p>
+    }
+
+    <div class="session-item__sets">
+      @for (set of currentItem.sets; track set.id; let i = $index) {
+        <app-set-row
+          [set]="set"
+          [setNumber]="i + 1"
+          [trackingType]="currentItem.trackingType"
+          [distanceUnit]="distanceUnit()"
+          [isReadOnly]="isReadOnly()"
+          [translation]="t"
+          (changed)="onSetChanged(set.setIndex, $event)"
+          (removed)="onSetRemoved(set.setIndex)" />
+      }
+    </div>
+
     @if (!isReadOnly()) {
       <button
-        class="session-item__delete-btn"
+        class="session-item__add-set-btn"
         [type]="ButtonType.Button"
-        (click)="onDeleteRequested()"
-        [attr.aria-label]="t['DELETE_EXERCISE']">
-        <mat-icon aria-hidden="true">delete_outline</mat-icon>
+        (click)="onSetAdded()">
+        <mat-icon aria-hidden="true">add</mat-icon>
+        {{ t['ADD_SET'] }}
       </button>
     }
-  </div>
 
-  @if (currentItem.note) {
-    <div class="session-item__prev-note">
-      <mat-icon class="session-item__prev-note-icon" aria-hidden="true">chat_bubble_outline</mat-icon>
-      <span>{{ currentItem.note }}</span>
-    </div>
-  }
-
-  @if (formattedPreviousSets()) {
-    <p class="session-item__prev-sets">
-      {{ t['PREVIOUS_LABEL'] }}: {{ formattedPreviousSets() }}
-    </p>
-  }
-
-  <div class="session-item__sets">
-    @for (set of currentItem.sets; track set.id; let i = $index) {
-      <app-set-row
-        [set]="set"
-        [setNumber]="i + 1"
-        [trackingType]="currentItem.trackingType"
-        [distanceUnit]="distanceUnit()"
-        [isReadOnly]="isReadOnly()"
+    @if (!isReadOnly()) {
+      <app-session-item-feedback
+        [feedback]="currentItem.feedback"
         [translation]="t"
-        (changed)="onSetChanged(set.setIndex, $event)"
-        (removed)="onSetRemoved(set.setIndex)" />
+        (feedbackChanged)="onFeedbackChanged($event)" />
     }
-  </div>
 
-  @if (!isReadOnly()) {
-    <button
-      class="session-item__add-set-btn"
-      [type]="ButtonType.Button"
-      (click)="onSetAdded()">
-      <mat-icon aria-hidden="true">add</mat-icon>
-      {{ t['ADD_SET'] }}
-    </button>
-  }
-
-  @if (!isReadOnly()) {
-    <app-session-item-feedback
-      [feedback]="currentItem.feedback"
+    <app-session-item-note
+      [note]="currentItem.note"
+      [isReadOnly]="isReadOnly()"
       [translation]="t"
-      (feedbackChanged)="onFeedbackChanged($event)" />
+      (noteChanged)="onNoteChanged($event)" />
   }
-
-  <app-session-item-note
-    [note]="currentItem.note"
-    [isReadOnly]="isReadOnly()"
-    [translation]="t"
-    (noteChanged)="onNoteChanged($event)" />
 </div>

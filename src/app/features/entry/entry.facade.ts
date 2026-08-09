@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs';
 import { AuthService } from '../../core/services/platform/auth.service';
+import { SessionUiStateService } from '../../core/services/platform/session-ui-state.service';
 import { EntriesService } from '../../core/services/data/entries.service';
 import type { Entry } from '../../core/services/data/entries.service';
 import { ItemsService } from '../../core/services/data/items.service';
@@ -28,6 +29,7 @@ import { AppRoute } from '../../core/enums/app-route.enum';
 import { ProgressRoute } from '../../core/enums/progress-route.enum';
 import { FeedbackRating } from '../../shared/enums/feedback-rating.enum';
 import { DistanceUnit } from '../../shared/enums/distance-unit.enum';
+import { orderSessionItems, resolveActiveItemId } from './session-order.util';
 import { DialogService } from '../../shared/services/dialog.service';
 import { DialogType } from '../../shared/enums/dialog-type.enum';
 import type { CompleteSessionDialogData } from '../../shared/components/complete-session-dialog/complete-session-dialog.component';
@@ -44,6 +46,7 @@ export class EntryFacade {
   private readonly itemFeedbackService: ItemFeedbackService = inject(ItemFeedbackService);
   private readonly userSettingsService: UserSettingsService = inject(UserSettingsService);
   private readonly authService: AuthService = inject(AuthService);
+  private readonly sessionUiStateService: SessionUiStateService = inject(SessionUiStateService);
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly dialogService: DialogService = inject(DialogService);
@@ -141,6 +144,34 @@ export class EntryFacade {
 
   readonly isCompleted: Signal<boolean> = computed(() => this.entry()?.isCompleted ?? false);
 
+  // An exercise is finished once it carries a feedback rating — the only
+  // completion signal the data model has.
+  private readonly _activeItemId: WritableSignal<string | null> = signal(null);
+
+  /**
+   * The exercise currently expanded. Falls back to the first unrated exercise,
+   * then to the last one when everything has been rated.
+   */
+  readonly activeItemId: Signal<string | null> = computed(() =>
+    resolveActiveItemId(this.items(), this._activeItemId()),
+  );
+
+  /**
+   * Active exercise first, then the rest in order, with rated ones sunk to the
+   * bottom.
+   */
+  readonly orderedItems: Signal<SessionItem[]> = computed(() =>
+    orderSessionItems(this.items(), this.activeItemId(), this.isCompleted()),
+  );
+
+  setActiveItem(itemId: string): void {
+    this._activeItemId.set(itemId);
+    const entryId: string | undefined = this._entryIdParam();
+    if (entryId) {
+      this.sessionUiStateService.setActiveItemId(entryId, itemId);
+    }
+  }
+
   readonly exerciseCount: Signal<number> = computed(() => this.items().length);
 
   readonly totalSets: Signal<number> = computed(() =>
@@ -183,6 +214,7 @@ export class EntryFacade {
   readonly errorMessage: Signal<string> = this._errorMessage;
 
   private startEntryPending = false;
+  private activeItemRestored = false;
 
   constructor() {
     effect((onCleanup) => {
@@ -203,6 +235,21 @@ export class EntryFacade {
       if (entry && !entry.startedAt && !entry.isCompleted && !this.startEntryPending) {
         this.startEntryPending = true;
         void this.callStartEntry(entry.id);
+      }
+    });
+
+    // Restores the exercise that was open when the browser was last closed.
+    // Guarded by a plain boolean rather than a signal so the effect does not
+    // re-run on its own write, and so a later user choice is never overwritten.
+    effect(() => {
+      const entryId: string | undefined = this._entryIdParam();
+      if (!entryId || this.activeItemRestored) {
+        return;
+      }
+      this.activeItemRestored = true;
+      const storedId: string | null = this.sessionUiStateService.getActiveItemId(entryId);
+      if (storedId) {
+        this._activeItemId.set(storedId);
       }
     });
   }
@@ -352,6 +399,8 @@ export class EntryFacade {
       this._errorMessage.set(result.error.message);
       return;
     }
+    // The session is over, so its stored open-exercise would only accumulate.
+    this.sessionUiStateService.clear(entryId);
     this.navigateBack();
   }
 

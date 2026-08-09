@@ -14,7 +14,7 @@
 
   @if (!facade.isCompleted()) {
     <button
-      slot="actions"
+      slot="primary"
       class="entry__finish-btn"
       [type]="ButtonType.Button"
       (click)="openCompleteDialog()">
@@ -28,13 +28,15 @@
     } @else if (!facade.items().length) {
       <p class="entry__empty">{{ t['EMPTY'] }}</p>
     } @else {
-      @for (item of facade.items(); track item.id) {
+      @for (item of facade.orderedItems(); track item.id) {
         <app-session-item
           [item]="item"
           [previousSets]="previousSetsFor(item.name)"
           [distanceUnit]="facade.distanceUnit()"
           [isReadOnly]="facade.isCompleted()"
+          [isActive]="facade.isCompleted() || item.id === facade.activeItemId()"
           [translation]="t"
+          (activated)="onItemActivated($event)"
           (setChanged)="onSetChanged($event)"
           (setAdded)="onSetAdded($event)"
           (setRemoved)="onSetRemoved($event)"

@@ -27,7 +27,7 @@
 .session-item-feedback {
   &__label {
     display: block;
-    font-size: 12px;
+    font-size: var(--text-xs);
     color: var(--color-text-muted);
     margin-bottom: variables.$spacing-xs;
   }
@@ -39,13 +39,13 @@
 
   &__btn {
     flex: 1;
-    min-height: variables.$touch-target-min;
+    min-height: variables.$touch-target-comfortable;
     padding: variables.$spacing-xs variables.$spacing-sm;
     border-radius: variables.$radius-full;
     border: 1px solid var(--color-border);
     background: var(--color-surface-raised);
     cursor: pointer;
-    font-size: 13px;
+    font-size: var(--text-sm);
     font-weight: 500;
     color: var(--color-text-secondary);
     transition: all variables.$transition-fast;

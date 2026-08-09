@@ -36,18 +36,31 @@
     pointer-events: none;
   }
 
+  // Below lg this button is ui-page's pinned primary action, so it fills the
+  // thumb bar and takes the primary touch size. From lg it returns to the
+  // header flex-end, unchanged from how it has always looked there.
   &__finish-btn {
-    padding: variables.$spacing-xs variables.$spacing-md;
-    min-height: variables.$touch-target-comfortable;
+    width: 100%;
+    min-height: variables.$touch-target-primary;
+    padding: variables.$spacing-xs variables.$spacing-lg;
     border: 2px solid var(--color-primary);
     border-radius: variables.$radius-full;
-    background: transparent;
+    background: var(--color-primary);
     cursor: pointer;
-    color: var(--color-primary);
-    font-size: var(--text-sm);
+    color: var(--color-text-inverse);
+    font-size: var(--text-base);
     font-weight: var(--font-semibold);
     flex-shrink: 0;
     transition: background-color variables.$transition-fast, color variables.$transition-fast;
+
+    @include mixins.respond-to(lg) {
+      width: auto;
+      min-height: variables.$touch-target-comfortable;
+      padding: variables.$spacing-xs variables.$spacing-md;
+      background: transparent;
+      color: var(--color-primary);
+      font-size: var(--text-sm);
+    }
 
     @include mixins.hoverable {
       &:hover {

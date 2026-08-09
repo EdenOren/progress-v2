@@ -7,25 +7,112 @@
   border-radius: variables.$radius-lg;
   padding: variables.$spacing-md;
 
+  // A rating is what marks an exercise finished, so it colours the whole card —
+  // and keeps colouring it once reopened. Never the only signal: the collapsed
+  // row also carries a check icon.
+  &--success {
+    --session-item-rating: var(--color-accent);
+  }
+
+  &--hard {
+    --session-item-rating: var(--color-warning);
+  }
+
+  &--fail {
+    --session-item-rating: var(--color-error);
+  }
+
+  &--success,
+  &--hard,
+  &--fail {
+    border-color: color-mix(in srgb, var(--session-item-rating) 55%, var(--color-border));
+    border-left-width: 3px;
+    border-left-color: var(--session-item-rating);
+  }
+
+  &--collapsed {
+    padding: 0;
+    background: transparent;
+  }
+
+  &__summary {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-sm;
+    width: 100%;
+    min-height: variables.$touch-target-primary;
+    padding-inline: variables.$spacing-md;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    color: inherit;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: -2px;
+      border-radius: variables.$radius-lg;
+    }
+  }
+
+  &__check {
+    flex-shrink: 0;
+    color: var(--session-item-rating, var(--color-accent));
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &__set-count {
+    flex-shrink: 0;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    @include mixins.tabular-nums;
+  }
+
+  &__chevron {
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
   &__header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: variables.$spacing-sm;
     margin-bottom: variables.$spacing-sm;
+
+    // Keeps the exercise you are working on named while you scroll its sets.
+    // Offset by the page header, which is itself sticky.
+    position: sticky;
+    top: variables.$touch-target-primary;
+    z-index: 1;
+    background: var(--color-surface);
+    padding-block: variables.$spacing-xs;
   }
 
   &__name {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
     color: var(--color-text-primary);
     margin: 0;
+    flex: 1;
+    min-width: 0;
+    @include mixins.truncate;
+  }
+
+  &--collapsed &__name {
+    font-weight: var(--font-medium);
+    color: var(--color-text-secondary);
   }
 
   &__delete-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    @include mixins.touch-target;
+    @include mixins.touch-target-comfortable;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -40,9 +127,11 @@
       height: 18px;
     }
 
-    &:hover {
-      color: var(--color-error);
-      background-color: color-mix(in srgb, var(--color-error) 8%, transparent);
+    @include mixins.hoverable {
+      &:hover {
+        color: var(--color-error);
+        background-color: color-mix(in srgb, var(--color-error) 8%, transparent);
+      }
     }
 
     &:focus-visible {
@@ -60,9 +149,9 @@
     border-radius: 0 variables.$radius-sm variables.$radius-sm 0;
     padding: variables.$spacing-xs variables.$spacing-sm;
     color: var(--color-secondary);
-    font-size: 13px;
+    font-size: var(--text-sm);
     margin-bottom: variables.$spacing-sm;
-    line-height: 1.4;
+    line-height: var(--leading-snug);
   }
 
   &__prev-note-icon {
@@ -74,7 +163,7 @@
   }
 
   &__prev-sets {
-    font-size: 12px;
+    font-size: var(--text-xs);
     color: var(--color-text-muted);
     margin: 0 0 variables.$spacing-sm;
   }
@@ -89,14 +178,16 @@
   &__add-set-btn {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: variables.$spacing-xs;
+    min-height: variables.$touch-target-comfortable;
     padding: variables.$spacing-xs variables.$spacing-sm;
     border: 1px dashed var(--color-border);
     border-radius: variables.$radius-md;
     background: transparent;
     cursor: pointer;
     color: var(--color-text-muted);
-    font-size: 13px;
+    font-size: var(--text-sm);
     width: 100%;
     margin-top: variables.$spacing-xs;
     transition: border-color variables.$transition-fast, color variables.$transition-fast;
@@ -107,9 +198,11 @@
       height: 16px;
     }
 
-    &:hover {
-      border-color: var(--color-primary);
-      color: var(--color-primary);
+    @include mixins.hoverable {
+      &:hover {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+      }
     }
 
     &:focus-visible {
@@ -118,4 +211,9 @@
     }
   }
 
+  @include mixins.respond-to(xl) {
+    &:not(.session-item--collapsed) {
+      padding: variables.$spacing-lg;
+    }
+  }
 }
