@@ -38,8 +38,10 @@
     }
   }
 
+  // Grid, not block: the card stretches to the row height so a long name never
+  // leaves its neighbours short.
   &__list-item {
-    display: block;
+    display: grid;
   }
 
   &__status {
@@ -51,35 +53,6 @@
     &--error {
       color: var(--color-error);
     }
-  }
-
-  &__empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: variables.$spacing-md;
-    padding-block: variables.$spacing-2xl;
-  }
-
-  &__empty-icon {
-    font-size: 48px;
-    width: 48px;
-    height: 48px;
-    color: var(--color-text-muted);
-
-    @include mixins.respond-to(md) {
-      font-size: 64px;
-      width: 64px;
-      height: 64px;
-    }
-  }
-
-  &__empty-text {
-    font-size: var(--text-base);
-    color: var(--color-text-secondary);
-    text-align: center;
-    max-width: 240px;
   }
 
   &__form-error {

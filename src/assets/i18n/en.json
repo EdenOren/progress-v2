@@ -114,6 +114,8 @@
     "ERROR": "Failed to load sessions.",
     "BACK": "Back to subjects",
     "START_WORKOUT": "Start workout",
+    "STARTING": "Starting…",
+    "MORE_ACTIONS": "More actions",
     "DELETE_TITLE": "Delete subject",
     "DELETE_MESSAGE": "Delete \"{name}\"? This will permanently delete all {count} sessions. This cannot be undone.",
     "DELETE_CONFIRM": "Delete",

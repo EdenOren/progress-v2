@@ -16,9 +16,9 @@
   } @else if (facade.hasError()) {
     <p class="daily-log__status daily-log__status--error">{{ facade.translation()['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {
-    <div class="daily-log__empty">
-      <p class="daily-log__empty-text">{{ facade.translation()['EMPTY'] }}</p>
-    </div>
+    <app-empty-state
+      [icon]="MaterialIcon.EventNote"
+      [text]="facade.translation()['EMPTY']" />
   } @else {
     <ul class="daily-log__list">
       @for (entry of facade.entries(); track entry.id) {

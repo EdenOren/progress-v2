@@ -1,6 +1,3 @@
 <app-ui-page [title]="translation()['TITLE']">
-  <div class="kpi__empty">
-    <mat-icon class="kpi__empty-icon" aria-hidden="true">insights</mat-icon>
-    <p class="kpi__empty-text">{{ translation()['COMING_SOON'] }}</p>
-  </div>
+  <app-empty-state [icon]="MaterialIcon.Insights" [text]="translation()['COMING_SOON']" />
 </app-ui-page>

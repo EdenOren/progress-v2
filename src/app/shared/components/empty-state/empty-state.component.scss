@@ -1,0 +1,40 @@
+@use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
+
+$icon-size-phone: 48px;
+$icon-size-wide: 64px;
+$text-measure: 32ch;
+
+:host {
+  display: block;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$spacing-md;
+  padding-block: variables.$spacing-2xl;
+
+  &__icon {
+    font-size: $icon-size-phone;
+    width: $icon-size-phone;
+    height: $icon-size-phone;
+    color: var(--color-text-muted);
+
+    @include mixins.respond-to(md) {
+      font-size: $icon-size-wide;
+      width: $icon-size-wide;
+      height: $icon-size-wide;
+    }
+  }
+
+  &__text {
+    max-width: $text-measure;
+    color: var(--color-text-secondary);
+    font-size: var(--text-base);
+    text-align: center;
+    text-wrap: pretty;
+  }
+}

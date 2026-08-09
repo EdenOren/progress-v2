@@ -4,6 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { DailyLogFacade } from './daily-log.facade';
 import { LogCardComponent } from './components/log-card/log-card.component';
 import type { DailyLog } from '../../core/services/data/daily-log/daily-log.model';
+import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
+import { MaterialIcon } from '../../shared/enums/material-icon.enum';
 
 @Component({
   selector: 'app-daily-log',
@@ -11,11 +13,12 @@ import type { DailyLog } from '../../core/services/data/daily-log/daily-log.mode
   styleUrl: './daily-log.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DailyLogFacade],
-  imports: [MatIconModule, LogCardComponent, UiPageComponent],
+  imports: [MatIconModule, LogCardComponent, UiPageComponent, EmptyStateComponent],
 })
 export class DailyLogComponent {
   protected readonly facade: DailyLogFacade = inject(DailyLogFacade);
   protected readonly ButtonType: typeof ButtonType = ButtonType;
+  protected readonly MaterialIcon: typeof MaterialIcon = MaterialIcon;
 
   protected onEditEntry(entry: DailyLog): void {
     void this.facade.openLogDialog(entry.loggedDate, entry);

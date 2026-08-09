@@ -30,30 +30,70 @@
       background-color: var(--color-surface-raised);
     }
 
-    &--start {
-      color: var(--color-accent);
+  }
 
-      &:active {
-        background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
-      }
+  // Mirrors the Finish button on the session screen: below lg it is ui-page's
+  // pinned primary action and fills the thumb bar, from lg it returns to the
+  // header as a quiet text action.
+  &__start-btn {
+    width: 100%;
+    min-height: variables.$touch-target-primary;
+    padding: variables.$spacing-xs variables.$spacing-lg;
+    border: 2px solid var(--color-primary);
+    border-radius: variables.$radius-full;
+    background: var(--color-primary);
+    cursor: pointer;
+    color: var(--color-text-inverse);
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    flex-shrink: 0;
+    transition: background-color variables.$transition-fast, color variables.$transition-fast;
 
-      &:disabled {
-        opacity: 0.5;
-        cursor: default;
+    @include mixins.respond-to(lg) {
+      width: auto;
+      min-height: variables.$touch-target-comfortable;
+      padding: variables.$spacing-xs variables.$spacing-md;
+      background: transparent;
+      color: var(--color-primary);
+      font-size: var(--text-sm);
+    }
+
+    @include mixins.hoverable {
+      &:hover {
+        background: var(--color-primary);
+        color: var(--color-text-inverse);
       }
     }
 
-    &--delete {
-      color: var(--color-error);
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
 
-      &:active {
-        background-color: color-mix(in srgb, var(--color-error) 8%, transparent);
-      }
+    &:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+  }
+
+  // Phone: a continuous list of full-bleed rows. From md the same entries
+  // become a card grid, matching the subject grid on the Progress page.
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    @include mixins.respond-to(md) {
+      grid-template-columns: repeat(auto-fill, minmax(variables.$card-grid-min, 1fr));
+      gap: variables.$spacing-md;
+    }
+
+    @include mixins.respond-to(lg) {
+      gap: variables.$spacing-lg;
     }
   }
 
   &__list-item {
-    display: block;
+    display: grid;
   }
 
   &__status {

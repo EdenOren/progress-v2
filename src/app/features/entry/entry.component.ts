@@ -11,6 +11,8 @@ import type {
   FeedbackChangedEvent,
   NoteChangedEvent,
 } from './components/session-item/session-item.component';
+import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
+import { MaterialIcon } from '../../shared/enums/material-icon.enum';
 
 @Component({
   selector: 'app-entry',
@@ -18,11 +20,18 @@ import type {
   styleUrl: './entry.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [EntryFacade],
-  imports: [MatIconModule, MatButtonModule, SessionItemComponent, UiPageComponent],
+  imports: [
+    MatIconModule,
+    MatButtonModule,
+    SessionItemComponent,
+    UiPageComponent,
+    EmptyStateComponent,
+  ],
 })
 export class EntryComponent {
   protected readonly facade: EntryFacade = inject(EntryFacade);
   protected readonly ButtonType: typeof ButtonType = ButtonType;
+  protected readonly MaterialIcon: typeof MaterialIcon = MaterialIcon;
 
   protected previousSetsFor(itemName: string): ItemSet[] {
     return this.facade.previousSetsMap().get(itemName) ?? [];

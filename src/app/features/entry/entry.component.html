@@ -26,7 +26,7 @@
     @if (facade.isLoading()) {
       <p class="entry__status">{{ t['LOADING'] }}</p>
     } @else if (!facade.items().length) {
-      <p class="entry__empty">{{ t['EMPTY'] }}</p>
+      <app-empty-state [icon]="MaterialIcon.FitnessCenter" [text]="t['EMPTY']" />
     } @else {
       @for (item of facade.orderedItems(); track item.id) {
         <app-session-item

@@ -1,41 +1,45 @@
+@let t = facade.translation();
+
 <app-ui-page [title]="facade.subject()?.name ?? ''">
   <button
     slot="leading"
     class="subject__icon-btn"
     [type]="ButtonType.Button"
     (click)="navigateBack()"
-    [attr.aria-label]="facade.translation()['BACK']">
+    [attr.aria-label]="t['BACK']">
     <mat-icon aria-hidden="true">arrow_back</mat-icon>
   </button>
 
   <button
     slot="actions"
-    class="subject__icon-btn subject__icon-btn--start"
+    class="subject__icon-btn"
     [type]="ButtonType.Button"
-    (click)="startWorkout()"
-    [disabled]="facade.isStartingWorkout()"
-    [attr.aria-label]="facade.translation()['START_WORKOUT']">
-    @if (facade.isStartingWorkout()) {
-      <mat-icon aria-hidden="true">hourglass_empty</mat-icon>
-    } @else {
-      <mat-icon aria-hidden="true">play_arrow</mat-icon>
-    }
-  </button>
-  <button
-    slot="actions"
-    class="subject__icon-btn subject__icon-btn--delete"
-    [type]="ButtonType.Button"
-    (click)="deleteSubject()"
-    [attr.aria-label]="facade.translation()['DELETE_TITLE']">
-    <mat-icon aria-hidden="true">delete</mat-icon>
+    [matMenuTriggerFor]="subjectMenu"
+    [attr.aria-label]="t['MORE_ACTIONS']">
+    <mat-icon aria-hidden="true">more_vert</mat-icon>
   </button>
 
+  <button
+    slot="primary"
+    class="subject__start-btn"
+    [type]="ButtonType.Button"
+    [disabled]="facade.isStartingWorkout()"
+    (click)="startWorkout()">
+    {{ facade.startWorkoutLabel() }}
+  </button>
+
+  <mat-menu #subjectMenu="matMenu">
+    <button mat-menu-item [type]="ButtonType.Button" (click)="deleteSubject()">
+      {{ t['DELETE_TITLE'] }}
+    </button>
+  </mat-menu>
+
   @if (facade.isLoading()) {
-    <p class="subject__status">{{ facade.translation()['LOADING'] }}</p>
+    <p class="subject__status">{{ t['LOADING'] }}</p>
   } @else if (facade.hasError()) {
-    <p class="subject__status subject__status--error">{{ facade.translation()['ERROR'] }}</p>
+    <p class="subject__status subject__status--error">{{ t['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {
-    <p class="subject__status">{{ facade.translation()['EMPTY'] }}</p>
+    <app-empty-state [icon]="MaterialIcon.History" [text]="t['EMPTY']" />
   } @else {
     <ul class="subject__list">
       @for (entry of facade.entries(); track entry.id) {

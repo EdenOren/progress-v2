@@ -13,10 +13,9 @@
   } @else if (facade.hasError()) {
     <p class="progress__status progress__status--error">{{ facade.translation()['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {
-    <div class="progress__empty">
-      <mat-icon class="progress__empty-icon" aria-hidden="true">fitness_center</mat-icon>
-      <p class="progress__empty-text">{{ facade.translation()['EMPTY'] }}</p>
-    </div>
+    <app-empty-state
+      [icon]="MaterialIcon.FitnessCenter"
+      [text]="facade.translation()['EMPTY']" />
   } @else {
     <ul class="progress__list">
       @for (subject of facade.subjects(); track subject.id) {

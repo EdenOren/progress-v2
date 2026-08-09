@@ -99,6 +99,12 @@ export class SubjectFacade {
   private readonly _isStartingWorkout: WritableSignal<boolean> = signal(false);
   readonly isStartingWorkout: Signal<boolean> = this._isStartingWorkout;
 
+  readonly startWorkoutLabel: Signal<string> = computed(() =>
+    this.isStartingWorkout()
+      ? (this.translation()['STARTING'] ?? '')
+      : (this.translation()['START_WORKOUT'] ?? ''),
+  );
+
   async deleteSubjectWithConfirmation(): Promise<void> {
     const subject = this.subject();
     if (!subject) {
