@@ -156,7 +156,9 @@
   },
   "KPI": {
     "TITLE": "KPI",
-    "COMING_SOON": "Your KPIs will show up here once you start logging."
+    "LOADING": "Loading recent workouts…",
+    "EMPTY": "No completed workouts yet. Finish a session and it will show up here.",
+    "ERROR": "Failed to load recent workouts."
   },
   "SETTINGS": {
     "TITLE": "Settings",

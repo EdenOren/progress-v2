@@ -1,0 +1,33 @@
+@use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
+
+.kpi {
+  &__status {
+    padding-block: variables.$spacing-xl;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+
+    &--error {
+      color: var(--color-error);
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    @include mixins.respond-to(md) {
+      grid-template-columns: repeat(auto-fill, minmax(variables.$card-grid-min, 1fr));
+      gap: variables.$spacing-md;
+    }
+
+    @include mixins.respond-to(lg) {
+      gap: variables.$spacing-lg;
+    }
+  }
+
+  &__list-item {
+    display: grid;
+  }
+}

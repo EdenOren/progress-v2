@@ -1,20 +1,29 @@
 import { ButtonType, UiIconComponent } from '@edenoren/ui-kit';
-import { ChangeDetectionStrategy, Component, computed, input, InputSignal, output, OutputEmitterRef, Signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  InputSignal,
+  output,
+  OutputEmitterRef,
+  Signal,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { AppIcon } from '../../../../shared/enums/app-icon.enum';
 import { formatDuration } from '../../../../shared/utils/duration';
-import type { Entry } from '../../../../core/services/data/entries.service';
+import type { RecentEntry } from '../../../../core/services/data/entries.service';
 
 @Component({
-  selector: 'app-entry-card',
-  templateUrl: './entry-card.component.html',
-  styleUrl: './entry-card.component.scss',
+  selector: 'app-recent-workout-card',
+  templateUrl: './recent-workout-card.component.html',
+  styleUrl: './recent-workout-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DatePipe, UiIconComponent],
 })
-export class EntryCardComponent {
-  readonly entry: InputSignal<Entry> = input.required<Entry>();
-  readonly selected: OutputEmitterRef<void> = output<void>();
+export class RecentWorkoutCardComponent {
+  readonly entry: InputSignal<RecentEntry> = input.required<RecentEntry>();
+  readonly selected: OutputEmitterRef<RecentEntry> = output<RecentEntry>();
 
   protected readonly appIcon: typeof AppIcon = AppIcon;
   protected readonly ButtonType: typeof ButtonType = ButtonType;
@@ -24,6 +33,6 @@ export class EntryCardComponent {
   );
 
   protected select(): void {
-    this.selected.emit();
+    this.selected.emit(this.entry());
   }
 }

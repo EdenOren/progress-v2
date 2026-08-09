@@ -1,11 +1,10 @@
 <app-ui-page [title]="facade.translation()['TITLE']">
   <button
-    slot="actions"
+    slot="primary"
     class="daily-log__add-btn"
     [type]="ButtonType.Button"
-    (click)="onLogToday()"
-    [attr.aria-label]="facade.translation()['LOG_TODAY']">
-    <mat-icon aria-hidden="true">add</mat-icon>
+    (click)="onLogToday()">
+    {{ facade.translation()['LOG_TODAY'] }}
   </button>
 
   @if (facade.saveError()) {
