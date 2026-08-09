@@ -2,6 +2,8 @@
 @use 'abstract/variables' as variables;
 @use 'abstract/mixins' as mixins;
 
+$segment-gap: 2px;
+
 .settings {
   &__content {
     display: flex;
@@ -34,27 +36,33 @@
     }
   }
 
+  // A segmented control, not two loose pills: one recessed track holds both
+  // options, and the chosen segment is the only filled thing in it. The shape
+  // itself says the two are alternatives.
   &__buttons {
     display: flex;
-    gap: variables.$spacing-xs;
+    gap: $segment-gap;
+    padding: $segment-gap;
+    border: 1px solid var(--color-border);
+    border-radius: variables.$radius-full;
+    background: var(--color-surface-raised);
   }
 
   &__btn {
     flex: 1;
-    min-height: variables.$touch-target-min;
+    @include mixins.touch-target-comfortable;
     padding: variables.$spacing-xs variables.$spacing-sm;
+    border: none;
     border-radius: variables.$radius-full;
-    border: 1px solid var(--color-border);
-    background: var(--color-surface-raised);
+    background: transparent;
     cursor: pointer;
     font-size: var(--text-sm);
-    font-weight: 500;
+    font-weight: var(--font-medium);
     color: var(--color-text-secondary);
-    transition: all variables.$transition-fast;
+    transition: background-color variables.$transition-fast, color variables.$transition-fast;
 
     @include mixins.respond-to(lg) {
       font-size: var(--text-base);
-      min-height: 52px;
     }
 
     &:focus-visible {
@@ -72,15 +80,13 @@
     // chosen — including after an optimistic update had rolled back.
     &--active {
       background: var(--color-primary);
-      border-color: var(--color-primary);
       color: var(--color-text-inverse);
-      font-weight: 600;
+      font-weight: var(--font-semibold);
     }
 
-    @media (hover: hover) {
+    @include mixins.hoverable {
       &:hover:not(:disabled):not(.settings__btn--active) {
         background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-        border-color: var(--color-primary);
         color: var(--color-primary);
       }
     }

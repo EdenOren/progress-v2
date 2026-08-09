@@ -1,4 +1,4 @@
-import { ButtonVariant, UiButtonComponent, UiPageComponent } from '@edenoren/ui-kit';
+import { ButtonType, UiIconComponent, UiPageComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, computed, inject, signal, Signal, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -6,20 +6,22 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppRoute } from '../../core/enums/app-route.enum';
 import { AuthRoute } from '../../core/enums/auth-route.enum';
 import { AuthService } from '../../core/services/platform/auth.service';
+import { AppIcon } from '../../shared/enums/app-icon.enum';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [UiButtonComponent, UiPageComponent],
+  imports: [UiIconComponent, UiPageComponent],
 })
 export class MenuComponent {
   private readonly router: Router = inject(Router);
   private readonly translateService: TranslateService = inject(TranslateService);
   private readonly authService: AuthService = inject(AuthService);
 
-  protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
+  protected readonly buttonType: typeof ButtonType = ButtonType;
+  protected readonly appIcon: typeof AppIcon = AppIcon;
 
   private readonly translation: Signal<Record<string, string>> = toSignal(
     this.translateService.stream('MENU'),

@@ -1,74 +1,16 @@
 @use 'abstract/variables' as variables;
+@use 'abstract/auth-card' as auth-card;
 
 .signup-page {
-  min-height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: variables.$spacing-lg;
-  background-color: var(--color-surface-alt);
-
-  &__card {
-    width: 100%;
-    max-width: 440px;
-    background-color: var(--color-surface);
-    border-radius: variables.$radius-lg;
-    box-shadow: variables.$shadow-md;
-    padding: variables.$spacing-2xl;
-    display: flex;
-    flex-direction: column;
-    gap: variables.$spacing-lg;
-  }
-
-  &__header {
-    display: flex;
-    flex-direction: column;
-    gap: variables.$spacing-xs;
-  }
-
-  &__title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    margin: 0;
-  }
-
-  &__subtitle {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    margin: 0;
-  }
+  @include auth-card.auth-page;
 
   &__verification {
-    font-size: 0.875rem;
+    font-size: var(--text-sm);
     color: var(--color-accent);
     background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
     border-left: 3px solid var(--color-accent);
     padding: variables.$spacing-sm variables.$spacing-md;
     border-radius: 0 variables.$radius-sm variables.$radius-sm 0;
-    margin: 0;
-  }
-
-  &__form {
-    display: flex;
-    flex-direction: column;
-    gap: variables.$spacing-md;
-  }
-
-  &__error {
-    font-size: 0.875rem;
-    color: var(--color-error);
-    background-color: color-mix(in srgb, var(--color-error) 6%, transparent);
-    border-left: 3px solid var(--color-error);
-    padding: variables.$spacing-sm variables.$spacing-md;
-    border-radius: 0 variables.$radius-sm variables.$radius-sm 0;
-    margin: 0;
-  }
-
-  &__footer {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    text-align: center;
     margin: 0;
   }
 }

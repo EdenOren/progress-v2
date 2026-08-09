@@ -1,7 +1,6 @@
 import {
-  ButtonVariant,
+  ButtonType,
   InputType,
-  UiButtonComponent,
   UiInputComponent,
   UiPageComponent,
   ValidationKind,
@@ -31,13 +30,13 @@ interface ProfileFormModel {
   styleUrl: './profile.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ProfileFacade],
-  imports: [FormRoot, UiInputComponent, UiButtonComponent, UiPageComponent],
+  imports: [FormRoot, UiInputComponent, UiPageComponent],
 })
 export class ProfileComponent {
   protected readonly facade: ProfileFacade = inject(ProfileFacade);
 
   protected readonly inputType: typeof InputType = InputType;
-  protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
+  protected readonly buttonType: typeof ButtonType = ButtonType;
 
   private readonly _model: WritableSignal<ProfileFormModel> = signal({
     displayName: '',

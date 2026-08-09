@@ -1,14 +1,27 @@
-<app-ui-page [title]="facade.translation()['TITLE']" [narrow]="true">
+@let t = facade.translation();
+
+<app-ui-page [title]="t['TITLE']" [narrow]="true">
+  @if (facade.isReady()) {
+    <button
+      slot="primary"
+      class="profile__save-btn"
+      [type]="buttonType.Button"
+      [disabled]="facade.isSaving()"
+      (click)="onSave()">
+      {{ t['SAVE'] }}
+    </button>
+  }
+
   <div class="profile__content">
     @if (facade.isLoading()) {
-      <p class="profile__loading">{{ facade.translation()['LOADING'] }}</p>
+      <p class="profile__loading">{{ t['LOADING'] }}</p>
     } @else if (facade.hasError()) {
-      <p class="profile__error">{{ facade.translation()['LOAD_ERROR'] }}</p>
+      <p class="profile__error">{{ t['LOAD_ERROR'] }}</p>
     } @else {
       <form [formRoot]="profileForm" class="profile__form">
         <app-ui-input
           inputId="display-name"
-          [label]="facade.translation()['DISPLAY_NAME']"
+          [label]="t['DISPLAY_NAME']"
           [type]="inputType.Text"
           [field]="profileForm.displayName"
           [error]="displayNameError()"
@@ -17,14 +30,14 @@
 
         <app-ui-input
           inputId="date-of-birth"
-          [label]="facade.translation()['DATE_OF_BIRTH']"
+          [label]="t['DATE_OF_BIRTH']"
           [type]="inputType.Date"
           [field]="profileForm.dateOfBirth"
         />
 
         <app-ui-input
           inputId="height"
-          [label]="facade.translation()['HEIGHT']"
+          [label]="t['HEIGHT']"
           [type]="inputType.Number"
           [value]="heightCm()"
           [min]="50"
@@ -33,22 +46,15 @@
         />
 
         @if (facade.saveSuccess()) {
-          <p class="profile__feedback profile__feedback--success">
-            {{ facade.translation()['SAVE_SUCCESS'] }}
+          <p class="profile__feedback profile__feedback--success" role="status">
+            {{ t['SAVE_SUCCESS'] }}
           </p>
         }
         @if (facade.saveError()) {
-          <p class="profile__feedback profile__feedback--error">
-            {{ facade.translation()['SAVE_ERROR'] }}
+          <p class="profile__feedback profile__feedback--error" role="status">
+            {{ t['SAVE_ERROR'] }}
           </p>
         }
-
-        <app-ui-button
-          [label]="facade.translation()['SAVE']"
-          [variant]="buttonVariant.Primary"
-          [isLoading]="facade.isLoading()"
-          (click)="onSave()"
-        />
       </form>
     }
   </div>
