@@ -1,13 +1,21 @@
 @use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
 
 .log-entry-dialog {
   display: flex;
   flex-direction: column;
   gap: variables.$spacing-md;
 
+  // One column on the narrowest phones. Two tiles across 320px leaves each one
+  // too tight to hold a number field with a unit beside it, and a tile that
+  // cannot show its own value is worse than a taller sheet.
   &__tiles {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: variables.$spacing-sm;
+
+    @include mixins.respond-to(xs) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 }

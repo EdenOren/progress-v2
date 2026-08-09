@@ -1,6 +1,6 @@
 @let t = translation();
 <app-ui-modal>
-  <span slot="title" class="create-subject-dialog__title">{{ t['TITLE'] }}</span>
+  <span slot="title">{{ t['TITLE'] }}</span>
   <div slot="content" class="create-subject-dialog__content">
     <form [formRoot]="createSubjectForm">
       <app-ui-input

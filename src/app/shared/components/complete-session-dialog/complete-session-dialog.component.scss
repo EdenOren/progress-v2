@@ -1,5 +1,7 @@
 @use 'abstract/variables' as variables;
 
+$stat-divider-height: 40px;
+
 .complete-dialog {
   display: flex;
   flex-direction: column;
@@ -23,24 +25,22 @@
   }
 
   &__stat-value {
-    font-size: 28px;
-    font-weight: 700;
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
     color: var(--color-primary);
-    line-height: 1;
+    line-height: var(--leading-tight);
   }
 
   &__stat-label {
-    font-size: 12px;
+    font-size: var(--text-xs);
     color: var(--color-text-muted);
     text-align: center;
   }
 
   &__stat-divider {
     width: 1px;
-    height: 40px;
+    height: $stat-divider-height;
     background: var(--color-border);
     flex-shrink: 0;
   }
-
-
 }
