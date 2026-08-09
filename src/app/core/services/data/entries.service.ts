@@ -67,6 +67,29 @@ function mapEntry(raw: EntryRaw): Entry {
   };
 }
 
+// Supabase returns an embedded foreign table as an object, or null when the
+// join finds nothing — a subject deleted out from under an entry, say.
+interface RecentEntryRaw extends EntryRaw {
+  subjects: { name: string } | null;
+}
+
+const recentEntrySchema: z.ZodType<RecentEntryRaw> = entrySchema.and(
+  z.object({ subjects: z.object({ name: z.string() }).nullable() }),
+) as z.ZodType<RecentEntryRaw>;
+
+const recentEntryArraySchema: z.ZodType<RecentEntryRaw[]> = z.array(recentEntrySchema);
+
+export interface RecentEntry extends Entry {
+  subjectName: string;
+}
+
+function mapRecentEntry(raw: RecentEntryRaw): RecentEntry {
+  return {
+    ...mapEntry(raw),
+    subjectName: raw.subjects?.name ?? '',
+  };
+}
+
 export interface CreateEntryInput {
   userId: string;
   subjectId: string;
@@ -98,6 +121,27 @@ export class EntriesService {
       return err(new ValidationError('Invalid entry data'));
     }
     return ok(validated.data.map(mapEntry));
+  }
+
+  // Recent activity across every subject, so the caller does not have to fan
+  // out a query per subject. Completed only: an entry that was started and
+  // abandoned has no duration and is not a workout yet.
+  async getRecentEntries(userId: string, limit: number): Promise<Result<RecentEntry[]>> {
+    const { data, error } = await this.supabase
+      .from('entries')
+      .select('*, subjects(name)')
+      .eq('user_id', userId)
+      .eq('is_completed', true)
+      .order('performed_at', { ascending: false })
+      .limit(limit);
+    if (error) {
+      return err(mapSupabaseError(error));
+    }
+    const validated = recentEntryArraySchema.safeParse(data);
+    if (!validated.success) {
+      return err(new ValidationError('Invalid entry data'));
+    }
+    return ok(validated.data.map(mapRecentEntry));
   }
 
   async getEntry(entryId: string, userId: string): Promise<Result<Entry>> {

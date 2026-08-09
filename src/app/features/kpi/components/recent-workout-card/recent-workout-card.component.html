@@ -1,0 +1,15 @@
+<button class="recent-workout-card" [type]="ButtonType.Button" (click)="select()">
+  <div class="recent-workout-card__body">
+    <span class="recent-workout-card__subject">{{ entry().subjectName }}</span>
+    <span class="recent-workout-card__meta">
+      <span>{{ entry().performedAt | date: 'EEE, MMM d' }}</span>
+      @if (formattedDuration()) {
+        <span class="recent-workout-card__duration">{{ formattedDuration() }}</span>
+      }
+    </span>
+  </div>
+  <app-ui-icon
+    class="recent-workout-card__chevron"
+    [src]="appIcon.ChevronRight"
+    aria-hidden="true" />
+</button>

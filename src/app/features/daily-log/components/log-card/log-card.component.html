@@ -1,41 +1,17 @@
 <div class="log-card">
-  <div class="log-card__body">
+  <div class="log-card__header">
     <span class="log-card__date">{{ entry().loggedDate | date: 'EEE, MMM d' }}</span>
-    <div class="log-card__metrics">
-      @if (entry().sleepHours !== null) {
-        <span class="log-card__metric">
-          <mat-icon class="log-card__metric-icon" aria-hidden="true">bedtime</mat-icon>
-          <span class="log-card__metric-label">{{ translation()['SLEEP'] }}</span>
-          <span class="log-card__metric-value">{{ entry().sleepHours }}{{ translation()['SLEEP_UNIT'] }}</span>
-        </span>
-      }
-      @if (displayWeight() !== null) {
-        <span class="log-card__metric">
-          <mat-icon class="log-card__metric-icon" aria-hidden="true">monitor_weight</mat-icon>
-          <span class="log-card__metric-label">{{ translation()['WEIGHT'] }}</span>
-          <span class="log-card__metric-value">{{ displayWeight() }}{{ weightLabel() }}</span>
-        </span>
-      }
-      @if (entry().waterLiters !== null) {
-        <span class="log-card__metric">
-          <mat-icon class="log-card__metric-icon" aria-hidden="true">water_drop</mat-icon>
-          <span class="log-card__metric-label">{{ translation()['WATER'] }}</span>
-          <span class="log-card__metric-value">{{ entry().waterLiters }}{{ translation()['WATER_UNIT'] }}</span>
-        </span>
-      }
-      @if (displayWaist() !== null) {
-        <span class="log-card__metric">
-          <mat-icon class="log-card__metric-icon" aria-hidden="true">straighten</mat-icon>
-          <span class="log-card__metric-label">{{ translation()['WAIST'] }}</span>
-          <span class="log-card__metric-value">{{ displayWaist() }}{{ waistLabel() }}</span>
-        </span>
-      }
-    </div>
+    <app-ui-button
+      [label]="translation()['EDIT']"
+      [variant]="buttonVariant.Ghost"
+      [iconOnly]="true"
+      [icon]="'edit'"
+      (click)="onEdit()" />
   </div>
-  <app-ui-button
-    [label]="translation()['EDIT']"
-    [variant]="buttonVariant.Ghost"
-    [iconOnly]="true"
-    [icon]="'edit'"
-    (click)="onEdit()" />
+
+  <div class="log-card__metrics">
+    @for (metric of metrics(); track metric.key) {
+      <app-ui-stat-tile [label]="metric.label" [value]="metric.value" [unit]="metric.unit" />
+    }
+  </div>
 </div>

@@ -1,3 +1,19 @@
-<app-ui-page [title]="translation()['TITLE']">
-  <app-empty-state [icon]="MaterialIcon.Insights" [text]="translation()['COMING_SOON']" />
+<app-ui-page [title]="facade.translation()['TITLE']">
+  @if (facade.isLoading()) {
+    <p class="kpi__status">{{ facade.translation()['LOADING'] }}</p>
+  } @else if (facade.hasError()) {
+    <p class="kpi__status kpi__status--error">{{ facade.translation()['ERROR'] }}</p>
+  } @else if (facade.isEmpty()) {
+    <app-empty-state
+      [icon]="MaterialIcon.Insights"
+      [text]="facade.translation()['EMPTY']" />
+  } @else {
+    <ul class="kpi__list">
+      @for (entry of facade.entries(); track entry.id) {
+        <li class="kpi__list-item">
+          <app-recent-workout-card [entry]="entry" (selected)="onWorkoutSelected($event)" />
+        </li>
+      }
+    </ul>
+  }
 </app-ui-page>

@@ -208,7 +208,7 @@
 - [x] RX-2 — Adopt `<ui-page>` across all 8 screens (branch: refactor/rx-2-page-primitives)
 - [x] RX-3 — Entry/session: same-row set inputs kept, exercise accordion (active sticky top, others collapsed, rated sink to bottom), rating-colored border kept collapsed + expanded with the rating button visibly pressed, active-exercise state persisted to localStorage via new SessionUiStateService, Finish thumb bar on phone / header flex-end on web (branch: refactor/rx-3-entry-session)
 - [x] RX-4 — Progress & Subject: subject card container queries, session list becomes a card grid at md+, Start workout to the thumb bar with delete moved into an overflow menu, shared EmptyStateComponent adopted across Progress/Subject/Entry/Daily Log/KPI (branch: refactor/rx-4-progress-subject)
-- [ ] RX-5 — Daily Log stat tiles + KPI on new primitives (branch: refactor/rx-5-daily-log-kpi)
+- [x] RX-5 — Daily Log stat tiles (2-up phone / 4-across md+, unlogged metrics keep their column) + Log today moved to the thumb bar; KPI tab built out per plans/feature-kpi-recent-workouts.md as a recent-completed-workouts list; shared page-primary-action mixin retires three copies of the thumb-bar button (branch: refactor/rx-5-daily-log-kpi)
 - [ ] RX-6 — Dialogs → bottom sheets below sm (branch: refactor/rx-6-dialogs)
 - [ ] RX-7 — Auth, Menu, Profile, Settings (branch: refactor/rx-7-auth-account)
 - [ ] RX-8 — Polish & performance: skeletons, icon consolidation, bundle budget (branch: refactor/rx-8-polish)

@@ -1,4 +1,4 @@
-import { ButtonVariant, UiButtonComponent } from '@edenoren/ui-kit';
+import { ButtonVariant, UiButtonComponent, UiStatTileComponent } from '@edenoren/ui-kit';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,8 +10,8 @@ import {
   Signal,
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 import { WeightUnit } from '../../../../shared/enums/weight-unit.enum';
+import { LogMetricKey } from '../../enums/log-metric-key.enum';
 import {
   cmToIn,
   kgToLb,
@@ -21,14 +21,23 @@ import {
 } from '../../../../shared/utils/unit-conversion';
 import type { DailyLog } from '../../../../core/services/data/daily-log/daily-log.model';
 
+export interface LogMetric {
+  readonly key: LogMetricKey;
+  readonly label: string;
+  readonly value: string;
+  readonly unit: string;
+}
+
 @Component({
   selector: 'app-log-card',
   templateUrl: './log-card.component.html',
   styleUrl: './log-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatePipe, UiButtonComponent, MatIconModule],
+  imports: [DatePipe, UiButtonComponent, UiStatTileComponent],
 })
 export class LogCardComponent {
+  private static readonly MISSING_VALUE: string = '—';
+
   readonly entry: InputSignal<DailyLog> = input.required<DailyLog>();
   readonly translation: InputSignal<Record<string, string>> = input.required<Record<string, string>>();
   readonly weightUnit: InputSignal<WeightUnit> = input<WeightUnit>(WeightUnit.Kg);
@@ -36,28 +45,69 @@ export class LogCardComponent {
 
   protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
 
-  protected readonly weightLabel: Signal<string> = computed(
+  private readonly weightLabel: Signal<string> = computed(
     () => WEIGHT_UNIT_LABELS[this.weightUnit()],
   );
 
-  protected readonly waistLabel: Signal<string> = computed(
+  private readonly waistLabel: Signal<string> = computed(
     () => WAIST_UNIT_LABELS[this.weightUnit()],
   );
 
-  protected readonly displayWeight: Signal<number | null> = computed(() => {
-    const kg = this.entry().weightKg;
-    if (kg === null) {
+  private readonly displayWeight: Signal<number | null> = computed(() => {
+    const kilograms: number | null = this.entry().weightKg;
+    if (kilograms === null) {
       return null;
     }
-    return this.weightUnit() === WeightUnit.Lb ? roundToOneDecimal(kgToLb(kg)) : kg;
+    return this.weightUnit() === WeightUnit.Lb ? roundToOneDecimal(kgToLb(kilograms)) : kilograms;
   });
 
-  protected readonly displayWaist: Signal<number | null> = computed(() => {
-    const cm = this.entry().waistCm;
-    if (cm === null) {
+  private readonly displayWaist: Signal<number | null> = computed(() => {
+    const centimetres: number | null = this.entry().waistCm;
+    if (centimetres === null) {
       return null;
     }
-    return this.weightUnit() === WeightUnit.Lb ? roundToOneDecimal(cmToIn(cm)) : cm;
+    return this.weightUnit() === WeightUnit.Lb
+      ? roundToOneDecimal(cmToIn(centimetres))
+      : centimetres;
+  });
+
+  // Every metric renders every day, unlogged ones included. A gap costs one
+  // dash; dropping the tile would shift its neighbours left and destroy the
+  // column, which is the only way to read a week of weights at a glance.
+  protected readonly metrics: Signal<LogMetric[]> = computed(() => {
+    const labels: Record<string, string> = this.translation();
+    const candidates: ReadonlyArray<{ key: LogMetricKey; amount: number | null; label: string; unit: string }> = [
+      {
+        key: LogMetricKey.Sleep,
+        amount: this.entry().sleepHours,
+        label: labels['SLEEP'] ?? '',
+        unit: labels['SLEEP_UNIT'] ?? '',
+      },
+      {
+        key: LogMetricKey.Weight,
+        amount: this.displayWeight(),
+        label: labels['WEIGHT'] ?? '',
+        unit: this.weightLabel(),
+      },
+      {
+        key: LogMetricKey.Water,
+        amount: this.entry().waterLiters,
+        label: labels['WATER'] ?? '',
+        unit: labels['WATER_UNIT'] ?? '',
+      },
+      {
+        key: LogMetricKey.Waist,
+        amount: this.displayWaist(),
+        label: labels['WAIST'] ?? '',
+        unit: this.waistLabel(),
+      },
+    ];
+    return candidates.map((candidate) => ({
+      key: candidate.key,
+      label: candidate.label,
+      value: candidate.amount === null ? LogCardComponent.MISSING_VALUE : String(candidate.amount),
+      unit: candidate.amount === null ? '' : candidate.unit,
+    }));
   });
 
   protected onEdit(): void {

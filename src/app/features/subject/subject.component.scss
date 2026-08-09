@@ -1,5 +1,6 @@
 @use 'abstract/variables' as variables;
 @use 'abstract/mixins' as mixins;
+@use 'abstract/page-primary' as page-primary;
 
 .subject {
   &__icon-btn {
@@ -32,48 +33,8 @@
 
   }
 
-  // Mirrors the Finish button on the session screen: below lg it is ui-page's
-  // pinned primary action and fills the thumb bar, from lg it returns to the
-  // header as a quiet text action.
   &__start-btn {
-    width: 100%;
-    min-height: variables.$touch-target-primary;
-    padding: variables.$spacing-xs variables.$spacing-lg;
-    border: 2px solid var(--color-primary);
-    border-radius: variables.$radius-full;
-    background: var(--color-primary);
-    cursor: pointer;
-    color: var(--color-text-inverse);
-    font-size: var(--text-base);
-    font-weight: var(--font-semibold);
-    flex-shrink: 0;
-    transition: background-color variables.$transition-fast, color variables.$transition-fast;
-
-    @include mixins.respond-to(lg) {
-      width: auto;
-      min-height: variables.$touch-target-comfortable;
-      padding: variables.$spacing-xs variables.$spacing-md;
-      background: transparent;
-      color: var(--color-primary);
-      font-size: var(--text-sm);
-    }
-
-    @include mixins.hoverable {
-      &:hover {
-        background: var(--color-primary);
-        color: var(--color-text-inverse);
-      }
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-    }
-
-    &:disabled {
-      opacity: 0.6;
-      cursor: default;
-    }
+    @include page-primary.page-primary-action;
   }
 
   // Phone: a continuous list of full-bleed rows. From md the same entries

@@ -1,23 +1,24 @@
 import { UiPageComponent } from '@edenoren/ui-kit';
-import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { TranslateService } from '@ngx-translate/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { KpiFacade } from './kpi.facade';
+import { RecentWorkoutCardComponent } from './components/recent-workout-card/recent-workout-card.component';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 import { MaterialIcon } from '../../shared/enums/material-icon.enum';
+import type { RecentEntry } from '../../core/services/data/entries.service';
 
 @Component({
   selector: 'app-kpi',
   templateUrl: './kpi.component.html',
+  styleUrl: './kpi.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule, UiPageComponent, EmptyStateComponent],
+  providers: [KpiFacade],
+  imports: [UiPageComponent, RecentWorkoutCardComponent, EmptyStateComponent],
 })
 export class KpiComponent {
-  private readonly translateService: TranslateService = inject(TranslateService);
+  protected readonly facade: KpiFacade = inject(KpiFacade);
   protected readonly MaterialIcon: typeof MaterialIcon = MaterialIcon;
 
-  protected readonly translation: Signal<Record<string, string>> = toSignal(
-    this.translateService.stream('KPI'),
-    { initialValue: {} as Record<string, string> },
-  );
+  protected onWorkoutSelected(entry: RecentEntry): void {
+    this.facade.navigateToEntry(entry);
+  }
 }

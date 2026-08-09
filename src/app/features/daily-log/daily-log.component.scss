@@ -1,27 +1,10 @@
 @use 'abstract/variables' as variables;
 @use 'abstract/mixins' as mixins;
+@use 'abstract/page-primary' as page-primary;
 
 .daily-log {
   &__add-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    @include mixins.touch-target-comfortable;
-    border: none;
-    border-radius: variables.$radius-full;
-    background-color: var(--color-primary);
-    color: var(--color-text-inverse);
-    cursor: pointer;
-    transition: background-color variables.$transition-fast;
-
-    &:focus-visible {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-    }
-
-    &:active {
-      background-color: var(--color-primary-dark);
-    }
+    @include page-primary.page-primary-action;
   }
 
   &__list-item {
