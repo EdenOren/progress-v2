@@ -216,6 +216,8 @@
     "COMPLETE_CANCEL": "Cancel",
     "DURATION_MINUTES": "minutes",
     "DURATION_MINUTES_SHORT": "min",
-    "DURATION_SECONDS": "seconds"
+    "DURATION_SECONDS": "seconds",
+    "SET_ONE": "set",
+    "SET_MANY": "sets"
   }
 }

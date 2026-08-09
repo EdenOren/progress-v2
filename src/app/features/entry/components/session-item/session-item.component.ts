@@ -56,6 +56,7 @@ export class SessionItemComponent {
   readonly previousSets: InputSignal<ItemSet[]> = input<ItemSet[]>([]);
   readonly distanceUnit: InputSignal<DistanceUnit> = input<DistanceUnit>(DistanceUnit.Km);
   readonly isReadOnly: InputSignal<boolean> = input<boolean>(false);
+  readonly isActive: InputSignal<boolean> = input<boolean>(true);
   readonly translation: InputSignal<Record<string, string>> = input.required<Record<string, string>>();
 
   readonly setChanged: OutputEmitterRef<SetChangedEvent> = output<SetChangedEvent>();
@@ -64,8 +65,34 @@ export class SessionItemComponent {
   readonly feedbackChanged: OutputEmitterRef<FeedbackChangedEvent> = output<FeedbackChangedEvent>();
   readonly noteChanged: OutputEmitterRef<NoteChangedEvent> = output<NoteChangedEvent>();
   readonly deleteRequested: OutputEmitterRef<string> = output<string>();
+  readonly activated: OutputEmitterRef<string> = output<string>();
 
   protected readonly ButtonType: typeof ButtonType = ButtonType;
+
+  /**
+   * A rating is what marks an exercise finished, and it has to stay readable
+   * once given — collapsed or expanded. Exposed as booleans so the template
+   * never compares strings.
+   */
+  readonly isFinished: Signal<boolean> = computed(() => !!this.item().feedback);
+
+  protected readonly isSuccessRated: Signal<boolean> = computed(
+    () => this.item().feedback?.rating === FeedbackRating.Success,
+  );
+
+  protected readonly isHardRated: Signal<boolean> = computed(
+    () => this.item().feedback?.rating === FeedbackRating.Hard,
+  );
+
+  protected readonly isFailRated: Signal<boolean> = computed(
+    () => this.item().feedback?.rating === FeedbackRating.Fail,
+  );
+
+  protected readonly setSummary: Signal<string> = computed(() => {
+    const setCount: number = this.item().sets.length;
+    const label: string = setCount === 1 ? this.translation()['SET_ONE'] : this.translation()['SET_MANY'];
+    return `${setCount} ${label ?? ''}`.trim();
+  });
 
   readonly formattedPreviousSets: Signal<string> = computed(() => {
     const sets = this.previousSets();
@@ -99,6 +126,10 @@ export class SessionItemComponent {
 
   protected onDeleteRequested(): void {
     this.deleteRequested.emit(this.item().id);
+  }
+
+  protected onActivated(): void {
+    this.activated.emit(this.item().id);
   }
 
   private formatSet(set: ItemSet, trackingType: TrackingType, unit: DistanceUnit): string {

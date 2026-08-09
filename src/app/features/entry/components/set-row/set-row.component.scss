@@ -1,14 +1,17 @@
 @use 'abstract/variables' as variables;
 @use 'abstract/mixins' as mixins;
 
+// Deliberately a single line at every width: label, inputs, unit and remove all
+// stay in one row. Comfort comes from the width floor and the 48px controls
+// below, never from wrapping.
 .set-row {
   display: flex;
   align-items: center;
   gap: variables.$spacing-sm;
-  padding: variables.$spacing-sm 0;
+  padding: variables.$spacing-xs 0;
 
   &__label {
-    font-size: 12px;
+    font-size: var(--text-xs);
     color: var(--color-text-muted);
     min-width: 40px;
     flex-shrink: 0;
@@ -19,16 +22,24 @@
     align-items: center;
     gap: variables.$spacing-xs;
     flex: 1;
+    min-width: 0;
+  }
+
+  // Without a floor these compress before the fixed label and unit do, which is
+  // exactly backwards — the number fields are the point of the row.
+  app-ui-input {
+    flex: 1;
+    min-width: 68px;
   }
 
   &__separator {
-    font-size: 14px;
+    font-size: var(--text-sm);
     color: var(--color-text-muted);
     flex-shrink: 0;
   }
 
   &__unit {
-    font-size: 12px;
+    font-size: var(--text-xs);
     color: var(--color-text-muted);
     flex-shrink: 0;
   }
@@ -37,7 +48,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    @include mixins.touch-target;
+    @include mixins.touch-target-comfortable;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -53,9 +64,11 @@
       height: 18px;
     }
 
-    &:hover {
-      color: var(--color-error);
-      background-color: color-mix(in srgb, var(--color-error) 8%, transparent);
+    @include mixins.hoverable {
+      &:hover {
+        color: var(--color-error);
+        background-color: color-mix(in srgb, var(--color-error) 8%, transparent);
+      }
     }
 
     &:focus-visible {

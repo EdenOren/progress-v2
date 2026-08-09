@@ -1,6 +1,10 @@
 @use 'abstract/variables' as variables;
 @use 'abstract/mixins' as mixins;
 
+// Matches the tab min-height below; shared so the thumb-bar offset cannot
+// drift out of sync with the nav it has to clear.
+$bottom-nav-height: 56px;
+
 .home {
   display: flex;
   flex-direction: column;
@@ -14,6 +18,15 @@
   // horizontal insets have to be paid back or landscape notches clip the UI.
   padding-left: env(safe-area-inset-left, 0);
   padding-right: env(safe-area-inset-right, 0);
+
+  // Lifts a page's pinned primary action clear of the bottom nav, which is
+  // sticky at the viewport edge and would otherwise sit on top of it. The rail
+  // replaces the nav at lg, where the action returns to the header anyway.
+  --ui-thumb-bar-offset: calc(#{$bottom-nav-height} + env(safe-area-inset-bottom, 0));
+
+  @include mixins.respond-to(lg) {
+    --ui-thumb-bar-offset: 0px;
+  }
 
   @include mixins.respond-to(lg) {
     flex-direction: row;
@@ -190,7 +203,7 @@
     justify-content: center;
     gap: variables.$spacing-xs;
     padding: variables.$spacing-sm;
-    min-height: 56px;
+    min-height: $bottom-nav-height;
     border: none;
     background: transparent;
     cursor: pointer;
