@@ -21,7 +21,6 @@ interface AddItemModel {
 @Component({
   selector: 'app-add-item-dialog',
   templateUrl: './add-item-dialog.component.html',
-  styleUrl: './add-item-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [UiModalComponent, UiButtonComponent, FormRoot, UiInputComponent],
 })

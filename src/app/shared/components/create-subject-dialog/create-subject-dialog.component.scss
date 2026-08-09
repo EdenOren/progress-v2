@@ -1,17 +1,13 @@
 @use 'abstract/variables' as variables;
 
 .create-subject-dialog {
-  &__title {
-    font-size: 18px;
-    font-weight: 600;
-  }
-
+  // No min-width: below sm the dialog is a full-width bottom sheet, and a floor
+  // wider than the sheet's content box only forces a sideways scroll.
   &__content {
     display: flex;
     flex-direction: column;
     gap: variables.$spacing-md;
     padding-top: variables.$spacing-sm;
-    min-width: 280px;
   }
 
   &__actions {
