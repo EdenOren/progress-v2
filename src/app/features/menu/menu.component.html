@@ -1,20 +1,19 @@
 <app-ui-page [title]="titleLabel()" [narrow]="true">
-  <div class="menu__content">
-    <app-ui-button
-      [label]="profileLabel()"
-      [variant]="buttonVariant.Ghost"
-      (click)="onNavigateToProfile()"
-    />
-    <app-ui-button
-      [label]="settingsLabel()"
-      [variant]="buttonVariant.Ghost"
-      (click)="onNavigateToSettings()"
-    />
-    <app-ui-button
-      [label]="logoutLabel()"
-      [variant]="buttonVariant.Ghost"
-      [isLoading]="isLoggingOut()"
-      (click)="onLogout()"
-    />
-  </div>
+  <nav class="menu__content" [attr.aria-label]="titleLabel()">
+    <button class="menu__row" [type]="buttonType.Button" (click)="onNavigateToProfile()">
+      <span class="menu__row-label">{{ profileLabel() }}</span>
+      <app-ui-icon class="menu__row-chevron" [src]="appIcon.ChevronRight" aria-hidden="true" />
+    </button>
+    <button class="menu__row" [type]="buttonType.Button" (click)="onNavigateToSettings()">
+      <span class="menu__row-label">{{ settingsLabel() }}</span>
+      <app-ui-icon class="menu__row-chevron" [src]="appIcon.ChevronRight" aria-hidden="true" />
+    </button>
+    <button
+      class="menu__row menu__row--destructive"
+      [type]="buttonType.Button"
+      [disabled]="isLoggingOut()"
+      (click)="onLogout()">
+      <span class="menu__row-label">{{ logoutLabel() }}</span>
+    </button>
+  </nav>
 </app-ui-page>

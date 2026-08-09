@@ -1,6 +1,8 @@
 @use 'abstract/variables' as variables;
 @use 'abstract/mixins' as mixins;
 
+$menu-row-height: 56px;
+
 .menu {
   &__content {
     display: flex;
@@ -10,5 +12,59 @@
     @include mixins.respond-to(lg) {
       gap: variables.$spacing-md;
     }
+  }
+
+  // Destination rows, not buttons: a label pushed left against a chevron reads
+  // as "this goes somewhere", which centred pill buttons never did.
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: variables.$spacing-sm;
+    width: 100%;
+    min-height: $menu-row-height;
+    padding-inline: variables.$spacing-md;
+    border: 1px solid var(--color-border);
+    border-radius: variables.$radius-lg;
+    background: var(--color-surface);
+    cursor: pointer;
+    text-align: left;
+    color: var(--color-text-primary);
+    transition: background-color variables.$transition-fast, border-color variables.$transition-fast;
+
+    @include mixins.hoverable {
+      &:hover {
+        background: var(--color-surface-raised);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    &:active {
+      background: var(--color-surface-raised);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    // No chevron: this one acts here rather than navigating anywhere.
+    &--destructive {
+      color: var(--color-error);
+    }
+  }
+
+  &__row-label {
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+  }
+
+  &__row-chevron {
+    color: var(--color-text-muted);
+    flex-shrink: 0;
   }
 }

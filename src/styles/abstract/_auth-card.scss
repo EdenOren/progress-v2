@@ -1,0 +1,84 @@
+@use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
+
+// Roughly a phone in landscape. Below this the fixed block padding is most of
+// what is on screen, so it gives way to the card itself.
+$short-viewport: 560px;
+$auth-card-max-width: 420px;
+
+// The shell every signed-out screen shares: one centred card on a tinted
+// ground. svh rather than dvh — dvh grows as the browser chrome retracts, which
+// on a phone means the page height changes mid-scroll.
+//
+// min-height, not height, so a card taller than the viewport grows the shell
+// instead of being centred and clipped at the top.
+@mixin auth-page {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: variables.$spacing-lg;
+  background-color: var(--color-surface-alt);
+
+  @media (max-height: $short-viewport) {
+    padding-block: variables.$spacing-md;
+  }
+
+  &__card {
+    width: 100%;
+    max-width: $auth-card-max-width;
+    background-color: var(--color-surface);
+    border-radius: variables.$radius-lg;
+    box-shadow: variables.$shadow-md;
+    padding: variables.$spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+
+    @include mixins.respond-to(md) {
+      padding: variables.$spacing-2xl;
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xs;
+  }
+
+  &__title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-md;
+  }
+
+  &__error {
+    font-size: var(--text-sm);
+    color: var(--color-error);
+    background-color: color-mix(in srgb, var(--color-error) 6%, transparent);
+    border-left: 3px solid var(--color-error);
+    padding: variables.$spacing-sm variables.$spacing-md;
+    border-radius: 0 variables.$radius-sm variables.$radius-sm 0;
+    margin: 0;
+  }
+
+  &__footer {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    text-align: center;
+    margin: 0;
+  }
+}

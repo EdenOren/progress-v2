@@ -52,6 +52,15 @@ export class SettingsFacade {
   readonly weightUnit: Signal<WeightUnit> = this._weightUnit;
   readonly distanceUnit: Signal<DistanceUnit> = this._distanceUnit;
 
+  readonly isWeightUnitKg: Signal<boolean> = computed(() => this.weightUnit() === WeightUnit.Kg);
+  readonly isWeightUnitLb: Signal<boolean> = computed(() => this.weightUnit() === WeightUnit.Lb);
+  readonly isDistanceUnitKm: Signal<boolean> = computed(
+    () => this.distanceUnit() === DistanceUnit.Km,
+  );
+  readonly isDistanceUnitMiles: Signal<boolean> = computed(
+    () => this.distanceUnit() === DistanceUnit.Miles,
+  );
+
   private readonly _saving: WritableSignal<boolean> = signal(false);
   private readonly _saveSuccess: WritableSignal<boolean> = signal(false);
   private readonly _saveError: WritableSignal<boolean> = signal(false);

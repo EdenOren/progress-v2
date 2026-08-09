@@ -8,11 +8,12 @@
       <p class="settings__error">{{ t['LOAD_ERROR'] }}</p>
     } @else {
       <div class="settings__group">
-        <span class="settings__label">{{ t['WEIGHT_UNIT_LABEL'] }}</span>
-        <div class="settings__buttons">
+        <span class="settings__label" id="weight-unit-label">{{ t['WEIGHT_UNIT_LABEL'] }}</span>
+        <div class="settings__buttons" role="group" aria-labelledby="weight-unit-label">
           <button
             class="settings__btn"
-            [class.settings__btn--active]="facade.weightUnit() === weightUnit.Kg"
+            [class.settings__btn--active]="facade.isWeightUnitKg()"
+            [attr.aria-pressed]="facade.isWeightUnitKg()"
             [type]="buttonType.Button"
             [disabled]="facade.saving()"
             (click)="onWeightUnitChanged(weightUnit.Kg)">
@@ -20,7 +21,8 @@
           </button>
           <button
             class="settings__btn"
-            [class.settings__btn--active]="facade.weightUnit() === weightUnit.Lb"
+            [class.settings__btn--active]="facade.isWeightUnitLb()"
+            [attr.aria-pressed]="facade.isWeightUnitLb()"
             [type]="buttonType.Button"
             [disabled]="facade.saving()"
             (click)="onWeightUnitChanged(weightUnit.Lb)">
@@ -30,11 +32,12 @@
       </div>
 
       <div class="settings__group">
-        <span class="settings__label">{{ t['DISTANCE_UNIT_LABEL'] }}</span>
-        <div class="settings__buttons">
+        <span class="settings__label" id="distance-unit-label">{{ t['DISTANCE_UNIT_LABEL'] }}</span>
+        <div class="settings__buttons" role="group" aria-labelledby="distance-unit-label">
           <button
             class="settings__btn"
-            [class.settings__btn--active]="facade.distanceUnit() === distanceUnit.Km"
+            [class.settings__btn--active]="facade.isDistanceUnitKm()"
+            [attr.aria-pressed]="facade.isDistanceUnitKm()"
             [type]="buttonType.Button"
             [disabled]="facade.saving()"
             (click)="onDistanceUnitChanged(distanceUnit.Km)">
@@ -42,7 +45,8 @@
           </button>
           <button
             class="settings__btn"
-            [class.settings__btn--active]="facade.distanceUnit() === distanceUnit.Miles"
+            [class.settings__btn--active]="facade.isDistanceUnitMiles()"
+            [attr.aria-pressed]="facade.isDistanceUnitMiles()"
             [type]="buttonType.Button"
             [disabled]="facade.saving()"
             (click)="onDistanceUnitChanged(distanceUnit.Miles)">
@@ -52,10 +56,10 @@
       </div>
 
       @if (facade.saveSuccess()) {
-        <p class="settings__feedback settings__feedback--success">{{ t['SAVE_SUCCESS'] }}</p>
+        <p class="settings__feedback settings__feedback--success" role="status">{{ t['SAVE_SUCCESS'] }}</p>
       }
       @if (facade.saveError()) {
-        <p class="settings__feedback settings__feedback--error">{{ t['SAVE_ERROR'] }}</p>
+        <p class="settings__feedback settings__feedback--error" role="status">{{ t['SAVE_ERROR'] }}</p>
       }
     }
   </div>

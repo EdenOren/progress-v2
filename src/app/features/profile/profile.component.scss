@@ -1,8 +1,13 @@
 @use 'abstract/colors' as colors;
 @use 'abstract/variables' as variables;
 @use 'abstract/mixins' as mixins;
+@use 'abstract/page-primary' as page-primary;
 
 .profile {
+  &__save-btn {
+    @include page-primary.page-primary-action;
+  }
+
   &__form {
     display: flex;
     flex-direction: column;

@@ -38,19 +38,26 @@ export class ProfileFacade {
     return result.data;
   });
 
+  // The form is only worth a Save button once there is a form to save.
+  readonly isReady: Signal<boolean> = computed(() => !this.isLoading() && !this.hasError());
+
   private readonly _saveSuccess: WritableSignal<boolean> = signal(false);
   private readonly _saveError: WritableSignal<boolean> = signal(false);
+  private readonly _isSaving: WritableSignal<boolean> = signal(false);
 
   readonly saveSuccess: Signal<boolean> = this._saveSuccess;
   readonly saveError: Signal<boolean> = this._saveError;
+  readonly isSaving: Signal<boolean> = this._isSaving;
 
   async saveProfile(input: UpdateProfileInput): Promise<void> {
     this._saveSuccess.set(false);
     this._saveError.set(false);
+    this._isSaving.set(true);
     const result: Result<void> = await this.profileService.updateProfile(
       this.authService.userId(),
       input,
     );
+    this._isSaving.set(false);
     if (!result.success) {
       this._saveError.set(true);
       return;
