@@ -14,7 +14,7 @@
 
   <div class="profile__content">
     @if (facade.isLoading()) {
-      <p class="profile__loading">{{ t['LOADING'] }}</p>
+      <app-ui-skeleton [variant]="skeletonVariant.Row" [count]="3" />
     } @else if (facade.hasError()) {
       <p class="profile__error">{{ t['LOAD_ERROR'] }}</p>
     } @else {

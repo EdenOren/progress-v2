@@ -1,4 +1,4 @@
-import { UiPageComponent } from '@edenoren/ui-kit';
+import { SkeletonVariant, UiPageComponent, UiSkeletonComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { KpiFacade } from './kpi.facade';
 import { RecentWorkoutCardComponent } from './components/recent-workout-card/recent-workout-card.component';
@@ -12,10 +12,11 @@ import type { RecentEntry } from '../../core/services/data/entries.service';
   styleUrl: './kpi.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [KpiFacade],
-  imports: [UiPageComponent, RecentWorkoutCardComponent, EmptyStateComponent],
+  imports: [UiPageComponent, RecentWorkoutCardComponent, EmptyStateComponent, UiSkeletonComponent],
 })
 export class KpiComponent {
   protected readonly facade: KpiFacade = inject(KpiFacade);
+  protected readonly skeletonVariant: typeof SkeletonVariant = SkeletonVariant;
   protected readonly MaterialIcon: typeof MaterialIcon = MaterialIcon;
 
   protected onWorkoutSelected(entry: RecentEntry): void {

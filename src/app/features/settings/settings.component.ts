@@ -1,4 +1,4 @@
-import { ButtonType, UiPageComponent } from '@edenoren/ui-kit';
+import { ButtonType, SkeletonVariant, UiPageComponent, UiSkeletonComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SettingsFacade } from './settings.facade';
 import { WeightUnit } from '../../shared/enums/weight-unit.enum';
@@ -10,10 +10,11 @@ import { DistanceUnit } from '../../shared/enums/distance-unit.enum';
   styleUrl: './settings.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SettingsFacade],
-  imports: [UiPageComponent],
+  imports: [UiPageComponent, UiSkeletonComponent],
 })
 export class SettingsComponent {
   protected readonly facade: SettingsFacade = inject(SettingsFacade);
+  protected readonly skeletonVariant: typeof SkeletonVariant = SkeletonVariant;
 
   protected readonly weightUnit: typeof WeightUnit = WeightUnit;
   protected readonly distanceUnit: typeof DistanceUnit = DistanceUnit;

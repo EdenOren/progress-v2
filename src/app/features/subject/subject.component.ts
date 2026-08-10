@@ -1,4 +1,4 @@
-import { ButtonType, UiPageComponent } from '@edenoren/ui-kit';
+import { ButtonType, SkeletonVariant, UiPageComponent, UiSkeletonComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,10 +21,12 @@ import { MaterialIcon } from '../../shared/enums/material-icon.enum';
     EntryCardComponent,
     UiPageComponent,
     EmptyStateComponent,
+    UiSkeletonComponent,
   ],
 })
 export class SubjectComponent {
   protected readonly facade: SubjectFacade = inject(SubjectFacade);
+  protected readonly skeletonVariant: typeof SkeletonVariant = SkeletonVariant;
   protected readonly ButtonType: typeof ButtonType = ButtonType;
   protected readonly MaterialIcon: typeof MaterialIcon = MaterialIcon;
 

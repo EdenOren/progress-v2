@@ -24,7 +24,7 @@
 
   <div class="entry__body">
     @if (facade.isLoading()) {
-      <p class="entry__status">{{ t['LOADING'] }}</p>
+      <app-ui-skeleton [variant]="skeletonVariant.Card" [count]="2" />
     } @else if (!facade.items().length) {
       <app-empty-state [icon]="MaterialIcon.FitnessCenter" [text]="t['EMPTY']" />
     } @else {

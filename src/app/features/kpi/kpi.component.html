@@ -1,6 +1,6 @@
 <app-ui-page [title]="facade.translation()['TITLE']">
   @if (facade.isLoading()) {
-    <p class="kpi__status">{{ facade.translation()['LOADING'] }}</p>
+    <app-ui-skeleton [variant]="skeletonVariant.Row" [count]="4" />
   } @else if (facade.hasError()) {
     <p class="kpi__status kpi__status--error">{{ facade.translation()['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {

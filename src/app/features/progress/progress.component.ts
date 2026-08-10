@@ -1,4 +1,4 @@
-import { ButtonType, UiPageComponent } from '@edenoren/ui-kit';
+import { ButtonType, SkeletonVariant, UiPageComponent, UiSkeletonComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ProgressFacade } from './progress.facade';
@@ -12,10 +12,17 @@ import { MaterialIcon } from '../../shared/enums/material-icon.enum';
   styleUrl: './progress.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ProgressFacade],
-  imports: [MatIconModule, SubjectCardComponent, UiPageComponent, EmptyStateComponent],
+  imports: [
+    MatIconModule,
+    SubjectCardComponent,
+    UiPageComponent,
+    EmptyStateComponent,
+    UiSkeletonComponent,
+  ],
 })
 export class ProgressComponent {
   protected readonly facade: ProgressFacade = inject(ProgressFacade);
+  protected readonly skeletonVariant: typeof SkeletonVariant = SkeletonVariant;
   protected readonly ButtonType: typeof ButtonType = ButtonType;
   protected readonly MaterialIcon: typeof MaterialIcon = MaterialIcon;
 

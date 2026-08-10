@@ -9,7 +9,10 @@
   </button>
 
   @if (facade.isLoading()) {
-    <p class="progress__status">{{ facade.translation()['LOADING'] }}</p>
+    <app-ui-skeleton
+      class="progress__skeleton"
+      [variant]="skeletonVariant.Card"
+      [count]="3" />
   } @else if (facade.hasError()) {
     <p class="progress__status progress__status--error">{{ facade.translation()['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {

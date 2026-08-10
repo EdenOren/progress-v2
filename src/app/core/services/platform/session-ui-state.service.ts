@@ -1,5 +1,5 @@
 import { Service } from '@angular/core';
-import { z } from 'zod';
+import * as z from '../../types/zod';
 import { StorageKey } from '../../enums/storage-key.enum';
 
 const activeItemSchema: z.ZodType<string> = z.string().uuid();
