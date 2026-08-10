@@ -2,9 +2,9 @@ import { ButtonSize, ButtonType, ButtonVariant, UiButtonComponent, UiIconCompone
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
 import { HomeFacade } from './home.facade';
 import { AppRoute } from '../../core/enums/app-route.enum';
+import { AppIcon } from '../../shared/enums/app-icon.enum';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +12,10 @@ import { AppRoute } from '../../core/enums/app-route.enum';
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [HomeFacade],
-  imports: [RouterOutlet, UiIconComponent, UiButtonComponent, MatMenuModule, MatIconModule],
+  imports: [RouterOutlet, UiIconComponent, UiButtonComponent, MatMenuModule],
 })
 export class HomeComponent {
+  protected readonly appIcon: typeof AppIcon = AppIcon;
   protected readonly facade: HomeFacade = inject(HomeFacade);
   protected readonly buttonType: typeof ButtonType = ButtonType;
   protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;

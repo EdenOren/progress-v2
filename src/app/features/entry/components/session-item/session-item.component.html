@@ -14,17 +14,17 @@
       (click)="onActivated()"
       [attr.aria-expanded]="false">
       @if (isFinished()) {
-        <mat-icon class="session-item__check" aria-hidden="true">check_circle</mat-icon>
+        <app-ui-icon class="session-item__check" [src]="appIcon.CheckCircle" aria-hidden="true" />
       }
       <span class="session-item__name">{{ currentItem.name }}</span>
       <span class="session-item__set-count">{{ setSummary() }}</span>
-      <mat-icon class="session-item__chevron" aria-hidden="true">expand_more</mat-icon>
+      <app-ui-icon class="session-item__chevron" [src]="appIcon.ExpandMore" aria-hidden="true" />
     </button>
   } @else {
     <div class="session-item__header">
       <h3 class="session-item__name">{{ currentItem.name }}</h3>
       @if (isFinished()) {
-        <mat-icon class="session-item__check" aria-hidden="true">check_circle</mat-icon>
+        <app-ui-icon class="session-item__check" [src]="appIcon.CheckCircle" aria-hidden="true" />
       }
       @if (!isReadOnly()) {
         <button
@@ -32,14 +32,14 @@
           [type]="ButtonType.Button"
           (click)="onDeleteRequested()"
           [attr.aria-label]="t['DELETE_EXERCISE']">
-          <mat-icon aria-hidden="true">delete_outline</mat-icon>
+          <app-ui-icon [src]="appIcon.Delete" aria-hidden="true" />
         </button>
       }
     </div>
 
     @if (currentItem.note) {
       <div class="session-item__prev-note">
-        <mat-icon class="session-item__prev-note-icon" aria-hidden="true">chat_bubble_outline</mat-icon>
+        <app-ui-icon class="session-item__prev-note-icon" [src]="appIcon.Note" aria-hidden="true" />
         <span>{{ currentItem.note }}</span>
       </div>
     }
@@ -69,7 +69,7 @@
         class="session-item__add-set-btn"
         [type]="ButtonType.Button"
         (click)="onSetAdded()">
-        <mat-icon aria-hidden="true">add</mat-icon>
+        <app-ui-icon [src]="appIcon.Add" aria-hidden="true" />
         {{ t['ADD_SET'] }}
       </button>
     }

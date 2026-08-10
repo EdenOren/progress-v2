@@ -18,13 +18,11 @@ $text-measure: 32ch;
   padding-block: variables.$spacing-2xl;
 
   &__icon {
-    font-size: $icon-size-phone;
     width: $icon-size-phone;
     height: $icon-size-phone;
     color: var(--color-text-muted);
 
     @include mixins.respond-to(md) {
-      font-size: $icon-size-wide;
       width: $icon-size-wide;
       height: $icon-size-wide;
     }

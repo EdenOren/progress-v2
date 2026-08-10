@@ -1,4 +1,4 @@
-import { ButtonType } from '@edenoren/ui-kit';
+import { ButtonType, UiIconComponent } from '@edenoren/ui-kit';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,7 +9,6 @@ import {
   OutputEmitterRef,
   Signal,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SetRowComponent } from '../set-row/set-row.component';
 import { SessionItemFeedbackComponent } from '../session-item-feedback/session-item-feedback.component';
@@ -20,6 +19,7 @@ import { DistanceUnit } from '../../../../shared/enums/distance-unit.enum';
 import { metersToKm, metersToMiles, metersToYards } from '../../../../shared/utils/unit-conversion';
 import type { SessionItem, ItemSet } from '../../../../core/services/data/items.service';
 import type { SetChangedPayload } from '../../../../core/services/data/item-sets.service';
+import { AppIcon } from '../../../../shared/enums/app-icon.enum';
 
 export interface SetChangedEvent {
   itemId: string;
@@ -47,9 +47,16 @@ export interface NoteChangedEvent {
   templateUrl: './session-item.component.html',
   styleUrl: './session-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule, MatButtonModule, SetRowComponent, SessionItemFeedbackComponent, SessionItemNoteComponent],
+  imports: [
+    MatButtonModule,
+    SetRowComponent,
+    SessionItemFeedbackComponent,
+    SessionItemNoteComponent,
+    UiIconComponent,
+  ],
 })
 export class SessionItemComponent {
+  protected readonly appIcon: typeof AppIcon = AppIcon;
   private static readonly SECONDS_PER_MINUTE: number = 60;
 
   readonly item: InputSignal<SessionItem> = input.required<SessionItem>();

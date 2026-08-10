@@ -16,7 +16,7 @@
     <p class="daily-log__status daily-log__status--error">{{ facade.translation()['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {
     <app-empty-state
-      [icon]="MaterialIcon.EventNote"
+      [icon]="appIcon.DailyLog"
       [text]="facade.translation()['EMPTY']" />
   } @else {
     <ul class="daily-log__list">

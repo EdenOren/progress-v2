@@ -24,6 +24,7 @@ import {
   WEIGHT_UNIT_LABELS,
 } from '../../utils/unit-conversion';
 import type { DailyLog } from '../../../core/services/data/daily-log/daily-log.model';
+import { AppIcon } from '../../enums/app-icon.enum';
 
 export interface LogEntryDialogData {
   date: string;
@@ -47,6 +48,7 @@ export interface LogEntryFormData {
   imports: [UiModalComponent, UiButtonComponent, UiInputComponent],
 })
 export class LogEntryDialogComponent {
+  protected readonly appIcon: typeof AppIcon = AppIcon;
   protected readonly data: LogEntryDialogData = inject<LogEntryDialogData>(MAT_DIALOG_DATA);
   private readonly translateService: TranslateService = inject(TranslateService);
 

@@ -18,7 +18,7 @@
       [attr.aria-label]="facade.userEmail()">
       <span class="home__sidebar-user-avatar">{{ facade.userInitial() }}</span>
       <span class="home__sidebar-user-label">{{ facade.userEmail() }}</span>
-      <mat-icon class="home__sidebar-user-caret" aria-hidden="true">expand_more</mat-icon>
+      <app-ui-icon class="home__sidebar-user-caret" [src]="appIcon.ExpandMore" aria-hidden="true" />
     </button>
     <mat-menu #userMenu="matMenu">
       <button mat-menu-item [type]="buttonType.Button" (click)="navigateToProfile()">

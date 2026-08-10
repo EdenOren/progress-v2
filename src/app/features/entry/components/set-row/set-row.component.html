@@ -71,7 +71,7 @@
       [type]="ButtonType.Button"
       (click)="onRemoved()"
       [attr.aria-label]="t['REMOVE_SET']">
-      <mat-icon aria-hidden="true">remove_circle_outline</mat-icon>
+      <app-ui-icon [src]="appIcon.RemoveCircle" aria-hidden="true" />
     </button>
   }
 </div>
