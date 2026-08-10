@@ -5,6 +5,7 @@ import { LogCardComponent } from './components/log-card/log-card.component';
 import type { DailyLog } from '../../core/services/data/daily-log/daily-log.model';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 import { AppIcon } from '../../shared/enums/app-icon.enum';
+import { toLocalDateString } from '../../shared/utils/date';
 
 @Component({
   selector: 'app-daily-log',
@@ -25,10 +26,6 @@ export class DailyLogComponent {
   }
 
   protected onLogToday(): void {
-    const now: Date = new Date();
-    const year: number = now.getFullYear();
-    const month: string = String(now.getMonth() + 1).padStart(2, '0');
-    const day: string = String(now.getDate()).padStart(2, '0');
-    void this.facade.openLogDialog(`${year}-${month}-${day}`);
+    void this.facade.openLogDialog(toLocalDateString(new Date()));
   }
 }
