@@ -35,7 +35,7 @@
   </mat-menu>
 
   @if (facade.isLoading()) {
-    <p class="subject__status">{{ t['LOADING'] }}</p>
+    <app-ui-skeleton [variant]="skeletonVariant.Row" [count]="4" />
   } @else if (facade.hasError()) {
     <p class="subject__status subject__status--error">{{ t['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {

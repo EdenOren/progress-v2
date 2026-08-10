@@ -11,7 +11,7 @@
     <p class="daily-log__status daily-log__status--error">{{ facade.translation()['SAVE_ERROR'] }}</p>
   }
   @if (facade.isLoading()) {
-    <p class="daily-log__status">{{ facade.translation()['LOADING'] }}</p>
+    <app-ui-skeleton [variant]="skeletonVariant.Card" [count]="3" />
   } @else if (facade.hasError()) {
     <p class="daily-log__status daily-log__status--error">{{ facade.translation()['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {

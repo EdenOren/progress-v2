@@ -1,5 +1,5 @@
 import { inject, Service } from '@angular/core';
-import { z } from 'zod';
+import * as z from '../../types/zod';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { SupabaseService } from '../platform/supabase.service';
 import { mapSupabaseError } from '../../errors/error-mapper';

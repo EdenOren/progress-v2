@@ -1,8 +1,10 @@
 import {
   ButtonType,
   InputType,
+  SkeletonVariant,
   UiInputComponent,
   UiPageComponent,
+  UiSkeletonComponent,
   ValidationKind,
 } from '@edenoren/ui-kit';
 import {
@@ -30,10 +32,11 @@ interface ProfileFormModel {
   styleUrl: './profile.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ProfileFacade],
-  imports: [FormRoot, UiInputComponent, UiPageComponent],
+  imports: [FormRoot, UiInputComponent, UiPageComponent, UiSkeletonComponent],
 })
 export class ProfileComponent {
   protected readonly facade: ProfileFacade = inject(ProfileFacade);
+  protected readonly skeletonVariant: typeof SkeletonVariant = SkeletonVariant;
 
   protected readonly inputType: typeof InputType = InputType;
   protected readonly buttonType: typeof ButtonType = ButtonType;

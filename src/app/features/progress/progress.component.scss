@@ -44,6 +44,22 @@
     display: grid;
   }
 
+  // Mirrors __list, so the placeholder occupies the shape the cards will and
+  // the arriving data does not reflow the page.
+  &__skeleton {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: variables.$spacing-md;
+
+    @include mixins.respond-to(md) {
+      grid-template-columns: repeat(auto-fill, minmax(variables.$card-grid-min, 1fr));
+    }
+
+    @include mixins.respond-to(lg) {
+      gap: variables.$spacing-lg;
+    }
+  }
+
   &__status {
     padding-block: variables.$spacing-xl;
     text-align: center;
