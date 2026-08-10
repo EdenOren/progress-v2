@@ -152,21 +152,17 @@
 - [ ] GoalsComponent: Signal Form (sleep target h, water target L, weight target kg, waist target cm)
 - [ ] Save with loading / success / error feedback
 
-## Phase 9 — KPI Dashboard — ON HOLD (branch: feature/9-kpi)
-
-### Commit 1 — calculations utility
-- [ ] kpi.utils.ts — pure functions: avgSleep, avgWeight, avgWater, avgWaist (last 7 days vs targets)
-- [ ] Unit tests for each calculation function
-
-### Commit 2 — data + facade
-- [ ] KpiFacade: weekLogResource, healthGoalsResource, translation signal
-- [ ] Computed KPI values (delta vs goal, trend direction)
-
-### Commit 3 — KPI cards UI
-- [ ] KpiCardComponent (dumb): inputs label, value, unit, delta, trend
-- [ ] KpiComponent: 2×2 grid layout using KpiCardComponent
-- [ ] en.json KPI section
-- [ ] SCSS for card grid
+## Phase 9 — KPI Dashboard ✓ (complete without goals — branch: feature/27-kpi-dashboard)
+- [x] entries.service.getEntriesSince (embedded items/item_sets folded into setCount + volumeKg) + daily-log.service.getDailyLogsSince — no migrations
+- [x] shared/utils/date.ts — local-calendar helpers, retires the hand-rolled formatting in daily-log.component + subject.facade
+- [x] features/kpi/utils/kpi-metrics.util.ts + spec — workout totals, days since last, subject frequency, volume buckets, daily-log averages and deltas
+- [x] KpiRange / KpiTileKey enums; one 90-day fetch narrowed client-side by a 7/30/90 segmented control
+- [x] KpiFacade rewritten: training / volume / health tiles, volume buckets, per-routine breakdown, weight-unit aware
+- [x] VolumeChartComponent (CSS bars + visually-hidden table) and SubjectFrequencyListComponent
+- [x] Recent-workouts list moved off the tab to Progress; RecentWorkoutCardComponent relocated with it
+- [x] _segmented-control.scss extracted and shared with Settings
+- [ ] Goals-vs-target tiles still deferred — needs Phase 8 + 014_health_goals.sql. Every tile is Neutral today except "Since last"; nothing claims progress against a target that does not exist.
+- See `plans/feature-kpi-dashboard.md`
 
 ## Phase 10 — Settings ✓ (complete — branch: feature/10-settings)
 
@@ -214,6 +210,32 @@
 - [x] RX-8 — Polish & performance: skeletons replace all 7 loading paragraphs; initial bundle 873 kB -> 616 kB by narrowing the zod barrel import (its entry point re-exported 53 locale files, 195 kB, that the app never shows), budget re-set to 640 kB deliberately; focus-visible audit clean. (branch: refactor/rx-8-polish)
 - [x] RX-9 — Icon consolidation (A14): ui-kit 0.3.0 adds iconSrc to UiButton/UiInput, 13 hand-authored SVGs join the existing set, all 14 mat-icon usages and 5 ligature bindings migrated to app-ui-icon, MatIconModule gone from the app, Material Icons webfont link dropped from index.html (branch: refactor/rx-9-icon-consolidation)
 
+## Phase 12 — Profile Screen Rebuild (planned 2026-08-10 — see `plans/feature-profile-screen.md`)
+
+### ui-kit 0.4.0 (repo: ../ui-kit, branch feature/number-form-field) — do first
+- [ ] `UiInputComponent.field` widened to `Field<string> | Field<number | null> | null`
+- [ ] New `block` input — number inputs render as full-width form fields (label + error region + `[formField]`) instead of set-row cells
+- [ ] Verify all 10 existing number usages unchanged (set-row ×5, log-entry-dialog ×4 tile, complete-session-dialog ×1) + recipebox builds
+- [ ] Release 0.4.0 + CHANGELOG + README input table
+
+### progress (branch: feature/43-profile-screen — renumber to the real PR)
+- [ ] Bump @edenoren/ui-kit to 0.4.0
+- [ ] CurrentProfileService — app-level profile resource shared by Profile + sidebar; resource stays idle until `userId()` is non-empty (fixes the `getProfile('')` error flash on load)
+- [ ] Shared UserAvatarComponent + UserAvatarSize enum; rail migrates onto it
+- [ ] Profile: identity header (avatar, display name, email, member since)
+- [ ] Profile: "About you" — displayName/dateOfBirth/heightCm all inside `profileForm`, `_heightCm` side-channel deleted, min/max/length validators, Save gated on `dirty()`, success auto-clears after 2s
+- [ ] Profile: "Account" — email (read-only), sign-in method via new AuthProvider enum, change-password row calling `resetPasswordForEmail()` (can't link to /auth/forgot-password — guestGuard)
+- [ ] shared/utils/date.ts `calculateAge()` + spec — splits the YYYY-MM-DD string, never `new Date(string)` (DR-10 timezone bug)
+- [ ] Sidebar chip shows the display name only (no email) with its first letter as the avatar
+- [ ] en.json PROFILE keys; delete dead PROFILE.LOADING / SETTINGS.LOADING (RX-8 replaced them with skeletons)
+- [ ] Optional (first to cut): same identity header on the Menu page
+
+### Follow-ups (separate branches)
+- [ ] complete-session-dialog Duration adopts `[block]="true"` — same input bug, different screen
+- [ ] Avatar upload — needs a Supabase storage bucket + RLS policies (own plan)
+- [ ] Delete account — needs a service-role Edge Function (own plan)
+- [ ] Migration to drop unused `profiles.weight_kg` (weight lives in daily_log_entries)
+
 ## Phase 11c — Security: Block New-Device Login Behind Email OTP ✓ (complete — merged via PR #25)
 - [x] 017_login_otp_challenges.sql — short-lived OTP challenge table, zero RLS policies (service-role only)
 - [x] supabase/functions/_shared/{crypto,device,brevo,otp}.ts — shared fingerprint/hash/email helpers, record-device-session refactored to use them
@@ -224,3 +246,12 @@
 - [x] Scope: password sign-in only — Google OAuth, signup, and password-reset session establishment stay on the Phase 11a passive alert-only path (see plan for why)
 - [x] Deployed and server-side tested live
 - See `plans/phase-11c-security-new-device-otp.md`
+
+## Phase 12 — Daily Log Column Visibility (planned — branch: feature/27-daily-log-hidden-columns)
+- [ ] Move `LogMetricKey` to `shared/enums/` (now cross-feature)
+- [ ] `UserSettingsService`: `daily_log.hidden_metrics` schema, `getModuleSettings()`, `updateDailyLogSettings()` — no migration, existing JSONB column
+- [ ] Settings screen: chip row toggling the four Daily Log columns, last visible one locked on
+- [ ] Daily Log: `hiddenMetrics` through the facade into `log-card`, grid column count bound as a CSS custom property
+- [ ] en.json `SETTINGS` column strings
+- [ ] Log Entry dialog deliberately unchanged — hiding is display-only, logged values are kept
+- See `plans/feature-daily-log-hidden-columns.md`
