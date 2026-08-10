@@ -1,0 +1,65 @@
+@use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
+
+$segment-gap: 2px;
+
+// A set of mutually exclusive choices, not loose pills: one recessed track
+// holds every option, and the chosen segment is the only filled thing in it.
+// The shape itself says the options are alternatives.
+//
+// Apply `segmented-track` to the group and `segmented-option` to each button;
+// the caller owns the active modifier class it passes to `segmented-active`.
+@mixin segmented-track {
+  display: flex;
+  gap: $segment-gap;
+  padding: $segment-gap;
+  border: 1px solid var(--color-border);
+  border-radius: variables.$radius-full;
+  background: var(--color-surface-raised);
+}
+
+@mixin segmented-option {
+  flex: 1;
+  @include mixins.touch-target-comfortable;
+  padding: variables.$spacing-xs variables.$spacing-sm;
+  border: none;
+  border-radius: variables.$radius-full;
+  background: transparent;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  transition: background-color variables.$transition-fast, color variables.$transition-fast;
+
+  @include mixins.respond-to(lg) {
+    font-size: var(--text-base);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// Selected is filled, hover is only a tint. Sharing one rule made a lingering
+// touch hover look like a selection — including after an optimistic update had
+// already rolled back.
+@mixin segmented-active {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-semibold);
+}
+
+@mixin segmented-hover($active-selector) {
+  @include mixins.hoverable {
+    &:hover:not(:disabled):not(#{$active-selector}) {
+      background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+      color: var(--color-primary);
+    }
+  }
+}

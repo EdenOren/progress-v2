@@ -1,0 +1,68 @@
+@use 'abstract/variables' as variables;
+@use 'abstract/mixins' as mixins;
+
+$track-height: 8px;
+$name-column-md: 12rem;
+$count-column: 3ch;
+
+.subject-frequency-list {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing-md;
+
+  // Phone: name and count share a line with the bar beneath them. From md the
+  // three sit on one line, so a routine reads left to right in a single pass.
+  &__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) $count-column;
+    align-items: center;
+    column-gap: variables.$spacing-sm;
+    row-gap: variables.$spacing-xs;
+
+    @include mixins.respond-to(md) {
+      grid-template-columns: minmax(0, $name-column-md) minmax(0, 1fr) $count-column;
+    }
+  }
+
+  &__name {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: var(--text-sm);
+    color: var(--color-text-primary);
+    @include mixins.truncate;
+  }
+
+  &__count {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    @include mixins.tabular-nums;
+
+    @include mixins.respond-to(md) {
+      grid-column: 3;
+    }
+  }
+
+  &__track {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    height: $track-height;
+    border-radius: variables.$radius-full;
+    background: var(--color-surface-raised);
+    overflow: hidden;
+
+    @include mixins.respond-to(md) {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+
+  &__fill {
+    display: block;
+    height: 100%;
+    border-radius: variables.$radius-full;
+    background: var(--color-accent);
+  }
+}

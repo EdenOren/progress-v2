@@ -1,9 +1,12 @@
 @use 'abstract/variables' as variables;
 @use 'abstract/mixins' as mixins;
+@use 'abstract/segmented-control' as segmented-control;
+
+$tile-min: 140px;
 
 .kpi {
   &__status {
-    padding-block: variables.$spacing-xl;
+    padding-block: variables.$spacing-md;
     text-align: center;
     color: var(--color-text-secondary);
     font-size: var(--text-sm);
@@ -13,21 +16,54 @@
     }
   }
 
-  &__list {
-    display: grid;
-    grid-template-columns: 1fr;
+  &__ranges {
+    @include segmented-control.segmented-track;
+    margin-bottom: variables.$spacing-lg;
+  }
 
-    @include mixins.respond-to(md) {
-      grid-template-columns: repeat(auto-fill, minmax(variables.$card-grid-min, 1fr));
-      gap: variables.$spacing-md;
-    }
+  &__range {
+    @include segmented-control.segmented-option;
+    @include segmented-control.segmented-hover('.kpi__range--active');
 
-    @include mixins.respond-to(lg) {
-      gap: variables.$spacing-lg;
+    &--active {
+      @include segmented-control.segmented-active;
     }
   }
 
-  &__list-item {
+  &__section {
+    margin-bottom: variables.$spacing-xl;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__section-title {
+    margin-bottom: variables.$spacing-sm;
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+
+  // Two tiles per line on a phone so the numbers stay legible, filling the row
+  // once there is width for it — the same progression the Daily Log tiles use.
+  &__tiles {
     display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: variables.$spacing-sm;
+    margin-bottom: variables.$spacing-md;
+
+    @include mixins.respond-to(md) {
+      grid-template-columns: repeat(auto-fit, minmax($tile-min, 1fr));
+      gap: variables.$spacing-md;
+    }
+
+    &--pair {
+      @include mixins.respond-to(md) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
   }
 }
