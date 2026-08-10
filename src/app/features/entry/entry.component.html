@@ -7,7 +7,7 @@
     [type]="ButtonType.Button"
     (click)="navigateBack()"
     [attr.aria-label]="t['BACK']">
-    <mat-icon aria-hidden="true">arrow_back</mat-icon>
+    <app-ui-icon [src]="appIcon.ArrowBack" aria-hidden="true" />
   </button>
 
   <span slot="heading" class="entry__timer" aria-live="off">{{ facade.formattedTime() }}</span>
@@ -26,7 +26,7 @@
     @if (facade.isLoading()) {
       <app-ui-skeleton [variant]="skeletonVariant.Card" [count]="2" />
     } @else if (!facade.items().length) {
-      <app-empty-state [icon]="MaterialIcon.FitnessCenter" [text]="t['EMPTY']" />
+      <app-empty-state [icon]="appIcon.Progress" [text]="t['EMPTY']" />
     } @else {
       @for (item of facade.orderedItems(); track item.id) {
         <app-session-item
@@ -51,7 +51,7 @@
         class="entry__add-btn"
         [type]="ButtonType.Button"
         (click)="openAddItemDialog()">
-        <mat-icon aria-hidden="true">add</mat-icon>
+        <app-ui-icon [src]="appIcon.Add" aria-hidden="true" />
         {{ t['ADD_EXERCISE'] }}
       </button>
     }

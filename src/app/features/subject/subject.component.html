@@ -7,7 +7,7 @@
     [type]="ButtonType.Button"
     (click)="navigateBack()"
     [attr.aria-label]="t['BACK']">
-    <mat-icon aria-hidden="true">arrow_back</mat-icon>
+    <app-ui-icon [src]="appIcon.ArrowBack" aria-hidden="true" />
   </button>
 
   <button
@@ -16,7 +16,7 @@
     [type]="ButtonType.Button"
     [matMenuTriggerFor]="subjectMenu"
     [attr.aria-label]="t['MORE_ACTIONS']">
-    <mat-icon aria-hidden="true">more_vert</mat-icon>
+    <app-ui-icon [src]="appIcon.MoreVert" aria-hidden="true" />
   </button>
 
   <button
@@ -39,7 +39,7 @@
   } @else if (facade.hasError()) {
     <p class="subject__status subject__status--error">{{ t['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {
-    <app-empty-state [icon]="MaterialIcon.History" [text]="t['EMPTY']" />
+    <app-empty-state [icon]="appIcon.History" [text]="t['EMPTY']" />
   } @else {
     <ul class="subject__list">
       @for (entry of facade.entries(); track entry.id) {

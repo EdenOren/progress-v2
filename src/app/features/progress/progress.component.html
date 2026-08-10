@@ -5,7 +5,7 @@
     [type]="ButtonType.Button"
     (click)="addSubject()"
     [attr.aria-label]="facade.translation()['ADD_SUBJECT']">
-    <mat-icon aria-hidden="true">add</mat-icon>
+    <app-ui-icon [src]="appIcon.Add" aria-hidden="true" />
   </button>
 
   @if (facade.isLoading()) {
@@ -17,7 +17,7 @@
     <p class="progress__status progress__status--error">{{ facade.translation()['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {
     <app-empty-state
-      [icon]="MaterialIcon.FitnessCenter"
+      [icon]="appIcon.Progress"
       [text]="facade.translation()['EMPTY']" />
   } @else {
     <ul class="progress__list">

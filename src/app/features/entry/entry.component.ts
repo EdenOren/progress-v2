@@ -1,6 +1,5 @@
-import { ButtonType, SkeletonVariant, UiPageComponent, UiSkeletonComponent } from '@edenoren/ui-kit';
+import { ButtonType, SkeletonVariant, UiIconComponent, UiPageComponent, UiSkeletonComponent } from '@edenoren/ui-kit';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { EntryFacade } from './entry.facade';
 import { SessionItemComponent } from './components/session-item/session-item.component';
@@ -12,7 +11,7 @@ import type {
   NoteChangedEvent,
 } from './components/session-item/session-item.component';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
-import { MaterialIcon } from '../../shared/enums/material-icon.enum';
+import { AppIcon } from '../../shared/enums/app-icon.enum';
 
 @Component({
   selector: 'app-entry',
@@ -21,19 +20,19 @@ import { MaterialIcon } from '../../shared/enums/material-icon.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [EntryFacade],
   imports: [
-    MatIconModule,
     MatButtonModule,
     SessionItemComponent,
     UiPageComponent,
     EmptyStateComponent,
     UiSkeletonComponent,
+    UiIconComponent,
   ],
 })
 export class EntryComponent {
+  protected readonly appIcon: typeof AppIcon = AppIcon;
   protected readonly facade: EntryFacade = inject(EntryFacade);
   protected readonly skeletonVariant: typeof SkeletonVariant = SkeletonVariant;
   protected readonly ButtonType: typeof ButtonType = ButtonType;
-  protected readonly MaterialIcon: typeof MaterialIcon = MaterialIcon;
 
   protected previousSetsFor(itemName: string): ItemSet[] {
     return this.facade.previousSetsMap().get(itemName) ?? [];

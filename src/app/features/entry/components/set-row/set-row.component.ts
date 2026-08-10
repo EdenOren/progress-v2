@@ -1,4 +1,4 @@
-import { ButtonType, InputType, UiInputComponent } from '@edenoren/ui-kit';
+import { ButtonType, InputType, UiIconComponent, UiInputComponent } from '@edenoren/ui-kit';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,7 +11,6 @@ import {
   Signal,
   WritableSignal,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { TrackingType } from '../../../../shared/enums/tracking-type.enum';
 import { DistanceUnit } from '../../../../shared/enums/distance-unit.enum';
 import {
@@ -24,15 +23,17 @@ import {
 } from '../../../../shared/utils/unit-conversion';
 import type { ItemSet } from '../../../../core/services/data/items.service';
 import type { SetChangedPayload } from '../../../../core/services/data/item-sets.service';
+import { AppIcon } from '../../../../shared/enums/app-icon.enum';
 
 @Component({
   selector: 'app-set-row',
   templateUrl: './set-row.component.html',
   styleUrl: './set-row.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule, UiInputComponent],
+  imports: [UiInputComponent, UiIconComponent],
 })
 export class SetRowComponent {
+  protected readonly appIcon: typeof AppIcon = AppIcon;
   private static readonly SECONDS_PER_MINUTE: number = 60;
 
   private static readonly DISTANCE_UNIT_LABELS: Record<DistanceUnit, string> = {

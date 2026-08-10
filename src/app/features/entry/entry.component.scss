@@ -71,8 +71,7 @@
     width: 100%;
     transition: border-color variables.$transition-fast, color variables.$transition-fast;
 
-    mat-icon {
-      font-size: 18px;
+    app-ui-icon {
       width: 18px;
       height: 18px;
     }

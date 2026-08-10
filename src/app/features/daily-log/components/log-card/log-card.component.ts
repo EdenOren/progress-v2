@@ -20,6 +20,7 @@ import {
   WEIGHT_UNIT_LABELS,
 } from '../../../../shared/utils/unit-conversion';
 import type { DailyLog } from '../../../../core/services/data/daily-log/daily-log.model';
+import { AppIcon } from '../../../../shared/enums/app-icon.enum';
 
 export interface LogMetric {
   readonly key: LogMetricKey;
@@ -36,6 +37,7 @@ export interface LogMetric {
   imports: [DatePipe, UiButtonComponent, UiStatTileComponent],
 })
 export class LogCardComponent {
+  protected readonly appIcon: typeof AppIcon = AppIcon;
   private static readonly MISSING_VALUE: string = '—';
 
   readonly entry: InputSignal<DailyLog> = input.required<DailyLog>();

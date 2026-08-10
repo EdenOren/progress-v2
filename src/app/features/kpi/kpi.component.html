@@ -5,7 +5,7 @@
     <p class="kpi__status kpi__status--error">{{ facade.translation()['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {
     <app-empty-state
-      [icon]="MaterialIcon.Insights"
+      [icon]="appIcon.Kpi"
       [text]="facade.translation()['EMPTY']" />
   } @else {
     <ul class="kpi__list">
