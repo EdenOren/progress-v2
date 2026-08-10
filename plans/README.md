@@ -1,9 +1,8 @@
 # Plans
 
-Feature plans are stored here before implementation begins.
+Feature plans are stored here before implementation begins, and removed once the
+work has shipped — a plan still sitting in this folder is work still outstanding.
+Implemented plans stay recoverable in git history; the branch and PR that carried
+each one out are the durable record of what was actually built.
 
-| File | Phase | Description |
-|------|-------|-------------|
-| `refactor-responsive-ux-overhaul.md` | RX-0 … RX-8 | Responsive & comfort overhaul across mobile web, tablet and desktop: viewport/shell correctness, a ui-kit v0.2.0 foundation (fluid type, touch ladder, `UiPage`/`UiSkeleton`/`UiStatTile`, bottom-sheet dialogs), then screen-by-screen adoption |
-| `feature-daily-log-unit-conversion.md` | — | Wires Settings' weight-unit (kg/lb) into Daily Log (list + Log Entry dialog, waist follows weight's unit); rebuilds the Log Entry dialog as a 2×2 icon-led stat-tile grid |
-| `refactor-modal-layout-fixes.md` | — | Modal layout fixes: actions row always flex-end/nowrap with gap, gap between New Subject's stacked inputs, and reserved space for `ui-input` error text so validation never shifts layout |
+No plans are currently outstanding.
