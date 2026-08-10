@@ -71,6 +71,39 @@
     }
   }
 
+  // Ruled off from the subject grid: the cards look alike, and without a break
+  // the two lists read as one.
+  &__recent {
+    margin-top: variables.$spacing-xl;
+    padding-top: variables.$spacing-lg;
+    border-top: 1px solid var(--color-border);
+  }
+
+  // Flush rows on a phone, where each card carries its own divider, and the
+  // same card grid as the subjects once there is width for it.
+  &__recent-list {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    @include mixins.respond-to(md) {
+      grid-template-columns: repeat(auto-fill, minmax(variables.$card-grid-min, 1fr));
+      gap: variables.$spacing-md;
+    }
+
+    @include mixins.respond-to(lg) {
+      gap: variables.$spacing-lg;
+    }
+  }
+
+  &__recent-title {
+    margin-bottom: variables.$spacing-sm;
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+
   &__form-error {
     padding-block: variables.$spacing-sm;
     color: var(--color-error);
