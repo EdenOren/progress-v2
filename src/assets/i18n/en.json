@@ -197,6 +197,12 @@
     "DISTANCE_UNIT_LABEL": "Distance unit",
     "DISTANCE_UNIT_KM": "km",
     "DISTANCE_UNIT_MILES": "mi",
+    "DAILY_LOG_COLUMNS_LABEL": "Daily log columns",
+    "DAILY_LOG_COLUMNS_HINT": "Hidden columns only disappear from the list — logged values are kept, and you can still log them.",
+    "COLUMN_SLEEP": "Sleep",
+    "COLUMN_WEIGHT": "Weight",
+    "COLUMN_WATER": "Water",
+    "COLUMN_WAIST": "Waist",
     "SAVE_SUCCESS": "Settings saved",
     "SAVE_ERROR": "Failed to save settings"
   },

@@ -14,11 +14,12 @@ import { AuthService } from '../../core/services/platform/auth.service';
 import { DailyLogsService } from '../../core/services/data/daily-log/daily-log.service';
 import type { DailyLog } from '../../core/services/data/daily-log/daily-log.model';
 import { UserSettingsService } from '../../core/services/data/user-settings.service';
-import type { WorkoutSettings } from '../../core/services/data/user-settings.service';
+import type { ModuleSettings } from '../../core/services/data/user-settings.service';
 import type { Result } from '../../core/types/result';
 import { DialogService } from '../../shared/services/dialog.service';
 import { DialogType } from '../../shared/enums/dialog-type.enum';
 import { WeightUnit } from '../../shared/enums/weight-unit.enum';
+import { LogMetricKey } from '../../shared/enums/log-metric-key.enum';
 import type { LogEntryFormData } from '../../shared/components/log-entry-dialog/log-entry-dialog.component';
 
 @Service({ autoProvided: false })
@@ -41,14 +42,21 @@ export class DailyLogFacade {
       this.dailyLogsService.getRecentDailyLogs(params.userId, DailyLogFacade.RECENT_ENTRIES_LIMIT),
   });
 
-  private readonly _userSettingsResource: ResourceRef<Result<WorkoutSettings> | undefined> = resource({
+  private readonly _userSettingsResource: ResourceRef<Result<ModuleSettings> | undefined> = resource({
     params: () => ({ userId: this.authService.userId() }),
-    loader: ({ params }) => this.userSettingsService.getWorkoutSettings(params.userId),
+    loader: ({ params }) => this.userSettingsService.getModuleSettings(params.userId),
   });
 
   readonly weightUnit: Signal<WeightUnit> = computed(() => {
-    const result = this._userSettingsResource.value();
-    return result?.success ? result.data.weightUnit : WeightUnit.Kg;
+    const result: Result<ModuleSettings> | undefined = this._userSettingsResource.value();
+    return result?.success ? result.data.workout.weightUnit : WeightUnit.Kg;
+  });
+
+  // Settings failing to load shows every column rather than none — a metric the
+  // user did hide is a smaller surprise than a card that has lost its tiles.
+  readonly hiddenMetrics: Signal<readonly LogMetricKey[]> = computed(() => {
+    const result: Result<ModuleSettings> | undefined = this._userSettingsResource.value();
+    return result?.success ? result.data.dailyLog.hiddenMetrics : [];
   });
 
   readonly isLoading: Signal<boolean> = computed(() => this._recentEntriesResource.isLoading());

@@ -19,16 +19,20 @@
     color: var(--color-text-primary);
   }
 
-  // Two up on a phone, one row of four once there is width for it. Fixed
-  // columns rather than auto-fit, so the same metric lands in the same column
-  // on every row and the numbers read as a column.
+  // Two up on a phone, one row of every visible metric once there is width for
+  // it. An explicit count rather than auto-fit, so the same metric lands in the
+  // same column on every row and the numbers read as a column. The card binds
+  // the counts; the fallbacks here cover all four metrics being shown.
   &__metrics {
+    --log-card-metric-columns: 4;
+    --log-card-metric-columns-compact: 2;
+
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(var(--log-card-metric-columns-compact), minmax(0, 1fr));
     gap: variables.$spacing-sm;
 
     @include mixins.respond-to(md) {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(var(--log-card-metric-columns), minmax(0, 1fr));
     }
   }
 }

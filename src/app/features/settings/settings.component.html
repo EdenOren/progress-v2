@@ -55,6 +55,24 @@
         </div>
       </div>
 
+      <div class="settings__group">
+        <span class="settings__label" id="daily-log-columns-label">{{ t['DAILY_LOG_COLUMNS_LABEL'] }}</span>
+        <div class="settings__chips" role="group" aria-labelledby="daily-log-columns-label">
+          @for (toggle of facade.metricToggles(); track toggle.key) {
+            <button
+              class="settings__chip"
+              [class.settings__chip--active]="toggle.isVisible"
+              [attr.aria-pressed]="toggle.isVisible"
+              [type]="buttonType.Button"
+              [disabled]="facade.saving() || toggle.isLastVisible"
+              (click)="onMetricToggled(toggle.key)">
+              {{ toggle.label }}
+            </button>
+          }
+        </div>
+        <p class="settings__hint">{{ t['DAILY_LOG_COLUMNS_HINT'] }}</p>
+      </div>
+
       @if (facade.saveSuccess()) {
         <p class="settings__feedback settings__feedback--success" role="status">{{ t['SAVE_SUCCESS'] }}</p>
       }

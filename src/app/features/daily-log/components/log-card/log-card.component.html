@@ -9,7 +9,10 @@
       (click)="onEdit()" />
   </div>
 
-  <div class="log-card__metrics">
+  <div
+    class="log-card__metrics"
+    [style.--log-card-metric-columns]="metricColumns()"
+    [style.--log-card-metric-columns-compact]="compactMetricColumns()">
     @for (metric of metrics(); track metric.key) {
       <app-ui-stat-tile [label]="metric.label" [value]="metric.value" [unit]="metric.unit" />
     }

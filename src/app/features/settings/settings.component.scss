@@ -48,6 +48,30 @@
     }
   }
 
+  // Borrows the segmented control's pill, not its track. The recessed track says
+  // "pick one of these"; column visibility is four independent switches, so each
+  // chip carries its own border and sits on the page background.
+  &__chips {
+    display: flex;
+    gap: variables.$spacing-xs;
+  }
+
+  &__chip {
+    @include segmented-control.segmented-option;
+    @include segmented-control.segmented-hover('.settings__chip--active');
+    border: 1px solid var(--color-border);
+
+    &--active {
+      @include segmented-control.segmented-active;
+      border-color: var(--color-primary);
+    }
+  }
+
+  &__hint {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+  }
+
   &__feedback {
     font-size: var(--text-sm);
     text-align: center;
