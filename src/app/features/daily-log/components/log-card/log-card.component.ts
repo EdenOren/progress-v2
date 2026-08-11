@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { WeightUnit } from '../../../../shared/enums/weight-unit.enum';
-import { LogMetricKey } from '../../enums/log-metric-key.enum';
+import { LogMetricKey } from '../../../../shared/enums/log-metric-key.enum';
 import {
   cmToIn,
   kgToLb,
@@ -39,10 +39,12 @@ export interface LogMetric {
 export class LogCardComponent {
   protected readonly appIcon: typeof AppIcon = AppIcon;
   private static readonly MISSING_VALUE: string = '—';
+  private static readonly COMPACT_COLUMN_LIMIT: number = 2;
 
   readonly entry: InputSignal<DailyLog> = input.required<DailyLog>();
   readonly translation: InputSignal<Record<string, string>> = input.required<Record<string, string>>();
   readonly weightUnit: InputSignal<WeightUnit> = input<WeightUnit>(WeightUnit.Kg);
+  readonly hiddenMetrics: InputSignal<readonly LogMetricKey[]> = input<readonly LogMetricKey[]>([]);
   readonly editClicked: OutputEmitterRef<DailyLog> = output<DailyLog>();
 
   protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;
@@ -73,9 +75,11 @@ export class LogCardComponent {
       : centimetres;
   });
 
-  // Every metric renders every day, unlogged ones included. A gap costs one
-  // dash; dropping the tile would shift its neighbours left and destroy the
-  // column, which is the only way to read a week of weights at a glance.
+  // Every metric the user still shows renders every day, unlogged ones included.
+  // A gap costs one dash; dropping that day's tile would shift its neighbours
+  // left and destroy the column, which is the only way to read a week of weights
+  // at a glance. Hiding is safe by contrast — it removes a metric from every row
+  // at once, so the surviving columns stay aligned.
   protected readonly metrics: Signal<LogMetric[]> = computed(() => {
     const labels: Record<string, string> = this.translation();
     const candidates: ReadonlyArray<{ key: LogMetricKey; amount: number | null; label: string; unit: string }> = [
@@ -104,13 +108,24 @@ export class LogCardComponent {
         unit: this.waistLabel(),
       },
     ];
-    return candidates.map((candidate) => ({
-      key: candidate.key,
-      label: candidate.label,
-      value: candidate.amount === null ? LogCardComponent.MISSING_VALUE : String(candidate.amount),
-      unit: candidate.amount === null ? '' : candidate.unit,
-    }));
+    const hidden: readonly LogMetricKey[] = this.hiddenMetrics();
+    return candidates
+      .filter((candidate) => !hidden.includes(candidate.key))
+      .map((candidate) => ({
+        key: candidate.key,
+        label: candidate.label,
+        value: candidate.amount === null ? LogCardComponent.MISSING_VALUE : String(candidate.amount),
+        unit: candidate.amount === null ? '' : candidate.unit,
+      }));
   });
+
+  // CSS repeat() takes a literal integer and rejects min()/calc(), so the phone
+  // cap of two columns has to be worked out here rather than in the stylesheet.
+  protected readonly metricColumns: Signal<number> = computed(() => this.metrics().length);
+
+  protected readonly compactMetricColumns: Signal<number> = computed(() =>
+    Math.min(LogCardComponent.COMPACT_COLUMN_LIMIT, this.metricColumns()),
+  );
 
   protected onEdit(): void {
     this.editClicked.emit(this.entry());

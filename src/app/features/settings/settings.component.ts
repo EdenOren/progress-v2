@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SettingsFacade } from './settings.facade';
 import { WeightUnit } from '../../shared/enums/weight-unit.enum';
 import { DistanceUnit } from '../../shared/enums/distance-unit.enum';
+import { LogMetricKey } from '../../shared/enums/log-metric-key.enum';
 
 @Component({
   selector: 'app-settings',
@@ -26,5 +27,9 @@ export class SettingsComponent {
 
   protected onDistanceUnitChanged(unit: DistanceUnit): void {
     this.facade.setDistanceUnit(unit);
+  }
+
+  protected onMetricToggled(key: LogMetricKey): void {
+    this.facade.toggleMetric(key);
   }
 }

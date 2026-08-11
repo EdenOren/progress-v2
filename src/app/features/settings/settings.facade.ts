@@ -13,17 +13,28 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/platform/auth.service';
 import { UserSettingsService } from '../../core/services/data/user-settings.service';
-import type {
-  UpdateWorkoutSettingsInput,
-  WorkoutSettings,
-} from '../../core/services/data/user-settings.service';
+import type { ModuleSettings } from '../../core/services/data/user-settings.service';
 import type { Result } from '../../core/types/result';
 import { WeightUnit } from '../../shared/enums/weight-unit.enum';
 import { DistanceUnit } from '../../shared/enums/distance-unit.enum';
+import { LogMetricKey } from '../../shared/enums/log-metric-key.enum';
+
+export interface MetricToggle {
+  readonly key: LogMetricKey;
+  readonly label: string;
+  readonly isVisible: boolean;
+  readonly isLastVisible: boolean;
+}
 
 @Service({ autoProvided: false })
 export class SettingsFacade {
   private static readonly SAVE_SUCCESS_DURATION_MS: number = 2000;
+  private static readonly METRIC_LABEL_KEYS: Record<LogMetricKey, string> = {
+    [LogMetricKey.Sleep]: 'COLUMN_SLEEP',
+    [LogMetricKey.Weight]: 'COLUMN_WEIGHT',
+    [LogMetricKey.Water]: 'COLUMN_WATER',
+    [LogMetricKey.Waist]: 'COLUMN_WAIST',
+  };
 
   private readonly userSettingsService: UserSettingsService = inject(UserSettingsService);
   private readonly authService: AuthService = inject(AuthService);
@@ -34,9 +45,9 @@ export class SettingsFacade {
     { initialValue: {} as Record<string, string> },
   );
 
-  private readonly _settingsResource: ResourceRef<Result<WorkoutSettings> | undefined> = resource({
+  private readonly _settingsResource: ResourceRef<Result<ModuleSettings> | undefined> = resource({
     params: () => ({ userId: this.authService.userId() }),
-    loader: ({ params }) => this.userSettingsService.getWorkoutSettings(params.userId),
+    loader: ({ params }) => this.userSettingsService.getModuleSettings(params.userId),
   });
 
   readonly isLoading: Signal<boolean> = computed(() => this._settingsResource.isLoading());
@@ -61,6 +72,24 @@ export class SettingsFacade {
     () => this.distanceUnit() === DistanceUnit.Miles,
   );
 
+  private readonly _hiddenMetrics: WritableSignal<readonly LogMetricKey[]> = signal([]);
+
+  readonly metricToggles: Signal<MetricToggle[]> = computed(() => {
+    const labels: Record<string, string> = this.translation();
+    const hidden: readonly LogMetricKey[] = this._hiddenMetrics();
+    const keys: LogMetricKey[] = Object.values(LogMetricKey);
+    const visibleCount: number = keys.filter((key: LogMetricKey) => !hidden.includes(key)).length;
+    return keys.map((key: LogMetricKey) => {
+      const isVisible: boolean = !hidden.includes(key);
+      return {
+        key,
+        label: labels[SettingsFacade.METRIC_LABEL_KEYS[key]] ?? '',
+        isVisible,
+        isLastVisible: isVisible && visibleCount === 1,
+      };
+    });
+  });
+
   private readonly _saving: WritableSignal<boolean> = signal(false);
   private readonly _saveSuccess: WritableSignal<boolean> = signal(false);
   private readonly _saveError: WritableSignal<boolean> = signal(false);
@@ -73,11 +102,12 @@ export class SettingsFacade {
 
   constructor() {
     effect(() => {
-      const result = this._settingsResource.value();
+      const result: Result<ModuleSettings> | undefined = this._settingsResource.value();
       if (result?.success && !this.loaded) {
         this.loaded = true;
-        this._weightUnit.set(result.data.weightUnit);
-        this._distanceUnit.set(result.data.distanceUnit);
+        this._weightUnit.set(result.data.workout.weightUnit);
+        this._distanceUnit.set(result.data.workout.distanceUnit);
+        this._hiddenMetrics.set(result.data.dailyLog.hiddenMetrics);
       }
     });
   }
@@ -85,22 +115,51 @@ export class SettingsFacade {
   setWeightUnit(unit: WeightUnit): void {
     const previous: WeightUnit = this._weightUnit();
     this._weightUnit.set(unit);
-    void this.save({ weightUnit: unit }, () => this._weightUnit.set(previous));
+    void this.save(
+      () => this.userSettingsService.updateWorkoutSettings(this.authService.userId(), {
+        weightUnit: unit,
+      }),
+      () => this._weightUnit.set(previous),
+    );
   }
 
   setDistanceUnit(unit: DistanceUnit): void {
     const previous: DistanceUnit = this._distanceUnit();
     this._distanceUnit.set(unit);
-    void this.save({ distanceUnit: unit }, () => this._distanceUnit.set(previous));
+    void this.save(
+      () => this.userSettingsService.updateWorkoutSettings(this.authService.userId(), {
+        distanceUnit: unit,
+      }),
+      () => this._distanceUnit.set(previous),
+    );
   }
 
-  private async save(input: UpdateWorkoutSettingsInput, rollback: () => void): Promise<void> {
+  toggleMetric(key: LogMetricKey): void {
+    const previous: readonly LogMetricKey[] = this._hiddenMetrics();
+    const next: LogMetricKey[] = previous.includes(key)
+      ? previous.filter((metric: LogMetricKey) => metric !== key)
+      : [...previous, key];
+    // A card with no tiles at all reads as a rendering fault, so the last
+    // remaining column cannot be switched off.
+    if (next.length === Object.values(LogMetricKey).length) {
+      return;
+    }
+    this._hiddenMetrics.set(next);
+    void this.save(
+      () => this.userSettingsService.updateDailyLogSettings(this.authService.userId(), {
+        hiddenMetrics: next,
+      }),
+      () => this._hiddenMetrics.set(previous),
+    );
+  }
+
+  private async save(
+    operation: () => Promise<Result<unknown>>,
+    rollback: () => void,
+  ): Promise<void> {
     this._saving.set(true);
     this._saveError.set(false);
-    const result: Result<WorkoutSettings> = await this.userSettingsService.updateWorkoutSettings(
-      this.authService.userId(),
-      input,
-    );
+    const result: Result<unknown> = await operation();
     this._saving.set(false);
     if (!result.success) {
       rollback();
