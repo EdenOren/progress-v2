@@ -212,14 +212,17 @@
 
 ## Phase 12 — Profile Screen Rebuild (planned 2026-08-10 — see `plans/feature-profile-screen.md`)
 
-### ui-kit 0.4.0 (repo: ../ui-kit, branch feature/number-form-field) — do first
-- [ ] `UiInputComponent.field` widened to `Field<string> | Field<number | null> | null`
-- [ ] New `block` input — number inputs render as full-width form fields (label + error region + `[formField]`) instead of set-row cells
-- [ ] Verify all 10 existing number usages unchanged (set-row ×5, log-entry-dialog ×4 tile, complete-session-dialog ×1) + recipebox builds
-- [ ] Release 0.4.0 + CHANGELOG + README input table
+### ui-kit 0.4.0 (repo: ../ui-kit, branch feat/number-form-field) — built 2026-08-11, NOT published
+- [x] `UiInputComponent.field` widened to `Field<string> | Field<number | null> | null`
+- [x] New `block` input — full-width form-field layout for numbers; implied by `field`, since a bound field is never a set-row cell
+- [x] Field-bound element omits `[min]`/`[max]`/`[disabled]` (FormField syncs them from the validators — a template binding fights it), static `type="number"` attribute
+- [x] `ValidationKind` + Min, Max, MaxLength, Pattern, Parse — needed downstream, no string literals allowed in comparisons
+- [x] README documents the two number modes; version bumped, `pnpm build` + tests clean
+- [ ] Verify the 10 existing number usages render unchanged + recipebox builds
+- [ ] **Publish** — gated on proving it in a browser first (see plan A5); no CHANGELOG in that repo, documented in README instead
 
-### progress (branch: feature/43-profile-screen — renumber to the real PR)
-- [ ] Bump @edenoren/ui-kit to 0.4.0
+### progress (branch: feature/47-profile-screen)
+- [ ] Install ui-kit 0.4.0 via `file:../ui-kit/dist/ui-kit`, prove the number field in a browser, then publish and pin `^0.4.0`
 - [ ] CurrentProfileService — app-level profile resource shared by Profile + sidebar; resource stays idle until `userId()` is non-empty (fixes the `getProfile('')` error flash on load)
 - [ ] Shared UserAvatarComponent + UserAvatarSize enum; rail migrates onto it
 - [ ] Profile: identity header (avatar, display name, email, member since)
