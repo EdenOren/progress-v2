@@ -162,7 +162,7 @@
 - [x] Recent-workouts list moved off the tab to Progress; RecentWorkoutCardComponent relocated with it
 - [x] _segmented-control.scss extracted and shared with Settings
 - [ ] Goals-vs-target tiles still deferred — needs Phase 8 + 014_health_goals.sql. Every tile is Neutral today except "Since last"; nothing claims progress against a target that does not exist.
-- See `plans/feature-kpi-dashboard.md`
+- See PR #44
 
 ## Phase 10 — Settings ✓ (complete — branch: feature/10-settings)
 
