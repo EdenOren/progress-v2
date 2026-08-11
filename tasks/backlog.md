@@ -247,7 +247,7 @@
 - [x] Deployed and server-side tested live
 - See `plans/phase-11c-security-new-device-otp.md`
 
-## Phase 12 — Daily Log Column Visibility — code complete, pending manual verification (branch: feature/27-daily-log-hidden-columns)
+## Phase 13 — Daily Log Column Visibility ✓ (shipped — merged via PR #46)
 - [x] Move `LogMetricKey` to `shared/enums/` (now cross-feature)
 - [x] `UserSettingsService`: `daily_log.hidden_metrics` schema, `getModuleSettings()`, `updateDailyLogSettings()` — no migration, existing JSONB column
 - [x] `writeModuleSettings()` merges from the raw row, not the Zod-parsed one — parsing strips module blocks it has no schema for, and writing that back would delete them
@@ -256,5 +256,5 @@
 - [x] en.json `SETTINGS` column strings
 - [x] Log Entry dialog deliberately unchanged — hiding is display-only, logged values are kept
 - [x] `log-card.component.spec.ts` — filtering + the custom-property binding, which would otherwise fail silently
-- [ ] Manual: toggle each column, reload, confirm the JSONB shape and that logged values return
-- See `plans/feature-daily-log-hidden-columns.md`
+- [ ] Manual: toggle each column, reload, confirm the JSONB shape and that logged values return — shipped on build + unit tests only
+- See PR #46
