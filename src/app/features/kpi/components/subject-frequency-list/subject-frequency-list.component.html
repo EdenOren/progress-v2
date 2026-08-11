@@ -1,0 +1,11 @@
+<ul class="subject-frequency-list">
+  @for (row of rows(); track row.subjectId) {
+    <li class="subject-frequency-list__row">
+      <span class="subject-frequency-list__name">{{ row.subjectName }}</span>
+      <span class="subject-frequency-list__track" aria-hidden="true">
+        <span class="subject-frequency-list__fill" [style.width.%]="row.widthPercent"></span>
+      </span>
+      <span class="subject-frequency-list__count">{{ row.sessionCount }}</span>
+    </li>
+  }
+</ul>

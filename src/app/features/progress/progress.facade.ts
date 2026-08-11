@@ -13,7 +13,9 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/platform/auth.service';
 import { DomainsService } from '../../core/services/data/domains.service';
+import { EntriesService } from '../../core/services/data/entries.service';
 import { SubjectsService } from '../../core/services/data/subjects.service';
+import type { RecentEntry } from '../../core/services/data/entries.service';
 import type { Subject } from '../../core/services/data/subjects.service';
 import type { Result } from '../../core/types/result';
 import { AppRoute } from '../../core/enums/app-route.enum';
@@ -24,7 +26,10 @@ import type { CreateSubjectFormData } from '../../shared/components/create-subje
 
 @Service({ autoProvided: false })
 export class ProgressFacade {
+  private static readonly RECENT_ENTRIES_LIMIT: number = 5;
+
   private readonly domainsService: DomainsService = inject(DomainsService);
+  private readonly entriesService: EntriesService = inject(EntriesService);
   private readonly subjectsService: SubjectsService = inject(SubjectsService);
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
@@ -79,6 +84,25 @@ export class ProgressFacade {
     () => !this.isLoading() && !this.hasError() && !this.subjects().length,
   );
 
+  // Session history across every routine, which is why it sits here rather
+  // than on a subject: the answer to "what did I train last" spans subjects.
+  private readonly _recentEntriesResource: ResourceRef<Result<RecentEntry[]> | undefined> =
+    resource({
+      params: () => ({ userId: this.authService.userId() }),
+      loader: ({ params }) =>
+        this.entriesService.getRecentEntries(params.userId, ProgressFacade.RECENT_ENTRIES_LIMIT),
+    });
+
+  readonly recentEntries: Signal<RecentEntry[]> = computed(() => {
+    const result = this._recentEntriesResource.value();
+    if (!result?.success) {
+      return [];
+    }
+    return result.data;
+  });
+
+  readonly hasRecentEntries: Signal<boolean> = computed(() => !!this.recentEntries().length);
+
   private readonly _errorMessage: WritableSignal<string> = signal('');
   readonly errorMessage: Signal<string> = this._errorMessage;
 
@@ -107,5 +131,15 @@ export class ProgressFacade {
 
   navigateToSubject(subjectId: string): void {
     void this.router.navigate([AppRoute.Progress, ProgressRoute.Subject, subjectId]);
+  }
+
+  navigateToEntry(entry: RecentEntry): void {
+    void this.router.navigate([
+      AppRoute.Progress,
+      ProgressRoute.Subject,
+      entry.subjectId,
+      ProgressRoute.Entry,
+      entry.id,
+    ]);
   }
 }

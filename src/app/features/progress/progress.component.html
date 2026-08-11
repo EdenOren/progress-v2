@@ -29,6 +29,19 @@
     </ul>
   }
 
+  @if (facade.hasRecentEntries()) {
+    <section class="progress__recent">
+      <h2 class="progress__recent-title">{{ facade.translation()['RECENT_TITLE'] }}</h2>
+      <ul class="progress__recent-list">
+        @for (entry of facade.recentEntries(); track entry.id) {
+          <li class="progress__list-item">
+            <app-recent-workout-card [entry]="entry" (selected)="onWorkoutSelected($event)" />
+          </li>
+        }
+      </ul>
+    </section>
+  }
+
   @if (facade.errorMessage()) {
     <p class="progress__form-error">{{ facade.errorMessage() }}</p>
   }

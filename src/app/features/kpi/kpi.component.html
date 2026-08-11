@@ -1,19 +1,96 @@
-<app-ui-page [title]="facade.translation()['TITLE']">
+@let t = facade.translation();
+
+<app-ui-page [title]="t['TITLE']">
   @if (facade.isLoading()) {
-    <app-ui-skeleton [variant]="skeletonVariant.Row" [count]="4" />
+    <app-ui-skeleton [variant]="skeletonVariant.Tile" [count]="4" />
   } @else if (facade.hasError()) {
-    <p class="kpi__status kpi__status--error">{{ facade.translation()['ERROR'] }}</p>
+    <p class="kpi__status kpi__status--error">{{ t['ERROR'] }}</p>
   } @else if (facade.isEmpty()) {
-    <app-empty-state
-      [icon]="appIcon.Kpi"
-      [text]="facade.translation()['EMPTY']" />
+    <app-empty-state [icon]="appIcon.Kpi" [text]="t['EMPTY']" />
   } @else {
-    <ul class="kpi__list">
-      @for (entry of facade.entries(); track entry.id) {
-        <li class="kpi__list-item">
-          <app-recent-workout-card [entry]="entry" (selected)="onWorkoutSelected($event)" />
-        </li>
+    <div class="kpi__ranges" role="group" [attr.aria-label]="t['RANGE_LABEL']">
+      <button
+        class="kpi__range"
+        [class.kpi__range--active]="facade.isRangeWeek()"
+        [attr.aria-pressed]="facade.isRangeWeek()"
+        [type]="buttonType.Button"
+        (click)="onRangeSelected(kpiRange.Week)">
+        {{ t['RANGE_WEEK'] }}
+      </button>
+      <button
+        class="kpi__range"
+        [class.kpi__range--active]="facade.isRangeMonth()"
+        [attr.aria-pressed]="facade.isRangeMonth()"
+        [type]="buttonType.Button"
+        (click)="onRangeSelected(kpiRange.Month)">
+        {{ t['RANGE_MONTH'] }}
+      </button>
+      <button
+        class="kpi__range"
+        [class.kpi__range--active]="facade.isRangeQuarter()"
+        [attr.aria-pressed]="facade.isRangeQuarter()"
+        [type]="buttonType.Button"
+        (click)="onRangeSelected(kpiRange.Quarter)">
+        {{ t['RANGE_QUARTER'] }}
+      </button>
+    </div>
+
+    <section class="kpi__section">
+      <h2 class="kpi__section-title">{{ t['TRAINING_TITLE'] }}</h2>
+      <div class="kpi__tiles">
+        @for (tile of facade.trainingTiles(); track tile.key) {
+          <app-ui-stat-tile
+            [label]="tile.label"
+            [value]="tile.value"
+            [unit]="tile.unit"
+            [status]="tile.status" />
+        }
+      </div>
+    </section>
+
+    <section class="kpi__section">
+      <h2 class="kpi__section-title">{{ t['VOLUME_TITLE'] }}</h2>
+      <div class="kpi__tiles kpi__tiles--pair">
+        @for (tile of facade.volumeTiles(); track tile.key) {
+          <app-ui-stat-tile
+            [label]="tile.label"
+            [value]="tile.value"
+            [unit]="tile.unit"
+            [status]="tile.status" />
+        }
+      </div>
+      @if (facade.hasVolume()) {
+        <app-volume-chart
+          [buckets]="facade.volumeBuckets()"
+          [unit]="facade.volumeUnit()"
+          [dateColumnLabel]="t['CHART_DATE_COLUMN']"
+          [volumeColumnLabel]="t['CHART_VOLUME_COLUMN']"
+          [tableCaption]="t['CHART_CAPTION']" />
+      } @else {
+        <p class="kpi__status">{{ t['VOLUME_EMPTY'] }}</p>
       }
-    </ul>
+    </section>
+
+    <section class="kpi__section">
+      <h2 class="kpi__section-title">{{ t['HEALTH_TITLE'] }}</h2>
+      <div class="kpi__tiles">
+        @for (tile of facade.healthTiles(); track tile.key) {
+          <app-ui-stat-tile
+            [label]="tile.label"
+            [value]="tile.value"
+            [unit]="tile.unit"
+            [status]="tile.status" />
+        }
+      </div>
+    </section>
+
+    <section class="kpi__section">
+      <h2 class="kpi__section-title">{{ t['ROUTINES_TITLE'] }}</h2>
+      @if (facade.hasSubjectBreakdown()) {
+        <app-subject-frequency-list [subjects]="facade.subjectBreakdown()" />
+      } @else {
+        <p class="kpi__status">{{ t['ROUTINES_EMPTY'] }}</p>
+      }
+    </section>
   }
 </app-ui-page>

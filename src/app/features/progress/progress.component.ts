@@ -2,7 +2,9 @@ import { ButtonType, SkeletonVariant, UiIconComponent, UiPageComponent, UiSkelet
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ProgressFacade } from './progress.facade';
 import { SubjectCardComponent } from './components/subject-card/subject-card.component';
+import { RecentWorkoutCardComponent } from './components/recent-workout-card/recent-workout-card.component';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
+import type { RecentEntry } from '../../core/services/data/entries.service';
 import { AppIcon } from '../../shared/enums/app-icon.enum';
 
 @Component({
@@ -13,6 +15,7 @@ import { AppIcon } from '../../shared/enums/app-icon.enum';
   providers: [ProgressFacade],
   imports: [
     SubjectCardComponent,
+    RecentWorkoutCardComponent,
     UiPageComponent,
     EmptyStateComponent,
     UiSkeletonComponent,
@@ -31,5 +34,9 @@ export class ProgressComponent {
 
   protected navigateToSubject(subjectId: string): void {
     this.facade.navigateToSubject(subjectId);
+  }
+
+  protected onWorkoutSelected(entry: RecentEntry): void {
+    this.facade.navigateToEntry(entry);
   }
 }

@@ -23,6 +23,7 @@ import { AppRoute } from '../../core/enums/app-route.enum';
 import { ProgressRoute } from '../../core/enums/progress-route.enum';
 import { DialogService } from '../../shared/services/dialog.service';
 import { DialogType } from '../../shared/enums/dialog-type.enum';
+import { toLocalDateString } from '../../shared/utils/date';
 
 @Service({ autoProvided: false })
 export class SubjectFacade {
@@ -139,11 +140,7 @@ export class SubjectFacade {
       return;
     }
     this._isStartingWorkout.set(true);
-    const now: Date = new Date();
-    const year: number = now.getFullYear();
-    const month: string = String(now.getMonth() + 1).padStart(2, '0');
-    const day: string = String(now.getDate()).padStart(2, '0');
-    const today: string = `${year}-${month}-${day}`;
+    const today: string = toLocalDateString(new Date());
     const result = await this.entriesService.createEntry({
       userId,
       subjectId,

@@ -1,0 +1,38 @@
+<div class="volume-chart">
+  <!-- The bars are decoration over the table below, which is the real content
+       for a screen reader: a column of scaled rectangles announces nothing. -->
+  <div class="volume-chart__plot" aria-hidden="true">
+    @for (bar of bars(); track bar.startIsoDate) {
+      <div class="volume-chart__column">
+        @if (bar.heightPercent > 0) {
+          <div class="volume-chart__bar" [style.height.%]="bar.heightPercent"></div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Two anchors rather than a label per bar: thirteen weekly ticks would
+       collide, and the span is what the bars need to be readable. -->
+  <p class="volume-chart__axis" aria-hidden="true">
+    <span>{{ firstBucketDate() | date: 'MMM d' }}</span>
+    <span>{{ lastBucketDate() | date: 'MMM d' }}</span>
+  </p>
+
+  <table class="volume-chart__table">
+    <caption>{{ tableCaption() }}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{{ dateColumnLabel() }}</th>
+        <th scope="col">{{ volumeColumnLabel() }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (bar of bars(); track bar.startIsoDate) {
+        <tr>
+          <th scope="row">{{ bar.startIsoDate | date: 'MMM d' }}</th>
+          <td>{{ bar.volume }} {{ unit() }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

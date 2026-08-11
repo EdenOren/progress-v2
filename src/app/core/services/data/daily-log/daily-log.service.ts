@@ -53,6 +53,25 @@ export class DailyLogsService {
     return ok(validated.data.map(mapDailyLog));
   }
 
+  // Oldest first, so callers reading a trend can compare the ends of the
+  // window without re-sorting.
+  async getDailyLogsSince(userId: string, sinceDate: string): Promise<Result<DailyLog[]>> {
+    const { data, error } = await this.supabase
+      .from('daily_log_entries')
+      .select('*')
+      .eq('user_id', userId)
+      .gte('logged_date', sinceDate)
+      .order('logged_date', { ascending: true });
+    if (error) {
+      return err(mapSupabaseError(error));
+    }
+    const validated = dailyLogArraySchema.safeParse(data);
+    if (!validated.success) {
+      return err(new ValidationError('Invalid daily log data'));
+    }
+    return ok(validated.data.map(mapDailyLog));
+  }
+
   async upsertDailyLog(input: UpsertDailyLogInput): Promise<Result<DailyLog>> {
     const { data, error } = await this.supabase
       .from('daily_log_entries')

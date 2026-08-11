@@ -90,6 +90,73 @@ function mapRecentEntry(raw: RecentEntryRaw): RecentEntry {
   };
 }
 
+// The dashboard needs a session's total load, which lives two joins away in
+// item_sets. Selecting only the two columns that feed the volume sum keeps a
+// 90-day payload small; the nested rows are folded away in mapRangeEntry so
+// nothing downstream ever handles a raw join shape.
+interface RangeEntryRaw {
+  id: string;
+  performed_at: string;
+  duration_seconds: number | null;
+  subject_id: string;
+  subjects: { name: string } | null;
+  items: { item_sets: { weight_kg: number | null; reps: number | null }[] }[];
+}
+
+const rangeEntrySchema: z.ZodType<RangeEntryRaw> = z.object({
+  id: z.string(),
+  performed_at: z.string(),
+  duration_seconds: z.number().nullable(),
+  subject_id: z.string(),
+  subjects: z.object({ name: z.string() }).nullable(),
+  items: z.array(
+    z.object({
+      item_sets: z.array(
+        z.object({
+          weight_kg: z.number().nullable(),
+          reps: z.number().nullable(),
+        }),
+      ),
+    }),
+  ),
+});
+
+const rangeEntryArraySchema: z.ZodType<RangeEntryRaw[]> = z.array(rangeEntrySchema);
+
+export interface RangeEntry {
+  id: string;
+  performedAt: string;
+  durationSeconds: number | null;
+  subjectId: string;
+  subjectName: string;
+  setCount: number;
+  volumeKg: number;
+}
+
+function mapRangeEntry(raw: RangeEntryRaw): RangeEntry {
+  let setCount: number = 0;
+  let volumeKg: number = 0;
+  for (const item of raw.items) {
+    for (const set of item.item_sets) {
+      setCount += 1;
+      // Timer and distance sets carry no weight or reps; they count as work
+      // performed but contribute nothing to a weight-times-reps total.
+      if (set.weight_kg !== null && set.reps !== null) {
+        volumeKg += set.weight_kg * set.reps;
+      }
+    }
+  }
+  return {
+    id: raw.id,
+    performedAt: raw.performed_at,
+    durationSeconds: raw.duration_seconds,
+    subjectId: raw.subject_id,
+    subjectName: raw.subjects?.name ?? '',
+    setCount,
+    volumeKg,
+  };
+}
+
 export interface CreateEntryInput {
   userId: string;
   subjectId: string;
@@ -142,6 +209,29 @@ export class EntriesService {
       return err(new ValidationError('Invalid entry data'));
     }
     return ok(validated.data.map(mapRecentEntry));
+  }
+
+  // One query per dashboard load: the widest window the KPI page offers is
+  // fetched up front and narrowed client-side, so switching ranges costs
+  // nothing.
+  async getEntriesSince(userId: string, sinceIsoDate: string): Promise<Result<RangeEntry[]>> {
+    const { data, error } = await this.supabase
+      .from('entries')
+      .select(
+        'id, performed_at, duration_seconds, subject_id, subjects(name), items(item_sets(weight_kg, reps))',
+      )
+      .eq('user_id', userId)
+      .eq('is_completed', true)
+      .gte('performed_at', sinceIsoDate)
+      .order('performed_at', { ascending: false });
+    if (error) {
+      return err(mapSupabaseError(error));
+    }
+    const validated = rangeEntryArraySchema.safeParse(data);
+    if (!validated.success) {
+      return err(new ValidationError('Invalid entry data'));
+    }
+    return ok(validated.data.map(mapRangeEntry));
   }
 
   async getEntry(entryId: string, userId: string): Promise<Result<Entry>> {

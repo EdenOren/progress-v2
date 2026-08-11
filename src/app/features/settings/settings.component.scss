@@ -1,8 +1,7 @@
 @use 'abstract/colors' as colors;
 @use 'abstract/variables' as variables;
 @use 'abstract/mixins' as mixins;
-
-$segment-gap: 2px;
+@use 'abstract/segmented-control' as segmented-control;
 
 .settings {
   &__content {
@@ -36,59 +35,16 @@ $segment-gap: 2px;
     }
   }
 
-  // A segmented control, not two loose pills: one recessed track holds both
-  // options, and the chosen segment is the only filled thing in it. The shape
-  // itself says the two are alternatives.
   &__buttons {
-    display: flex;
-    gap: $segment-gap;
-    padding: $segment-gap;
-    border: 1px solid var(--color-border);
-    border-radius: variables.$radius-full;
-    background: var(--color-surface-raised);
+    @include segmented-control.segmented-track;
   }
 
   &__btn {
-    flex: 1;
-    @include mixins.touch-target-comfortable;
-    padding: variables.$spacing-xs variables.$spacing-sm;
-    border: none;
-    border-radius: variables.$radius-full;
-    background: transparent;
-    cursor: pointer;
-    font-size: var(--text-sm);
-    font-weight: var(--font-medium);
-    color: var(--color-text-secondary);
-    transition: background-color variables.$transition-fast, color variables.$transition-fast;
+    @include segmented-control.segmented-option;
+    @include segmented-control.segmented-hover('.settings__btn--active');
 
-    @include mixins.respond-to(lg) {
-      font-size: var(--text-base);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-
-    // Selected is filled, hover is only a tint. Previously both shared one rule,
-    // so on a touch device the lingering hover made an unselected unit look
-    // chosen — including after an optimistic update had rolled back.
     &--active {
-      background: var(--color-primary);
-      color: var(--color-text-inverse);
-      font-weight: var(--font-semibold);
-    }
-
-    @include mixins.hoverable {
-      &:hover:not(:disabled):not(.settings__btn--active) {
-        background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-        color: var(--color-primary);
-      }
+      @include segmented-control.segmented-active;
     }
   }
 
