@@ -4,6 +4,21 @@
 $menu-row-height: 56px;
 
 .menu {
+  &__identity {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-sm;
+    margin-bottom: variables.$spacing-lg;
+  }
+
+  &__identity-name {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--color-text-primary);
+    min-width: 0;
+    @include mixins.truncate;
+  }
+
   &__content {
     display: flex;
     flex-direction: column;

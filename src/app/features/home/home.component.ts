@@ -5,6 +5,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { HomeFacade } from './home.facade';
 import { AppRoute } from '../../core/enums/app-route.enum';
 import { AppIcon } from '../../shared/enums/app-icon.enum';
+import { UserAvatarComponent } from '../../shared/components/user-avatar/user-avatar.component';
+import { UserAvatarSize } from '../../shared/enums/user-avatar-size.enum';
 
 @Component({
   selector: 'app-home',
@@ -12,10 +14,11 @@ import { AppIcon } from '../../shared/enums/app-icon.enum';
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [HomeFacade],
-  imports: [RouterOutlet, UiIconComponent, UiButtonComponent, MatMenuModule],
+  imports: [RouterOutlet, UiIconComponent, UiButtonComponent, MatMenuModule, UserAvatarComponent],
 })
 export class HomeComponent {
   protected readonly appIcon: typeof AppIcon = AppIcon;
+  protected readonly userAvatarSize: typeof UserAvatarSize = UserAvatarSize;
   protected readonly facade: HomeFacade = inject(HomeFacade);
   protected readonly buttonType: typeof ButtonType = ButtonType;
   protected readonly buttonVariant: typeof ButtonVariant = ButtonVariant;

@@ -28,6 +28,27 @@ export function parseLocalDate(isoDate: string): Date {
   return new Date(year, month - 1, day);
 }
 
+/**
+ * Whole years since a birthday, or nothing when the date is unset or still
+ * ahead. Built on the split-string parse above rather than `new Date(string)`,
+ * which reads a date-only value as UTC midnight and reports the wrong day —
+ * and so the wrong age on a birthday — for anyone west of Greenwich.
+ */
+export function calculateAge(dateOfBirth: string | null, today: Date): number | null {
+  if (!dateOfBirth) {
+    return null;
+  }
+  const birth: Date = parseLocalDate(dateOfBirth);
+  let age: number = today.getFullYear() - birth.getFullYear();
+  const hasHadBirthdayThisYear: boolean =
+    today.getMonth() > birth.getMonth() ||
+    (today.getMonth() === birth.getMonth() && today.getDate() >= birth.getDate());
+  if (!hasHadBirthdayThisYear) {
+    age -= 1;
+  }
+  return age < 0 ? null : age;
+}
+
 export function differenceInDays(laterIsoDate: string, earlierIsoDate: string): number {
   const later: number = parseLocalDate(laterIsoDate).getTime();
   const earlier: number = parseLocalDate(earlierIsoDate).getTime();

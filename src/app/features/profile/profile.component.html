@@ -6,7 +6,7 @@
       slot="primary"
       class="profile__save-btn"
       [type]="buttonType.Button"
-      [disabled]="facade.isSaving()"
+      [disabled]="!canSave()"
       (click)="onSave()">
       {{ t['SAVE'] }}
     </button>
@@ -18,44 +18,104 @@
     } @else if (facade.hasError()) {
       <p class="profile__error">{{ t['LOAD_ERROR'] }}</p>
     } @else {
-      <form [formRoot]="profileForm" class="profile__form">
-        <app-ui-input
-          inputId="display-name"
-          [label]="t['DISPLAY_NAME']"
-          [type]="inputType.Text"
-          [field]="profileForm.displayName"
-          [error]="displayNameError()"
-          [touched]="displayNameTouched()"
-        />
+      <header class="profile__identity">
+        <app-user-avatar [initial]="facade.initial()" [size]="userAvatarSize.Lg" />
+        <div class="profile__identity-text">
+          <h2 class="profile__identity-name">{{ facade.displayName() }}</h2>
+          <p class="profile__identity-email">{{ facade.email() }}</p>
+          @if (facade.memberSince()) {
+            <p class="profile__identity-since">
+              {{ t['MEMBER_SINCE'] }} {{ facade.memberSince() | date: 'MMM y' }}
+            </p>
+          }
+        </div>
+      </header>
 
-        <app-ui-input
-          inputId="date-of-birth"
-          [label]="t['DATE_OF_BIRTH']"
-          [type]="inputType.Date"
-          [field]="profileForm.dateOfBirth"
-        />
+      <section class="profile__section">
+        <h3 class="profile__section-title">{{ t['SECTION_ABOUT'] }}</h3>
+        <form [formRoot]="profileForm" class="profile__form">
+          <app-ui-input
+            inputId="display-name"
+            [label]="t['DISPLAY_NAME']"
+            [type]="inputType.Text"
+            [field]="profileForm.displayName"
+            [error]="displayNameError()"
+            [touched]="displayNameTouched()" />
 
-        <app-ui-input
-          inputId="height"
-          [label]="t['HEIGHT']"
-          [type]="inputType.Number"
-          [value]="heightCm()"
-          [min]="50"
-          [max]="300"
-          (valueChange)="onHeightChange($event)"
-        />
+          <div class="profile__field">
+            <app-ui-input
+              inputId="date-of-birth"
+              [label]="t['DATE_OF_BIRTH']"
+              [type]="inputType.Date"
+              [field]="profileForm.dateOfBirth"
+              [error]="dateOfBirthError()"
+              [touched]="dateOfBirthTouched()" />
+            @if (age() !== null) {
+              <p class="profile__field-hint">{{ t['AGE'] }} {{ age() }}</p>
+            }
+          </div>
 
-        @if (facade.saveSuccess()) {
-          <p class="profile__feedback profile__feedback--success" role="status">
-            {{ t['SAVE_SUCCESS'] }}
-          </p>
-        }
-        @if (facade.saveError()) {
-          <p class="profile__feedback profile__feedback--error" role="status">
-            {{ t['SAVE_ERROR'] }}
-          </p>
-        }
-      </form>
+          <app-ui-input
+            inputId="height"
+            [label]="t['HEIGHT']"
+            [type]="inputType.Number"
+            [block]="true"
+            [field]="profileForm.heightCm"
+            [error]="heightError()"
+            [touched]="heightTouched()" />
+
+          @if (facade.saveSuccess()) {
+            <p class="profile__feedback profile__feedback--success" role="status">
+              {{ t['SAVE_SUCCESS'] }}
+            </p>
+          }
+          @if (facade.saveError()) {
+            <p class="profile__feedback profile__feedback--error" role="status">
+              {{ t['SAVE_ERROR'] }}
+            </p>
+          }
+        </form>
+      </section>
+
+      <section class="profile__section">
+        <h3 class="profile__section-title">{{ t['SECTION_ACCOUNT'] }}</h3>
+        <div class="profile__rows">
+          <div class="profile__row">
+            <span class="profile__row-label">{{ t['EMAIL'] }}</span>
+            <span class="profile__row-value">{{ facade.email() }}</span>
+          </div>
+
+          <div class="profile__row">
+            <span class="profile__row-label">{{ t['SIGN_IN_METHOD'] }}</span>
+            <span class="profile__row-value">
+              @if (facade.isGoogleAccount()) {
+                {{ t['SIGN_IN_METHOD_GOOGLE'] }}
+              } @else {
+                {{ t['SIGN_IN_METHOD_PASSWORD'] }}
+              }
+            </span>
+          </div>
+
+          @if (facade.isPasswordAccount()) {
+            @if (facade.passwordEmailSent()) {
+              <p class="profile__row-note" role="status">{{ t['CHANGE_PASSWORD_SENT'] }}</p>
+            } @else {
+              <button
+                class="profile__row profile__row--action"
+                [type]="buttonType.Button"
+                [disabled]="facade.isSendingPasswordEmail()"
+                (click)="onChangePassword()">
+                <span class="profile__row-label">{{ t['CHANGE_PASSWORD'] }}</span>
+              </button>
+            }
+            @if (facade.passwordEmailError()) {
+              <p class="profile__feedback profile__feedback--error" role="status">
+                {{ t['CHANGE_PASSWORD_ERROR'] }}
+              </p>
+            }
+          }
+        </div>
+      </section>
     }
   </div>
 </app-ui-page>

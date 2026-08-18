@@ -1,0 +1,28 @@
+@use 'abstract/variables' as variables;
+
+$avatar-size-sm: 32px;
+$avatar-size-lg: 64px;
+$avatar-font-sm: 13px;
+$avatar-font-lg: 26px;
+
+// The initial is decorative: every placement sits beside the name it stands
+// for, so the host is aria-hidden and a screen reader hears the name once.
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $avatar-size-sm;
+  height: $avatar-size-sm;
+  border-radius: variables.$radius-full;
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  font-size: $avatar-font-sm;
+  font-weight: 700;
+}
+
+:host(.user-avatar--lg) {
+  width: $avatar-size-lg;
+  height: $avatar-size-lg;
+  font-size: $avatar-font-lg;
+}

@@ -10,6 +10,7 @@ import {
 } from '@angular/forms/signals';
 import { SignupFacade } from './signup.facade';
 import { AuthRoute } from '../../../core/enums/auth-route.enum';
+import { DISPLAY_NAME_MIN_LENGTH } from '../../../shared/constants/display-name.const';
 
 interface SignupFormModel {
   displayName: string;
@@ -33,7 +34,6 @@ export class SignupComponent {
   protected readonly buttonType: typeof ButtonType = ButtonType;
   protected readonly authRoute: typeof AuthRoute = AuthRoute;
 
-  static readonly DISPLAY_NAME_MIN_LENGTH: number = 2;
   static readonly PASSWORD_MIN_LENGTH: number = 8;
 
   private readonly _model: WritableSignal<SignupFormModel> = signal({
@@ -47,7 +47,7 @@ export class SignupComponent {
 
   readonly signupForm: FieldTree<SignupFormModel> = form(this._model, (p) => {
     required(p.displayName);
-    minLength(p.displayName, SignupComponent.DISPLAY_NAME_MIN_LENGTH);
+    minLength(p.displayName, DISPLAY_NAME_MIN_LENGTH);
     required(p.email);
     email(p.email);
     required(p.password);
