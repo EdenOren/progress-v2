@@ -151,6 +151,7 @@
   },
   "MENU": {
     "TITLE": "Menu",
+    "ACCOUNT_MENU": "account menu",
     "PROFILE": "Profile",
     "SETTINGS": "Settings",
     "LOGOUT": "Log out"
@@ -189,7 +190,6 @@
   },
   "SETTINGS": {
     "TITLE": "Settings",
-    "LOADING": "Loading settings…",
     "LOAD_ERROR": "Failed to load settings",
     "WEIGHT_UNIT_LABEL": "Weight unit",
     "WEIGHT_UNIT_KG": "kg",
@@ -208,15 +208,31 @@
   },
   "PROFILE": {
     "TITLE": "Profile",
-    "LOADING": "Loading profile…",
     "LOAD_ERROR": "Failed to load profile",
+    "MEMBER_SINCE": "Member since",
+    "SECTION_ABOUT": "About you",
+    "SECTION_ACCOUNT": "Account",
     "DISPLAY_NAME": "Display name",
     "DATE_OF_BIRTH": "Date of birth",
+    "AGE": "Age",
     "HEIGHT": "Height (cm)",
     "SAVE": "Save",
     "SAVE_SUCCESS": "Profile saved",
     "SAVE_ERROR": "Failed to save profile",
-    "DISPLAY_NAME_REQUIRED": "Display name is required"
+    "DISPLAY_NAME_REQUIRED": "Display name is required",
+    "DISPLAY_NAME_TOO_SHORT": "Display name must be at least 2 characters",
+    "DISPLAY_NAME_TOO_LONG": "Display name must be 50 characters or fewer",
+    "HEIGHT_RANGE_ERROR": "Height must be between 50 and 300 cm",
+    "HEIGHT_INVALID_ERROR": "Enter height as a number",
+    "DATE_OF_BIRTH_FUTURE_ERROR": "Date of birth cannot be in the future",
+    "DATE_OF_BIRTH_TOO_EARLY_ERROR": "Enter a date after 1900",
+    "EMAIL": "Email",
+    "SIGN_IN_METHOD": "Sign-in",
+    "SIGN_IN_METHOD_PASSWORD": "Password",
+    "SIGN_IN_METHOD_GOOGLE": "Google",
+    "CHANGE_PASSWORD": "Change password",
+    "CHANGE_PASSWORD_SENT": "Check your email for a link to set a new password.",
+    "CHANGE_PASSWORD_ERROR": "Failed to send the reset email. Please try again."
   },
   "ENTRY": {
     "BACK": "Back",

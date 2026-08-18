@@ -3,9 +3,65 @@
 @use 'abstract/mixins' as mixins;
 @use 'abstract/page-primary' as page-primary;
 
+$account-row-height: 56px;
+
 .profile {
   &__save-btn {
     @include page-primary.page-primary-action;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xl;
+  }
+
+  &__identity {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-md;
+  }
+
+  &__identity-text {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xs;
+    min-width: 0;
+  }
+
+  &__identity-name {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--color-text-primary);
+    @include mixins.truncate;
+  }
+
+  // The one place the email belongs now that the rail carries the name instead.
+  &__identity-email {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    @include mixins.truncate;
+  }
+
+  // Secondary, not muted: --color-text-muted lands at 3.28:1 on this surface,
+  // under the 4.5:1 AA floor for text this size.
+  &__identity-since {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-sm;
+  }
+
+  &__section-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
   }
 
   &__form {
@@ -16,6 +72,79 @@
     @include mixins.respond-to(lg) {
       gap: variables.$spacing-lg;
     }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xs;
+  }
+
+  &__field-hint {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  &__rows {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-sm;
+  }
+
+  // Same 56px destination-row grammar RX-7 gave the Menu, so account rows read
+  // the same wherever they appear.
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: variables.$spacing-sm;
+    width: 100%;
+    min-height: $account-row-height;
+    padding-inline: variables.$spacing-md;
+    border: 1px solid var(--color-border);
+    border-radius: variables.$radius-lg;
+    background: var(--color-surface);
+    text-align: left;
+    color: var(--color-text-primary);
+
+    &--action {
+      cursor: pointer;
+      color: var(--color-primary);
+      transition: background-color variables.$transition-fast;
+
+      @include mixins.hoverable {
+        &:hover {
+          background: var(--color-surface-raised);
+        }
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+    }
+  }
+
+  &__row-label {
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+  }
+
+  &__row-value {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    @include mixins.truncate;
+  }
+
+  &__row-note {
+    padding-block: variables.$spacing-sm;
+    font-size: var(--text-sm);
+    color: colors.$accent;
   }
 
   &__loading,

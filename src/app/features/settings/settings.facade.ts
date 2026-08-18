@@ -18,6 +18,7 @@ import type { Result } from '../../core/types/result';
 import { WeightUnit } from '../../shared/enums/weight-unit.enum';
 import { DistanceUnit } from '../../shared/enums/distance-unit.enum';
 import { LogMetricKey } from '../../shared/enums/log-metric-key.enum';
+import { SAVE_SUCCESS_DURATION_MS } from '../../shared/constants/feedback.const';
 
 export interface MetricToggle {
   readonly key: LogMetricKey;
@@ -28,7 +29,6 @@ export interface MetricToggle {
 
 @Service({ autoProvided: false })
 export class SettingsFacade {
-  private static readonly SAVE_SUCCESS_DURATION_MS: number = 2000;
   private static readonly METRIC_LABEL_KEYS: Record<LogMetricKey, string> = {
     [LogMetricKey.Sleep]: 'COLUMN_SLEEP',
     [LogMetricKey.Weight]: 'COLUMN_WEIGHT',
@@ -167,6 +167,6 @@ export class SettingsFacade {
       return;
     }
     this._saveSuccess.set(true);
-    setTimeout(() => this._saveSuccess.set(false), SettingsFacade.SAVE_SUCCESS_DURATION_MS);
+    setTimeout(() => this._saveSuccess.set(false), SAVE_SUCCESS_DURATION_MS);
   }
 }
