@@ -1,4 +1,9 @@
 <app-ui-page [title]="titleLabel()" [narrow]="true">
+  <header class="menu__identity">
+    <app-user-avatar [initial]="userInitial()" [size]="userAvatarSize.Sm" />
+    <p class="menu__identity-name">{{ userName() }}</p>
+  </header>
+
   <nav class="menu__content" [attr.aria-label]="titleLabel()">
     <button class="menu__row" [type]="buttonType.Button" (click)="onNavigateToProfile()">
       <span class="menu__row-label">{{ profileLabel() }}</span>

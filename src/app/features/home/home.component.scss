@@ -116,20 +116,6 @@ $bottom-nav-height: 56px;
     }
   }
 
-  &__sidebar-user-avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: variables.$radius-full;
-    background-color: var(--color-surface-raised);
-    color: var(--color-text-primary);
-    font-size: 13px;
-    font-weight: 700;
-  }
-
   &__sidebar-user-label {
     flex: 1;
     min-width: 0;

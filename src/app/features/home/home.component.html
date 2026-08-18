@@ -15,9 +15,9 @@
       class="home__sidebar-user"
       [type]="buttonType.Button"
       [matMenuTriggerFor]="userMenu"
-      [attr.aria-label]="facade.userEmail()">
-      <span class="home__sidebar-user-avatar">{{ facade.userInitial() }}</span>
-      <span class="home__sidebar-user-label">{{ facade.userEmail() }}</span>
+      [attr.aria-label]="facade.accountMenuLabel()">
+      <app-user-avatar [initial]="facade.userInitial()" [size]="userAvatarSize.Sm" />
+      <span class="home__sidebar-user-label">{{ facade.userName() }}</span>
       <app-ui-icon class="home__sidebar-user-caret" [src]="appIcon.ExpandMore" aria-hidden="true" />
     </button>
     <mat-menu #userMenu="matMenu">

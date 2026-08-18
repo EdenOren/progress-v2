@@ -7,6 +7,7 @@ import { AppRoute } from '../../core/enums/app-route.enum';
 import { AuthRoute } from '../../core/enums/auth-route.enum';
 import { AppIcon } from '../../shared/enums/app-icon.enum';
 import { AuthService } from '../../core/services/platform/auth.service';
+import { CurrentProfileService } from '../../core/services/data/profile/current-profile.service';
 
 export interface NavTab {
   route: AppRoute;
@@ -33,6 +34,7 @@ export class HomeFacade {
   private readonly router: Router = inject(Router);
   private readonly translateService: TranslateService = inject(TranslateService);
   private readonly authService: AuthService = inject(AuthService);
+  private readonly currentProfileService: CurrentProfileService = inject(CurrentProfileService);
 
   readonly translation: Signal<Record<string, string>> = toSignal(
     this.translateService.stream('NAV'),
@@ -60,9 +62,21 @@ export class HomeFacade {
 
   readonly userEmail: Signal<string> = computed(() => this.authService.session()?.user.email ?? '');
 
+  // The chip carries the display name now, and the email only stands in for the
+  // moments before the profile arrives — the rail should never sit blank.
+  readonly userName: Signal<string> = computed(
+    () => this.currentProfileService.displayName() || this.userEmail(),
+  );
+
   readonly userInitial: Signal<string> = computed(() => {
-    const [firstCharacter] = this.userEmail();
+    const [firstCharacter] = this.userName();
     return firstCharacter ? firstCharacter.toUpperCase() : '';
+  });
+
+  readonly accountMenuLabel: Signal<string> = computed(() => {
+    const name: string = this.userName();
+    const label: string = this.menuTranslation()['ACCOUNT_MENU'] ?? '';
+    return name && label ? `${name}, ${label}` : name;
   });
 
   readonly isNewDevice: Signal<boolean> = computed(() => this.authService.isNewDevice());
