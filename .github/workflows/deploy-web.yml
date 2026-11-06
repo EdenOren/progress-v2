@@ -27,6 +27,11 @@ jobs:
           node-version: 20
           cache: pnpm
 
+      - name: Configure ui-kit registry auth
+        run: |
+          echo "@edenoren:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.UI_KIT_READ_TOKEN }}" >> .npmrc
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
