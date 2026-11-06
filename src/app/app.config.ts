@@ -13,6 +13,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(),
     provideTranslateService({ lang: Language.En }),
-    ...provideTranslateHttpLoader(),
+    ...provideTranslateHttpLoader({ prefix: 'assets/i18n/' }),
   ],
 };
