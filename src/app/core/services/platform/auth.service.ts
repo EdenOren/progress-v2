@@ -104,13 +104,14 @@ export class AuthService {
     refreshToken: string,
     status: LoginStatus,
   ): Promise<Result<{ status: LoginStatus }>> {
-    const { error } = await this.supabase.auth.setSession({
+    const { data, error } = await this.supabase.auth.setSession({
       access_token: accessToken,
       refresh_token: refreshToken,
     });
     if (error) {
       return err(mapSupabaseAuthError(error.message));
     }
+    this._session.set(data.session);
     return ok({ status });
   }
 

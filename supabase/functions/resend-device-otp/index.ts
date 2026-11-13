@@ -88,7 +88,17 @@ Deno.serve(async (req: Request) => {
     return new Response(JSON.stringify({ error: updateError.message }), { status: 500, headers: jsonHeaders });
   }
 
-  await sendBrevoEmail(userData.user.email, 'Your new verification code', buildOtpEmailHtml(code));
+  const emailSent: boolean = await sendBrevoEmail(
+    userData.user.email,
+    'Your new verification code',
+    buildOtpEmailHtml(code),
+  );
+  if (!emailSent) {
+    return new Response(JSON.stringify({ error: 'Failed to send verification code' }), {
+      status: 502,
+      headers: jsonHeaders,
+    });
+  }
 
   return new Response(JSON.stringify({ ok: true }), { headers: jsonHeaders });
 });
