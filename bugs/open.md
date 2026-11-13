@@ -1,3 +1,19 @@
 # Open Bugs
 
-_None yet._
+## Brevo transactional emails not arriving — likely Brevo-side security hold, not our code
+- Phase 11b (`notify-password-changed` Edge Function) is deployed per the Supabase dashboard, but manually testing the flow (Profile → Change password → reset-link email → set new password) did not produce the alert email in the inbox.
+- New evidence (2026-11-12): same symptom on the login-device-OTP flow — instead of the "Verify this device" / "Your new verification code" email, the account inbox received a Brevo platform email about API/account usage (worded like a security notice, not our template). This strongly suggests Brevo itself is intercepting the send — likely its own fraud/abuse detection flagging the sending IP (Supabase Edge Functions call the Brevo API from shared/rotating IPs) or the account's sender/domain not being fully authenticated — and notifying the account owner instead of relaying the transactional email.
+- To confirm: log into the Brevo dashboard → Transactional → Email Activity/Logs for the timestamp of a failed send (shows accepted/blocked/held status and any reason code) and check Senders & IP / domain authentication (SPF/DKIM) status, plus Settings → Security for any "new IP/API usage" alerting that might be suppressing sends.
+- Code-side gap fixed 2026-11-12: `login-with-device-check` and `resend-device-otp` previously ignored `sendBrevoEmail()`'s return value and always reported success to the client even when the send failed, so the user saw "code sent" and then nothing ever arrived. Both now check the boolean and return a 502 with `{ error: 'Failed to send verification code' }` (same pattern already used by `notify-password-changed` / `record-device-session`), so at least the failure surfaces instead of being silent. Root cause (why Brevo isn't delivering) is still unconfirmed and needs the dashboard check above.
+- Also noticed independently: Supabase magic-link tokens can be invalidated before the user manually clicks them (likely Gmail link-prescanning) — the first reset-link attempt arrived pre-expired (`otp_expired` in the redirect URL). The reset-password page does not surface this error to the user either; it just silently shows the empty form.
+- Repro: trigger a fresh password reset, follow the link immediately, submit a new password, watch console (`Failed to send password-changed notification:`) and network tab for the `notify-password-changed` function invoke and the `auth.updateUser` call.
+
+## ui-kit password visibility icon 404s on a subpath deploy
+- `@edenoren/ui-kit`'s `UiIconAsset.Visibility` / `VisibilityOff` are hardcoded to `/assets/ui-kit/icons/visibility(-off).svg` inside the compiled library template (`UiInputComponent`'s password toggle button), with no input to override it from the consuming app.
+- On a root-hosted deploy this resolves fine; on a subpath deploy (e.g. GitHub Pages' `/progress-v2/`) the leading slash resolves against the domain root instead of `<base href>`, so the icon 404s.
+- Cosmetic only — the toggle button still renders and works, just without an icon. Needs a fix in the `ui-kit` repo (relative path or an overridable input) and a republish; can't be patched from this app.
+
+## Local build exceeds the bundle budget (CI build does not — likely benign)
+- A clean local `pnpm exec ng build --base-href /progress-v2/` (cache cleared, `pnpm install --frozen-lockfile` re-run) consistently produces a 662.48 kB initial bundle, over the 640 kB RX-8 budget.
+- Confirmed this is local-only: the real GitHub Actions run (fully clean container, same lockfile) produced 616.11 kB, under budget — that's what's actually deployed. Not the asset-path fix either (reproduces identically with it stashed out) and not dependency drift (lockfile was already up to date).
+- Likely a Windows-vs-Linux esbuild output difference rather than a real regression, but worth a closer look if it starts showing up in CI too.

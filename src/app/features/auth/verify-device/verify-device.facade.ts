@@ -1,5 +1,6 @@
 import { ValidationTranslationService } from '@edenoren/ui-kit';
 import { computed, effect, inject, Service, Signal, signal, WritableSignal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,15 +14,17 @@ export class VerifyDeviceFacade {
 
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
+  private readonly document: Document = inject(DOCUMENT);
   private readonly translateService: TranslateService = inject(TranslateService);
   private readonly validationTranslationService: ValidationTranslationService = inject(ValidationTranslationService);
 
   private readonly _isLoading: WritableSignal<boolean> = signal(false);
   private readonly _isResending: WritableSignal<boolean> = signal(false);
   private readonly _errorMessage: WritableSignal<string> = signal('');
-  private readonly _resendCooldownSeconds: WritableSignal<number> = signal(
-    VerifyDeviceFacade.RESEND_COOLDOWN_SECONDS,
+  private readonly _resendAvailableAt: WritableSignal<number> = signal(
+    Date.now() + VerifyDeviceFacade.RESEND_COOLDOWN_SECONDS * 1000,
   );
+  private readonly _now: WritableSignal<number> = signal(Date.now());
 
   readonly translation: Signal<Record<string, string>> = toSignal(
     this.translateService.stream('AUTH.VERIFY_DEVICE'),
@@ -32,8 +35,11 @@ export class VerifyDeviceFacade {
   readonly isLoading: Signal<boolean> = this._isLoading;
   readonly isResending: Signal<boolean> = this._isResending;
   readonly errorMessage: Signal<string> = this._errorMessage;
+  readonly resendCooldownSeconds: Signal<number> = computed(() =>
+    Math.max(0, Math.ceil((this._resendAvailableAt() - this._now()) / 1000)),
+  );
   readonly canResend: Signal<boolean> = computed(
-    () => this._resendCooldownSeconds() === 0 && !this._isResending(),
+    () => this.resendCooldownSeconds() === 0 && !this._isResending(),
   );
 
   readonly submitLabel: Signal<string> = computed(() =>
@@ -43,7 +49,7 @@ export class VerifyDeviceFacade {
   );
 
   readonly resendLabel: Signal<string> = computed(() => {
-    const cooldownSeconds = this._resendCooldownSeconds();
+    const cooldownSeconds = this.resendCooldownSeconds();
     if (cooldownSeconds > 0) {
       return `${this.translation()['RESEND_COOLDOWN_LABEL'] ?? ''} ${cooldownSeconds}s`;
     }
@@ -53,9 +59,16 @@ export class VerifyDeviceFacade {
   constructor() {
     effect((onCleanup) => {
       const tick = setInterval(() => {
-        this._resendCooldownSeconds.update((seconds) => Math.max(0, seconds - 1));
+        this._now.set(Date.now());
       }, VerifyDeviceFacade.COOLDOWN_TICK_MS);
-      onCleanup(() => clearInterval(tick));
+      const resync = (): void => {
+        this._now.set(Date.now());
+      };
+      this.document.addEventListener('visibilitychange', resync);
+      onCleanup(() => {
+        clearInterval(tick);
+        this.document.removeEventListener('visibilitychange', resync);
+      });
     });
   }
 
@@ -76,7 +89,8 @@ export class VerifyDeviceFacade {
     this._errorMessage.set('');
     const result = await this.authService.resendDeviceOtp();
     if (result.success) {
-      this._resendCooldownSeconds.set(VerifyDeviceFacade.RESEND_COOLDOWN_SECONDS);
+      this._now.set(Date.now());
+      this._resendAvailableAt.set(Date.now() + VerifyDeviceFacade.RESEND_COOLDOWN_SECONDS * 1000);
     } else {
       this._errorMessage.set(result.error.message);
     }

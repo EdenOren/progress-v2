@@ -115,7 +115,18 @@ Deno.serve(async (req: Request) => {
     });
   }
 
-  await sendBrevoEmail(user.email, 'Verify this device to finish signing in', buildOtpEmailHtml(code));
+  const emailSent: boolean = await sendBrevoEmail(
+    user.email,
+    'Verify this device to finish signing in',
+    buildOtpEmailHtml(code),
+  );
+  if (!emailSent) {
+    await serviceClient.from('login_otp_challenges').delete().eq('id', challenge.id);
+    return new Response(JSON.stringify({ error: 'Failed to send verification code' }), {
+      status: 502,
+      headers: jsonHeaders,
+    });
+  }
 
   return new Response(JSON.stringify({ requiresOtp: true, challengeId: challenge.id }), { headers: jsonHeaders });
 });
