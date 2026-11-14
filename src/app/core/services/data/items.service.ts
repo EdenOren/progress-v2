@@ -41,7 +41,10 @@ const sessionItemSchema = z.object({
   note: z.string().nullable(),
   created_at: z.string(),
   item_sets: z.array(itemSetSchema),
-  item_feedback: z.array(itemFeedbackSchema),
+  // PostgREST embeds a one-to-one relation as a single object or null, and a
+  // one-to-many as an array. item_feedback is one-to-one once item_id is unique,
+  // so the shape depends on the live schema — accept every form.
+  item_feedback: z.union([z.array(itemFeedbackSchema), itemFeedbackSchema.nullable()]),
 });
 
 const sessionItemArraySchema = z.array(sessionItemSchema);
@@ -111,9 +114,17 @@ function mapItemFeedback(raw: ItemFeedbackRaw): ItemFeedback {
   };
 }
 
+function firstFeedback(raw: SessionItemRaw['item_feedback']): ItemFeedbackRaw | null {
+  if (Array.isArray(raw)) {
+    const [first] = raw;
+    return first ?? null;
+  }
+  return raw;
+}
+
 function mapSessionItem(raw: SessionItemRaw): SessionItem {
   const sortedSets = [...raw.item_sets].sort((first, second) => first.set_index - second.set_index);
-  const [feedbackRaw] = raw.item_feedback;
+  const feedbackRaw: ItemFeedbackRaw | null = firstFeedback(raw.item_feedback);
   return {
     id: raw.id,
     entryId: raw.entry_id,
@@ -126,6 +137,12 @@ function mapSessionItem(raw: SessionItemRaw): SessionItem {
     sets: sortedSets.map(mapItemSet),
     feedback: feedbackRaw ? mapItemFeedback(feedbackRaw) : null,
   };
+}
+
+/** Validates a raw `items` select with embedded sets and feedback. Null when the shape is wrong. */
+export function parseSessionItems(data: unknown): SessionItem[] | null {
+  const validated = sessionItemArraySchema.safeParse(data);
+  return validated.success ? validated.data.map(mapSessionItem) : null;
 }
 
 const itemSchema = z.object({
@@ -185,11 +202,11 @@ export class ItemsService {
     if (error) {
       return err(mapSupabaseError(error));
     }
-    const validated = sessionItemArraySchema.safeParse(data);
-    if (!validated.success) {
+    const items: SessionItem[] | null = parseSessionItems(data);
+    if (!items) {
       return err(new ValidationError('Invalid session data'));
     }
-    return ok(validated.data.map(mapSessionItem));
+    return ok(items);
   }
 
   async createItem(input: CreateItemInput): Promise<Result<Item>> {
